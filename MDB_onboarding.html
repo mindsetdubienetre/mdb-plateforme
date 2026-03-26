@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Bienvenue</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --noir:#0f0d0b;--noir2:#171410;--noir3:#201d1a;
+  --orange:#d06224;--brique:#af421c;--or:#b8a465;
+  --sauge:#7a9e8e;--sauge-mid:#5a826f;
+  --blanc:#ffffff;--texte-muted:rgba(255,255,255,0.45);--texte-dim:rgba(255,255,255,0.25);
+  --card:rgba(255,255,255,0.05);--card-border:rgba(255,255,255,0.09)
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--noir);color:#fff;display:flex;align-items:stretch}
+
+/* HALOS */
+body::before{content:'';position:fixed;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(208,98,36,0.13) 0%,transparent 65%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;bottom:-150px;left:-80px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(122,158,142,0.1) 0%,transparent 65%);pointer-events:none;z-index:0}
+
+/* STEPS NAV */
+.steps-nav{position:fixed;top:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:20}
+.step-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all 0.3s;cursor:pointer}
+.step-dot.on{background:var(--orange);width:24px;border-radius:4px}
+.step-dot.done{background:var(--sauge-mid)}
+
+/* LOGO */
+.top-logo{position:fixed;top:24px;left:28px;display:flex;align-items:center;gap:10px;z-index:20}
+.orb-wrap{position:relative;width:30px;height:30px}
+.orb-glow{position:absolute;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,0.22) 0%,transparent 70%)}
+.orb{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 38% 35%,#f08060,#d06224 55%,#af421c);position:relative}
+.logo-texts .l1{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:#fff;line-height:1.1}
+.logo-texts .l2{font-size:8px;font-weight:600;color:rgba(255,255,255,0.35);letter-spacing:0.16em;text-transform:uppercase}
+
+/* SCREENS */
+.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px 24px 40px;opacity:0;pointer-events:none;transition:opacity 0.5s;z-index:1}
+.screen.active{opacity:1;pointer-events:all}
+
+/* ── SCREEN 1 — BIENVENUE ── */
+.s1-inner{max-width:620px;width:100%;text-align:center}
+.s1-orb{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 38% 35%,#f08060,#d06224 55%,#af421c);margin:0 auto 28px;position:relative}
+.s1-orb-glow{position:absolute;inset:-16px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,0.2) 0%,transparent 70%)}
+.s1-label{font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--orange);text-transform:uppercase;margin-bottom:14px}
+.s1-title{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;line-height:1.15;margin-bottom:8px}
+.s1-title em{font-style:italic;color:var(--orange)}
+.s1-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--texte-muted);margin-bottom:32px;line-height:1.5}
+.s1-video-frame{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;margin-bottom:28px;position:relative;overflow:hidden;cursor:pointer}
+.s1-video-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(175,66,28,0.15),rgba(122,158,142,0.08))}
+.s1-play{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--brique),var(--orange));display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 4px 20px rgba(208,98,36,0.4)}
+.s1-play svg{margin-left:4px}
+.s1-video-label{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:12px;color:rgba(255,255,255,0.5);z-index:1}
+.s1-video-from{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:28px}
+.btn-primary{background:linear-gradient(135deg,var(--brique),var(--orange));color:#fff;border:none;padding:14px 36px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;box-shadow:0 4px 20px rgba(208,98,36,0.35);transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(208,98,36,0.45)}
+.btn-secondary{background:transparent;color:rgba(255,255,255,0.5);border:0.5px solid rgba(255,255,255,0.15);padding:12px 28px;border-radius:30px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all 0.2s}
+.btn-secondary:hover{color:#fff;border-color:rgba(255,255,255,0.3)}
+
+/* ── SCREEN 2 — QUESTIONNAIRE ── */
+.s2-inner{max-width:640px;width:100%;overflow-y:auto;max-height:calc(100vh - 120px)}
+.s2-header{text-align:center;margin-bottom:32px}
+.s2-label{font-size:10px;font-weight:700;letter-spacing:0.16em;color:var(--sauge);text-transform:uppercase;margin-bottom:10px}
+.s2-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1.2;margin-bottom:8px}
+.s2-sub{font-size:13px;color:var(--texte-muted);line-height:1.6}
+.q-block{background:var(--card);border:0.5px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:12px}
+.q-num{font-size:9.5px;font-weight:700;letter-spacing:0.12em;color:var(--orange);text-transform:uppercase;margin-bottom:6px}
+.q-text{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.4}
+.q-options{display:flex;flex-direction:column;gap:7px}
+.q-opt{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:9px;border:0.5px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.2s;font-size:13px;color:rgba(255,255,255,0.7)}
+.q-opt:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.2);color:#fff}
+.q-opt.sel{background:rgba(208,98,36,0.14);border-color:rgba(208,98,36,0.38);color:#fff}
+.q-opt-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.25);flex-shrink:0;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+.q-opt.sel .q-opt-dot{background:var(--orange);border-color:var(--orange)}
+.q-textarea{width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:13px;color:#fff;font-family:'Be Vietnam Pro',sans-serif;resize:none;outline:none;min-height:80px;line-height:1.6}
+.q-textarea::placeholder{color:rgba(255,255,255,0.2)}
+.q-textarea:focus{border-color:rgba(208,98,36,0.35);background:rgba(208,98,36,0.05)}
+
+/* ── SCREEN 3 — CHARTE ── */
+.s3-inner{max-width:600px;width:100%;overflow-y:auto;max-height:calc(100vh - 120px)}
+.s3-header{text-align:center;margin-bottom:28px}
+.s3-label{font-size:10px;font-weight:700;letter-spacing:0.16em;color:var(--or);text-transform:uppercase;margin-bottom:10px}
+.s3-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:8px}
+.s3-sub{font-size:13px;color:var(--texte-muted);line-height:1.6}
+.charte-block{background:rgba(184,164,101,0.06);border:0.5px solid rgba(184,164,101,0.18);border-radius:14px;padding:22px;margin-bottom:12px}
+.charte-item{display:flex;gap:14px;padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
+.charte-item:last-child{border-bottom:none;padding-bottom:0}
+.charte-icon{width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.charte-title{font-size:13.5px;font-weight:600;color:#fff;margin-bottom:3px}
+.charte-desc{font-size:12px;color:var(--texte-muted);line-height:1.5}
+.sign-block{background:var(--card);border:0.5px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:20px}
+.sign-label{font-size:11px;color:var(--texte-muted);margin-bottom:8px}
+.sign-input{width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:14px;color:#fff;font-family:'Playfair Display',serif;font-style:italic;outline:none;transition:all 0.2s}
+.sign-input:focus{border-color:rgba(184,164,101,0.4);background:rgba(184,164,101,0.04)}
+.sign-input::placeholder{color:rgba(255,255,255,0.2);font-style:italic}
+.check-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;cursor:pointer}
+.check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid rgba(255,255,255,0.2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.check-box.on{background:var(--or);border-color:var(--or)}
+.check-text{font-size:12.5px;color:rgba(255,255,255,0.6);line-height:1.6}
+
+/* ── SCREEN 4 — PRÊTE ── */
+.s4-inner{max-width:580px;width:100%;text-align:center}
+.s4-circle{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,rgba(122,158,142,0.2),rgba(184,164,101,0.15));border:0.5px solid rgba(122,158,142,0.3);margin:0 auto 28px;display:flex;align-items:center;justify-content:center;position:relative}
+.s4-circle::before{content:'';position:absolute;inset:-12px;border-radius:50%;background:radial-gradient(circle,rgba(122,158,142,0.12) 0%,transparent 65%)}
+.s4-label{font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--sauge);text-transform:uppercase;margin-bottom:14px}
+.s4-title{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;line-height:1.15;margin-bottom:10px}
+.s4-title em{font-style:italic;color:var(--sauge)}
+.s4-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--texte-muted);margin-bottom:36px;line-height:1.6;max-width:440px;margin-left:auto;margin-right:auto}
+.s4-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;text-align:left}
+.s4-step{background:var(--card);border:0.5px solid var(--card-border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.s4-step-num{width:28px;height:28px;border-radius:50%;background:var(--orange-glow,rgba(208,98,36,0.15));border:0.5px solid rgba(208,98,36,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--orange);flex-shrink:0}
+.s4-step-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.4}
+.s4-step-text strong{color:#fff;font-weight:600}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:20}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- LOGO -->
+<div class="top-logo">
+  <div class="orb-wrap">
+    <div class="orb-glow"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="logo-texts">
+    <div class="l1">Mindset</div>
+    <div class="l2">du bien-être.</div>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps-nav">
+  <div class="step-dot on" onclick="goTo(0)"></div>
+  <div class="step-dot" onclick="goTo(1)"></div>
+  <div class="step-dot" onclick="goTo(2)"></div>
+  <div class="step-dot" onclick="goTo(3)"></div>
+</div>
+
+<!-- ── SCREEN 1 — BIENVENUE ── -->
+<div class="screen active" id="s0">
+  <div class="s1-inner">
+    <div class="s1-orb">
+      <div class="s1-orb-glow"></div>
+    </div>
+    <div class="s1-label">Bienvenue dans MDB</div>
+    <div class="s1-title">Tu es exactement<br><em>là où tu dois être.</em></div>
+    <div class="s1-sub">Ce programme est le début de quelque chose de réel.<br>Je suis là. On commence ensemble.</div>
+
+    <div class="s1-video-frame" onclick="this.style.background='rgba(208,98,36,0.1)'">
+      <div class="s1-play">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polygon points="6,4 20,12 6,20" fill="#fff"/></svg>
+      </div>
+      <div class="s1-video-label">Message de bienvenue de Vanille · 3 min</div>
+    </div>
+
+    <div class="s1-video-from">"Je t'ai préparé quelque chose de spécial pour ces 12 semaines."<br>— Vanille</div>
+
+    <button class="btn-primary" onclick="goTo(1)">
+      Commencer mon parcours
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ── SCREEN 2 — QUESTIONNAIRE ── -->
+<div class="screen" id="s1">
+  <div class="s2-inner">
+    <div class="s2-header">
+      <div class="s2-label">Étape 1 sur 3 · Questionnaire d'intégration</div>
+      <div class="s2-title">Pour t'accompagner<br>au plus près</div>
+      <div class="s2-sub">Tes réponses restent confidentielles et me permettent de personnaliser ton parcours dès la première semaine.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">Qu'est-ce qui t'a amenée à rejoindre MDB aujourd'hui ?</div>
+      <div class="q-options">
+        <div class="q-opt sel" onclick="selectOpt(this)">
+          <div class="q-opt-dot"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#fff"/></svg></div>
+          Je me sens épuisée et je n'arrive plus à me reconnecter à moi-même
+        </div>
+        <div class="q-opt" onclick="selectOpt(this)">
+          <div class="q-opt-dot"></div>
+          Je gère en apparence mais je suis à bout intérieurement
+        </div>
+        <div class="q-opt" onclick="selectOpt(this)">
+          <div class="q-opt-dot"></div>
+          J'ai du stress et de l'anxiété que je n'arrive pas à réguler
+        </div>
+        <div class="q-opt" onclick="selectOpt(this)">
+          <div class="q-opt-dot"></div>
+          Je sens que je ne vis pas en accord avec qui je suis vraiment
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">Comment se manifeste cette surcharge dans ton quotidien ?</div>
+      <div class="q-options">
+        <div class="q-opt" onclick="selectOpt(this)">
+          <div class="q-opt-dot"></div>
+          Fatigue chronique, même après une nuit de sommeil
+        </div>
+        <div class="q-opt sel" onclick="selectOpt(this)">
+          <div class="q-opt-dot"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#fff"/></svg></div>
+          Pensées qui tournent en boucle, difficulté à lâcher prise
+        </div>
+        <div class="q-opt" onclick="selectOpt(this)">
+          <div class="q-opt-dot"></div>
+          Irritabilité, émotions qui débordent sans prévenir
+        </div>
+        <div class="q-opt" onclick="selectOpt(this)">
+          <div class="q-opt-dot"></div>
+          Sentiment de vide ou de déconnexion profonde
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">Qu'est-ce que tu veux vraiment vivre à la fin de ces 12 semaines ?</div>
+      <textarea class="q-textarea" placeholder="Décris avec tes propres mots ce que tu veux ressentir, vivre, être..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">Y a-t-il quelque chose d'important que tu voudrais que je sache sur toi avant qu'on commence ?</div>
+      <textarea class="q-textarea" placeholder="Ce peut être une peur, une situation particulière, ce avec quoi tu arrives..."></textarea>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:12px;padding-top:8px;padding-bottom:20px">
+      <button class="btn-secondary" onclick="goTo(0)">Retour</button>
+      <button class="btn-primary" onclick="goTo(2)">
+        Continuer
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 3 — CHARTE ── -->
+<div class="screen" id="s2">
+  <div class="s3-inner">
+    <div class="s3-header">
+      <div class="s3-label">Étape 2 sur 3 · Engagement &amp; confidentialité</div>
+      <div class="s3-title">Notre espace,<br>nos règles</div>
+      <div class="s3-sub">Ce qui se vit dans MDB reste dans MDB. Voici les engagements qui protègent chaque femme de ce programme.</div>
+    </div>
+
+    <div class="charte-block">
+      <div class="charte-item">
+        <div class="charte-icon" style="background:rgba(122,158,142,0.12)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 3 3.5.5-2.5 2.5.5 3.5L8 9l-3 1.5.5-3.5L3 4.5 6.5 4z" stroke="#7a9e8e" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="charte-title">Confidentialité totale</div>
+          <div class="charte-desc">Tes réponses, tes exercices, tes partages dans la communauté restent strictement confidentiels. Personne d'autre que toi et moi n'y a accès.</div>
+        </div>
+      </div>
+      <div class="charte-item">
+        <div class="charte-icon" style="background:rgba(208,98,36,0.1)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#d06224" stroke-width="1.2"/><path d="M8 5v4M8 11v.5" stroke="#d06224" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="charte-title">Respect dans la communauté</div>
+          <div class="charte-desc">L'espace groupe est un espace de soutien bienveillant. Pas de jugement, pas de comparaison — chaque parcours est unique.</div>
+        </div>
+      </div>
+      <div class="charte-item">
+        <div class="charte-icon" style="background:rgba(184,164,101,0.1)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C5 2 2 5 2 8s3 6 6 6 6-3 6-6-3-6-6-6zm0 3v3l2 2" stroke="#b8a465" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="charte-title">Engagement envers toi-même</div>
+          <div class="charte-desc">Ce programme demande ta présence. Pas la perfection — ta présence. Une semaine à la fois, à ton rythme.</div>
+        </div>
+      </div>
+      <div class="charte-item" style="border-bottom:none">
+        <div class="charte-icon" style="background:rgba(122,158,142,0.1)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2H3a1 1 0 00-1 1v9l3-2h8a1 1 0 001-1V3a1 1 0 00-1-1z" stroke="#7a9e8e" stroke-width="1.2"/></svg>
+        </div>
+        <div>
+          <div class="charte-title">Accès à ton accompagnement</div>
+          <div class="charte-desc">Le chat privé est là pour toi. Je réponds sous 24h en semaine. Tu n'es jamais seule dans ce parcours.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sign-block">
+      <div class="sign-label">Signe ici pour valider ton engagement</div>
+      <input class="sign-input" placeholder="Ton prénom et nom..." />
+    </div>
+
+    <div class="check-row" onclick="toggleCheck(this)">
+      <div class="check-box on">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#201d1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="check-text">J'ai lu et j'accepte la charte de confidentialité de MDB. Je comprends que mes données et mes échanges restent strictement privés.</div>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:12px;padding-bottom:20px">
+      <button class="btn-secondary" onclick="goTo(1)">Retour</button>
+      <button class="btn-primary" onclick="goTo(3)">
+        Valider mon engagement
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 4 — PRÊTE ── -->
+<div class="screen" id="s3">
+  <div class="s4-inner">
+    <div class="s4-circle">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M10 20l7 7 13-14" stroke="#7a9e8e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="s4-label">Tout est prêt</div>
+    <div class="s4-title">Tu es prête,<br><em>Sofia.</em></div>
+    <div class="s4-sub">"Ce que tu vas vivre dans les 12 prochaines semaines va changer quelque chose en toi. Je le sais parce que je l'ai vécu. Bienvenue."<br>— Vanille</div>
+
+    <div class="s4-steps">
+      <div class="s4-step">
+        <div class="s4-step-num">1</div>
+        <div class="s4-step-text"><strong>Ta première semaine est débloquée.</strong> Commence par regarder la vidéo d'introduction de la Phase 1.</div>
+      </div>
+      <div class="s4-step">
+        <div class="s4-step-num">2</div>
+        <div class="s4-step-text"><strong>Rejoins le groupe de ta cohorte</strong> dans le chat — présente-toi en quelques mots.</div>
+      </div>
+      <div class="s4-step">
+        <div class="s4-step-num">3</div>
+        <div class="s4-step-text"><strong>Active les notifications WhatsApp</strong> pour recevoir ton Boost Mindset 2x par semaine.</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="window.location.href='MDB_membre_A.html'" style="font-size:15px;padding:16px 44px">
+      Entrer dans mon espace MDB
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const screens = document.querySelectorAll('.screen');
+const dots = document.querySelectorAll('.step-dot');
+
+function goTo(n){
+  screens[current].classList.remove('active');
+  dots[current].classList.remove('on');
+  if(current < n) dots[current].classList.add('done');
+  current = n;
+  screens[current].classList.add('active');
+  dots[current].classList.add('on');
+  dots[current].classList.remove('done');
+}
+
+function selectOpt(el){
+  const parent = el.closest('.q-options');
+  parent.querySelectorAll('.q-opt').forEach(o=>{
+    o.classList.remove('sel');
+    o.querySelector('.q-opt-dot').innerHTML='';
+  });
+  el.classList.add('sel');
+  el.querySelector('.q-opt-dot').innerHTML='<svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#fff"/></svg>';
+}
+
+function toggleCheck(el){
+  const box = el.querySelector('.check-box');
+  box.classList.toggle('on');
+  if(box.classList.contains('on')){
+    box.innerHTML='<svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#201d1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  } else {
+    box.innerHTML='';
+  }
+}
+</script>
+</body>
+</html>
