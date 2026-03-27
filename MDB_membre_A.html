@@ -220,21 +220,21 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
       <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.9"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.4"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.4"/></svg>
       Mon tableau de bord
     </div>
-    <div class="ni">
+    <div class="ni" onclick="navVers('programme')">
       <svg viewBox="0 0 16 16" fill="none"><path d="M2 2h12v10H2z" stroke="currentColor" stroke-width="1.2"/><path d="M5 6h6M5 8h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Mon programme
     </div>
-    <div class="ni">
+    <div class="ni" onclick="navVers('exercices')">
       <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Mes exercices
       <span class="nbadge">3</span>
     </div>
-    <div class="ni">
+    <div class="ni" onclick="navVers('chat')">
       <svg viewBox="0 0 16 16" fill="none"><path d="M13 2H3a1 1 0 00-1 1v9l3-2h8a1 1 0 001-1V3a1 1 0 00-1-1z" stroke="currentColor" stroke-width="1.2"/></svg>
       Chat &amp; communauté
       <span class="nbadge-s">2</span>
     </div>
-    <div class="ni">
+    <div class="ni" onclick="navVers('profil')">
       <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Mon profil &amp; contrat
     </div>
@@ -242,15 +242,15 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
 
   <div class="sb-sec" style="margin-top:4px">
     <div class="sb-lbl">Ressources</div>
-    <div class="ni">
+    <div class="ni" onclick="navVers('pdf')">
       <svg viewBox="0 0 16 16" fill="none"><path d="M3 2h8l2 2v10H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M5 6h6M5 8h6M5 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Mes documents PDF
     </div>
-    <div class="ni">
+    <div class="ni" onclick="navVers('videos')">
       <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.2"/><polygon points="6.5,5.5 11.5,8 6.5,10.5" fill="currentColor"/></svg>
       Médiathèque vidéos
     </div>
-    <div class="ni">
+    <div class="ni" onclick="navVers('victoires')">
       <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1-3-2.9 4.2-.6L8 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
       Mes victoires
     </div>
@@ -389,7 +389,7 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
       <div>
         <div class="stitle">Exercices de cette semaine</div>
         <div class="exos">
-          <div class="ex">
+          <div class="ex" onclick="ouvrirExercice('intro','journal-regulation','Journal de régulation émotionnelle')">
             <div class="eck done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div>
               <div class="etype">Introspection · Écrit</div>
@@ -398,7 +398,7 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
             </div>
             <div class="earr">›</div>
           </div>
-          <div class="ex">
+          <div class="ex" onclick="ouvrirExercice('video','seance-eft','Séance EFT — libérer le stress chronique')">
             <div class="eck"></div>
             <div>
               <div class="etype">Thérapie · Vidéo guidée</div>
@@ -407,7 +407,7 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
             </div>
             <div class="earr">›</div>
           </div>
-          <div class="ex">
+          <div class="ex" onclick="ouvrirExercice('intro','cartographie-declencheurs','Cartographie de mes déclencheurs')">
             <div class="eck"></div>
             <div>
               <div class="etype">Introspection · Écrit</div>
@@ -661,6 +661,24 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = 'index.html';
   });
 });
+
+function ouvrirExercice(type, slug, titre) {
+  const params = new URLSearchParams({type, slug, titre: encodeURIComponent(titre), phase:'1', semaine:'3'});
+  window.location.href = 'MDB_exercice.html?' + params.toString();
+}
+
+function navVers(page) {
+  const pages = {
+    programme: 'MDB_membre_A.html',
+    exercices: 'MDB_exercice.html?type=intro&slug=journal-regulation&titre=Mes%20exercices&phase=1&semaine=3',
+    videos: 'MDB_exercice.html?type=video&slug=seance-eft&titre=M%C3%A9diath%C3%A8que&phase=1&semaine=3',
+  };
+  if (pages[page]) { window.location.href = pages[page]; return; }
+  if (page === 'chat') { document.querySelector('.cinput')?.focus(); return; }
+  if (page === 'victoires') { document.querySelector('.winput')?.focus(); return; }
+  if (page === 'profil') { alert('Espace profil — bientôt disponible'); return; }
+  if (page === 'pdf') { alert('Documents PDF — bientôt disponible'); return; }
+}
 </script>
 </body>
 </html>
