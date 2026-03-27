@@ -2,17 +2,17 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#162b22"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MDB — Bienvenue</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --noir:#0f0d0b;--noir2:#171410;--noir3:#201d1a;
+  --noir:#2d4a3e;--noir2:#243d32;--noir3:#eaf2ee;
   --orange:#d06224;--brique:#af421c;--or:#b8a465;
   --sauge:#7a9e8e;--sauge-mid:#5a826f;
-  --blanc:#ffffff;--texte-muted:rgba(255,255,255,0.45);--texte-dim:rgba(255,255,255,0.25);
-  --card:rgba(255,255,255,0.05);--card-border:rgba(255,255,255,0.09)
+  --blanc:#ffffff;--texte-muted:#6b6560;--texte-dim:rgba(32,29,26,0.4);
+  --card:rgba(255,255,255,0.1);--card-border:rgba(255,255,255,0.2)
 }
 html,body{height:100%;overflow:hidden}
 body{font-family:'Be Vietnam Pro',sans-serif;background:var(--noir);color:#fff;display:flex;align-items:stretch}
@@ -68,12 +68,12 @@ body::after{content:'';position:fixed;bottom:-150px;left:-80px;width:500px;heigh
 .q-num{font-size:9.5px;font-weight:700;letter-spacing:0.12em;color:var(--orange);text-transform:uppercase;margin-bottom:6px}
 .q-text{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.4}
 .q-options{display:flex;flex-direction:column;gap:7px}
-.q-opt{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:9px;border:0.5px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.2s;font-size:13px;color:rgba(255,255,255,0.7)}
+.q-opt{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:9px;border:1.5px solid rgba(255,255,255,0.2);cursor:pointer;transition:all 0.2s;font-size:13px;color:rgba(255,255,255,0.9)}
 .q-opt:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.2);color:#fff}
 .q-opt.sel{background:rgba(208,98,36,0.14);border-color:rgba(208,98,36,0.38);color:#fff}
 .q-opt-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.25);flex-shrink:0;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
 .q-opt.sel .q-opt-dot{background:var(--orange);border-color:var(--orange)}
-.q-textarea{width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:13px;color:#fff;font-family:'Be Vietnam Pro',sans-serif;resize:none;outline:none;min-height:80px;line-height:1.6}
+.q-textarea{width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.25);border-radius:10px;padding:12px 14px;font-size:13px;color:#fff;font-family:'Be Vietnam Pro',sans-serif;resize:none;outline:none;min-height:80px;line-height:1.6}
 .q-textarea::placeholder{color:rgba(255,255,255,0.2)}
 .q-textarea:focus{border-color:rgba(208,98,36,0.35);background:rgba(208,98,36,0.05)}
 
@@ -91,13 +91,13 @@ body::after{content:'';position:fixed;bottom:-150px;left:-80px;width:500px;heigh
 .charte-desc{font-size:12px;color:var(--texte-muted);line-height:1.5}
 .sign-block{background:var(--card);border:0.5px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:20px}
 .sign-label{font-size:11px;color:var(--texte-muted);margin-bottom:8px}
-.sign-input{width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:14px;color:#fff;font-family:'Playfair Display',serif;font-style:italic;outline:none;transition:all 0.2s}
+.sign-input{width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.25);border-radius:10px;padding:12px 14px;font-size:14px;color:#fff;font-family:'Playfair Display',serif;font-style:italic;outline:none;transition:all 0.2s}
 .sign-input:focus{border-color:rgba(184,164,101,0.4);background:rgba(184,164,101,0.04)}
 .sign-input::placeholder{color:rgba(255,255,255,0.2);font-style:italic}
 .check-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;cursor:pointer}
 .check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid rgba(255,255,255,0.2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
 .check-box.on{background:var(--or);border-color:var(--or)}
-.check-text{font-size:12.5px;color:rgba(255,255,255,0.6);line-height:1.6}
+.check-text{font-size:12.5px;color:rgba(255,255,255,0.85);line-height:1.6}
 
 /* ── SCREEN 4 — PRÊTE ── */
 .s4-inner{max-width:580px;width:100%;text-align:center}
@@ -110,7 +110,7 @@ body::after{content:'';position:fixed;bottom:-150px;left:-80px;width:500px;heigh
 .s4-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;text-align:left}
 .s4-step{background:var(--card);border:0.5px solid var(--card-border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px}
 .s4-step-num{width:28px;height:28px;border-radius:50%;background:var(--orange-glow,rgba(208,98,36,0.15));border:0.5px solid rgba(208,98,36,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--orange);flex-shrink:0}
-.s4-step-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.4}
+.s4-step-text{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.4}
 .s4-step-text strong{color:#fff;font-weight:600}
 
 /* BOTTOM NAV */

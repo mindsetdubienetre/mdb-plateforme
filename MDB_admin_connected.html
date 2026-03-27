@@ -2,19 +2,19 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#162b22"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MDB — Admin Vanille</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --noir:#0f0d0b;--noir2:#141210;--noir3:#1a1714;
+  --noir:#2d4a3e;--noir2:#243d32;--noir3:#eaf2ee;
   --orange:#d06224;--brique:#af421c;--or:#b8a465;
   --sauge:#7a9e8e;--sauge-mid:#5a826f;
-  --rouge:#c0392b;--vert:#4a9d6f;
+  --rouge:#9b72cf;--vert:#4a9d6f;
   --blanc:#fff;
-  --texte-muted:rgba(255,255,255,0.45);--texte-dim:rgba(255,255,255,0.22);
-  --card:rgba(255,255,255,0.04);--card-border:rgba(255,255,255,0.08);
+  --texte-muted:#6b6560;--texte-dim:rgba(255,255,255,0.22);
+  --card:rgba(255,255,255,0.09);--card-border:rgba(255,255,255,0.18);
   --sw:220px
 }
 html,body{height:100%;overflow:hidden}
@@ -58,7 +58,7 @@ body::before{content:'';position:fixed;top:-100px;right:-80px;width:450px;height
 
 /* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;z-index:1}
-.topbar{height:52px;background:rgba(15,13,11,0.95);border-bottom:0.5px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.topbar{height:52px;background:rgba(22,43,34,0.97);border-bottom:0.5px solid rgba(122,158,142,0.2);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
 .topbar-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#fff}
 .topbar-sub{font-size:11px;color:var(--texte-muted);margin-top:1px}
 .topbar-r{display:flex;align-items:center;gap:10px}
@@ -117,13 +117,13 @@ tr:hover td{background:rgba(255,255,255,0.03);cursor:pointer}
 .last-seen.alert{color:var(--rouge)}
 .action-btn{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:4px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all 0.15s}
 .action-btn:hover{background:rgba(255,255,255,0.1);color:#fff}
-.alert-row td{background:rgba(192,57,43,0.05)}
+.alert-row td{background:rgba(155,114,207,0.12)}
 
 /* PANEL DROIT */
 .right-col{display:flex;flex-direction:column;gap:12px}
 
 /* ALERTES */
-.alerts-block{background:var(--card);border:0.5px solid rgba(192,57,43,0.2);border-radius:14px;overflow:hidden}
+.alerts-block{background:var(--card);border:0.5px solid rgba(155,114,207,0.3);border-radius:14px;overflow:hidden}
 .alerts-head{padding:12px 16px;border-bottom:0.5px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between}
 .alerts-title{font-size:13px;font-weight:600;color:#fff;display:flex;align-items:center;gap:7px}
 .alert-dot-pulse{width:8px;height:8px;border-radius:50%;background:var(--rouge);animation:alertPulse 1.5s ease-in-out infinite}
@@ -324,7 +324,7 @@ tr:hover td{background:rgba(255,255,255,0.03);cursor:pointer}
               <div class="filter-btn on">Toutes</div>
               <div class="filter-btn">Phase 1</div>
               <div class="filter-btn">Phase 2</div>
-              <div class="filter-btn" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">Inactives</div>
+              <div class="filter-btn" style="color:#9b72cf;border-color:rgba(192,57,43,0.3)">Inactives</div>
             </div>
           </div>
           <table>
@@ -368,7 +368,7 @@ tr:hover td{background:rgba(255,255,255,0.03);cursor:pointer}
                 <td><span class="phase-pill p1">Phase 1</span></td>
                 <td><div class="prog-cell"><div class="prog-mini"><div class="prog-mini-fill" style="width:20%"></div></div><div class="prog-pct">20%</div></div></td>
                 <td><span class="last-seen alert">Il y a 7j ⚠</span></td>
-                <td><div style="display:flex;align-items:center;gap:5px"><div class="status-dot inactive"></div><span style="font-size:11px;color:#c0392b">Inactive</span></div></td>
+                <td><div style="display:flex;align-items:center;gap:5px"><div class="status-dot inactive"></div><span style="font-size:11px;color:#9b72cf">Inactive</span></div></td>
                 <td><button class="action-btn" style="border-color:rgba(192,57,43,0.4);color:#e07070">Relancer</button></td>
               </tr>
               <tr>
@@ -384,7 +384,7 @@ tr:hover td{background:rgba(255,255,255,0.03);cursor:pointer}
                 <td><span class="phase-pill p1">Phase 1</span></td>
                 <td><div class="prog-cell"><div class="prog-mini"><div class="prog-mini-fill" style="width:15%"></div></div><div class="prog-pct">15%</div></div></td>
                 <td><span class="last-seen alert">Il y a 9j ⚠</span></td>
-                <td><div style="display:flex;align-items:center;gap:5px"><div class="status-dot inactive"></div><span style="font-size:11px;color:#c0392b">Inactive</span></div></td>
+                <td><div style="display:flex;align-items:center;gap:5px"><div class="status-dot inactive"></div><span style="font-size:11px;color:#9b72cf">Inactive</span></div></td>
                 <td><button class="action-btn" style="border-color:rgba(192,57,43,0.4);color:#e07070">Relancer</button></td>
               </tr>
               <tr>
@@ -466,7 +466,7 @@ tr:hover td{background:rgba(255,255,255,0.03);cursor:pointer}
             <span style="font-size:10px;color:var(--texte-muted)">3 urgentes</span>
           </div>
           <div class="alert-item">
-            <div class="alert-icon" style="background:rgba(192,57,43,0.1);border:0.5px solid rgba(192,57,43,0.2)">
+            <div class="alert-icon" style="background:rgba(155,114,207,0.12);border:0.5px solid rgba(155,114,207,0.3)">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#c0392b" stroke-width="1.2"/><path d="M8 5v3M8 11v.5" stroke="#c0392b" stroke-width="1.4" stroke-linecap="round"/></svg>
             </div>
             <div>
@@ -476,7 +476,7 @@ tr:hover td{background:rgba(255,255,255,0.03);cursor:pointer}
             </div>
           </div>
           <div class="alert-item">
-            <div class="alert-icon" style="background:rgba(192,57,43,0.1);border:0.5px solid rgba(192,57,43,0.2)">
+            <div class="alert-icon" style="background:rgba(155,114,207,0.12);border:0.5px solid rgba(155,114,207,0.3)">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#c0392b" stroke-width="1.2"/><path d="M8 5v3M8 11v.5" stroke="#c0392b" stroke-width="1.4" stroke-linecap="round"/></svg>
             </div>
             <div>
