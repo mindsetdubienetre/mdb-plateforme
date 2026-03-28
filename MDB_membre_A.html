@@ -487,15 +487,9 @@ const sb = createClient(MDB_URL, MDB_KEY);
 // ── CHARGER LES DONNÉES DE LA CLIENTE ──
 async function loadCliente() {
   const id = localStorage.getItem('mdb_cliente_id');
-  if (!id) {
-    // Pas de session — essayer avec l'URL params ou rediriger
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlId = urlParams.get('id');
-    if (!urlId) { window.location.href = 'index.html'; return; }
-    localStorage.setItem('mdb_cliente_id', urlId);
-  }
-  const finalId = localStorage.getItem('mdb_cliente_id');
-  const { data: c, error } = await sb.from('clientes').select('*').eq('id', finalId).maybeSingle();
+  if (!id) { window.location.href = 'index.html'; return; }
+
+  const { data: c, error } = await sb.from('clientes').select('*').eq('id', id).maybeSingle();
   if (error || !c) { window.location.href = 'index.html'; return; }
 
   // Personnaliser le prénom partout
