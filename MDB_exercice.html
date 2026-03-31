@@ -436,6 +436,40 @@ function initFromURL() {
     }
   };
 
+  // Si type=video dans URL → forcer vue vidéo
+  if (currentType === 'video') {
+    switchView('video', document.getElementById('tab-video'));
+    // Trouver les infos vidéo selon le slug
+    var videoInfos = {
+      's1v1': {titre: 'Bienvenue dans la Semaine 1', duree: '5-8 min', sub: 'Face cam · Vidéo d'accueil'},
+      's1v2': {titre: 'Ce qui se passe dans ton cerveau', duree: '10-15 min', sub: 'Présentation slides · Neurosciences'},
+      's1v3': {titre: 'La cohérence cardiaque pas à pas', duree: '8-10 min', sub: 'Tutoriel face cam · Outil pratique'},
+      's1v4': {titre: 'Body scan & ancrage corporel', duree: '12-15 min', sub: 'Pratique guidée · Méditation'},
+      's1v5': {titre: 'Le nerf vague : ton bouton reset', duree: '10-12 min', sub: 'Présentation slides · Approfondissement'},
+      'seance-eft': {titre: 'Séance EFT — libérer le stress chronique', duree: '18 min', sub: 'Thérapie guidée'}
+    };
+    var vinfo = videoInfos[currentSlug] || {titre: titre, duree: '-- min', sub: 'Phase 1 · Semaine ' + semaine};
+    document.getElementById('video-title-over').textContent = vinfo.titre;
+    document.getElementById('video-sub').textContent = vinfo.sub;
+    document.getElementById('exo-badge').innerHTML = '<div class="type-dot" style="background:var(--orange)"></div>Vidéo thérapeutique';
+    document.getElementById('exo-title').textContent = vinfo.titre;
+    document.getElementById('exo-desc').textContent = vinfo.sub + ' · ' + vinfo.duree;
+    // Chapitres EFT si applicable
+    if (currentSlug === 'seance-eft') {
+      var chapHtml = '<div class="ch-label">Chapitres de la séance</div>';
+      var chaps = [
+        {time:'0:00',title:'Introduction & mise en condition'},
+        {time:'3:20',title:'Séquence de tapping — points méridiens'},
+        {time:'9:45',title:'Affirmations de régulation émotionnelle'},
+        {time:'14:10',title:'Intégration & ancrage'},
+        {time:'17:00',title:'Retour en douceur & observation'}
+      ];
+      chaps.forEach(function(c,i){ chapHtml += '<div class="ch-item' + (i===1?' active':'') + '"><div class="ch-time">' + c.time + '</div><div class="ch-title">' + c.title + '</div><div class="ch-check' + (i===0?' done':'') + '"></div></div>'; });
+      document.getElementById('chapitres-container').innerHTML = chapHtml;
+    }
+    return;
+  }
+
   var exo = exercices[currentSlug] || exercices['journal-decharge-s1'];
 
   document.getElementById('exo-badge').innerHTML = '<div class="type-dot" style="background:' + (exo.type==='video'?'var(--orange)':'var(--sauge)') + '"></div>' + exo.badge;
