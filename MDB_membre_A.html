@@ -118,14 +118,14 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
 .pc:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)}
 .pc.on{background:var(--card-active);border-color:var(--card-active-border)}
 .pc.lk{opacity:0.3;cursor:not-allowed}
-.pc-top{position:absolute;top:0;left:0;right:0;height:2px}
+.pc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .pc-num{font-size:9px;font-weight:700;letter-spacing:0.1em;color:#5a7a6a;text-transform:uppercase;margin-bottom:5px}
 .pc-name{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--blanc);line-height:1.25;margin-bottom:3px}
 .pc-wks{font-size:9.5px;color:#5a7a6a;margin-bottom:9px}
 .pc-bar{background:rgba(255,255,255,0.08);height:2px;border-radius:2px;overflow:hidden;margin-bottom:5px}
 .pc-fill{height:100%;border-radius:2px}
 .pc-st{font-size:10px;font-weight:600}
-.pc-st.on{color:var(--orange)}
+.pc-st{font-size:9px;font-weight:600;padding:2px 7px;border-radius:8px}.pc-st.on{color:var(--orange);background:rgba(208,98,36,0.1)}
 .pc-st.lk{color:#9aaa9a}
 
 /* ── SEMAINES ── */
@@ -198,9 +198,53 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(45,74,62,0.2);border-radius:2px}
+
+
+/* ── SEMAINE VERROUILLÉE ── */
+.wc.locked{opacity:0.45;cursor:not-allowed}
+.wc.locked .wc-title{color:var(--texte-muted)}
+.lock-icon{margin-left:auto;opacity:0.4;font-size:12px}
+
+/* ── VIDÉOS LIST ── */
+.vid-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.vid-item{background:var(--card);border:0.5px solid var(--card-border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s}
+.vid-item:hover{border-color:rgba(208,98,36,0.3);transform:translateX(2px)}
+.vid-item.done .vid-num{background:var(--sauge-mid);color:#fff}
+.vid-num{width:26px;height:26px;border-radius:50%;background:rgba(208,98,36,0.12);border:0.5px solid rgba(208,98,36,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--orange);flex-shrink:0}
+.vid-info{flex:1}
+.vid-type{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:2px}
+.vid-title{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--blanc);margin-bottom:2px}
+.vid-desc{font-size:11px;color:var(--texte-muted);line-height:1.4}
+.vid-meta{font-size:10px;color:var(--texte-dim);display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.vid-duration{background:rgba(255,255,255,0.07);border-radius:10px;padding:2px 7px}
+.vid-format{color:var(--orange);font-weight:600}
+
+/* ── PDF LIST ── */
+.pdf-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.pdf-item{background:rgba(184,164,101,0.07);border:0.5px solid rgba(184,164,101,0.2);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.2s}
+.pdf-item:hover{border-color:rgba(184,164,101,0.4)}
+.pdf-icon{width:28px;height:28px;border-radius:7px;background:rgba(184,164,101,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.pdf-info{flex:1}
+.pdf-type{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--or);margin-bottom:2px}
+.pdf-title{font-size:12.5px;font-weight:600;color:var(--blanc);margin-bottom:2px}
+.pdf-desc{font-size:11px;color:var(--texte-muted);line-height:1.4}
+.pdf-badge{font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(184,164,101,0.15);color:var(--or);border:0.5px solid rgba(184,164,101,0.3);white-space:nowrap}
+
+/* ── SECTION TABS ── */
+.week-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.wtab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:0.5px solid rgba(255,255,255,0.12);color:var(--texte-muted);transition:all 0.2s}
+.wtab.on{background:rgba(208,98,36,0.15);border-color:rgba(208,98,36,0.4);color:var(--orange)}
+
+/* ── PROGRESS SEMAINE ── */
+.week-progress{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:10px;border:0.5px solid rgba(255,255,255,0.08)}
+.wp-label{font-size:11px;color:var(--texte-muted);flex:1}
+.wp-count{font-size:13px;font-weight:700;color:var(--orange)}
+.wp-bar-wrap{width:80px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}
+.wp-bar{height:100%;background:var(--orange);border-radius:2px;transition:width 0.3s}
+
 </style>
 </head>
-
+<body>
 
 <!-- SIDEBAR -->
 <nav class="sb">
@@ -215,12 +259,10 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
       <div class="l3">M · D · B</div>
     </div>
   </div>
-
   <div class="sb-greeting">
     <div class="sb-greet-sub">Mon espace</div>
-    <div class="sb-greet-name">Sofia ✦</div>
+    <div class="sb-greet-name" id="greet-name">— ✦</div>
   </div>
-
   <div class="sb-sec">
     <div class="sb-lbl">Navigation</div>
     <div class="ni on">
@@ -231,278 +273,365 @@ body::after{content:'';position:fixed;bottom:-150px;left:100px;width:400px;heigh
       <svg viewBox="0 0 16 16" fill="none"><path d="M2 2h12v10H2z" stroke="currentColor" stroke-width="1.2"/><path d="M5 6h6M5 8h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Mon programme
     </div>
-    <div class="ni" onclick="navVers('exercices')">
-      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Mes exercices
-      <span class="nbadge">3</span>
-    </div>
     <div class="ni" onclick="navVers('chat')">
       <svg viewBox="0 0 16 16" fill="none"><path d="M13 2H3a1 1 0 00-1 1v9l3-2h8a1 1 0 001-1V3a1 1 0 00-1-1z" stroke="currentColor" stroke-width="1.2"/></svg>
-      Chat &amp; communauté
-      <span class="nbadge-s">2</span>
+      Chat & communauté
+      <span class="nbadge" id="chat-badge" style="display:none">1</span>
     </div>
     <div class="ni" onclick="navVers('profil')">
-      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Mon profil &amp; contrat
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.2"/></svg>
+      Mon profil & contrat
     </div>
   </div>
-
-  <div class="sb-sec" style="margin-top:4px">
+  <div class="sb-sec">
     <div class="sb-lbl">Ressources</div>
     <div class="ni" onclick="navVers('pdf')">
-      <svg viewBox="0 0 16 16" fill="none"><path d="M3 2h8l2 2v10H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M5 6h6M5 8h6M5 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M3 2h8l2 2v10H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M9 2v3h3" stroke="currentColor" stroke-width="1.2"/></svg>
       Mes documents PDF
     </div>
-    <div class="ni" onclick="navVers('videos')">
-      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.2"/><polygon points="6.5,5.5 11.5,8 6.5,10.5" fill="currentColor"/></svg>
-      Médiathèque vidéos
-    </div>
     <div class="ni" onclick="navVers('victoires')">
-      <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1-3-2.9 4.2-.6L8 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1L2 5.6l4.2-.4z" stroke="currentColor" stroke-width="1.2"/></svg>
       Mes victoires
     </div>
   </div>
-
-  <div class="sb-boost">
-    <div class="boost-lbl"><div class="bdot"></div>Boost Mindset</div>
-    <div class="boost-quote">"Ton calme intérieur est une force, pas une faiblesse."</div>
+  <div class="boost-box" id="boost-box">
+    <div class="boost-lbl">✦ Boost Mindset</div>
+    <div class="boost-q" id="boost-q">"Ton calme intérieur est une force, pas une faiblesse."</div>
   </div>
-
-  <div class="sb-humeur">
-    <div class="humeur-lbl">✦ État du jour</div>
-    <div class="hrow">
+  <div class="humeur-box">
+    <div class="humeur-lbl">+ État du jour</div>
+    <div class="humeur-btns">
       <div class="hbtn" onclick="ph(this)">😔</div>
       <div class="hbtn" onclick="ph(this)">😕</div>
       <div class="hbtn" onclick="ph(this)">😐</div>
       <div class="hbtn on" onclick="ph(this)">🙂</div>
       <div class="hbtn" onclick="ph(this)">✨</div>
     </div>
-    <div class="humeur-cap">Semaine 3 · check-in enregistré</div>
+    <div class="humeur-cap" id="humeur-cap">Semaine 1 · check-in</div>
   </div>
-
-  <div class="sb-bot">
-    <div class="uav">SC</div>
-    <div>
-      <div class="uname">Sofia C.</div>
-      <div class="uphase">Phase 1 · Semaine 3</div>
+  <div class="sb-footer">
+    <div class="sb-avatar" id="sb-avatar">VT</div>
+    <div class="sb-uinfo">
+      <div class="uname" id="uname">Vanille T.</div>
+      <div class="urole">Phase 1 · Semaine 1</div>
+    </div>
+    <div class="logout" title="Déconnexion">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 8H2M2 8l3-3M2 8l3 3M7 4V2h7v12H7v-2" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-linecap="round"/></svg>
     </div>
   </div>
 </nav>
 
 <!-- MAIN -->
 <div class="main">
+  <!-- TOPBAR -->
   <div class="topbar">
     <div>
       <div class="tg">Bonjour,</div>
-      <div class="tn">Sofia ✦</div>
+      <div class="tn" id="topbar-name">—</div>
     </div>
-    <div class="topbar-r">
-      <div class="nbell">
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 003.5 6v2.5L2 10.5h12L12.5 8.5V6A4.5 4.5 0 008 1.5zM6.5 12a1.5 1.5 0 003 0" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" stroke-linecap="round"/></svg>
-        <div class="ndot"></div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="notif-btn" id="notif-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a5 5 0 015 5v3l1.5 2.5h-13L3 9V6a5 5 0 015-5zM6.5 13a1.5 1.5 0 003 0" stroke="rgba(255,255,255,0.7)" stroke-width="1.2"/></svg>
+        <div class="ndot" id="notif-dot" style="display:none"></div>
       </div>
-      <button class="cta-btn">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M13 2H3a1 1 0 00-1 1v9l3-2h8a1 1 0 001-1V3a1 1 0 00-1-1z" stroke="#fff" stroke-width="1.4"/></svg>
+      <button class="cta-btn" onclick="navVers('chat')">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M13 2H3a1 1 0 00-1 1v9l3-2h8a1 1 0 001-1V3a1 1 0 00-1-1z" fill="#fff" opacity="0.8"/></svg>
         Écrire à Vanille
       </button>
     </div>
   </div>
 
+  <!-- CONTENT -->
   <div class="content">
 
     <!-- HERO -->
     <div class="hero">
       <div class="hero-inner">
         <div>
-          <div class="hero-phase-label">Programme MDB — Phase en cours</div>
-          <div class="hero-phase-name">Fondations</div>
-          <div class="hero-phase-sub">Sécurité du système nerveux · Sortir du mode survie</div>
-          <div class="ptrack"><div class="pfill"></div></div>
+          <div class="hero-phase-label" id="hero-label">Programme MDB — Phase en cours</div>
+          <div class="hero-phase-name" id="hero-phase">Fondations</div>
+          <div class="hero-phase-sub" id="hero-sub">Sécurité du système nerveux · Sortir du mode survie</div>
           <div class="prow">
-            <div class="ppct">33% complété</div>
-            <div class="pdesc">Semaine 3 · 3 exercices restants</div>
+            <div class="ptrack"><div class="pfill" id="pfill" style="width:0%"></div></div>
+            <div class="ppct" id="ppct">0% complété</div>
           </div>
         </div>
         <div class="hero-right">
-          <div class="hero-pill">Phase 1 / 4</div>
-          <div class="hero-wk-num">3</div>
-          <div class="hero-wk-lbl">sur 12 sem.</div>
+          <div class="hero-wk-num" id="hero-wk">1</div>
+          <div class="hero-wk-label">sur 12 sem.</div>
+          <div class="hero-wk-sub" id="hero-wk-sub">Semaine 1 · 0 exercice restant</div>
         </div>
       </div>
     </div>
 
-    <!-- PHASES -->
+    <!-- 4 PHASES -->
     <div class="stitle">Les 4 phases du programme</div>
     <div class="pgrid">
-      <div class="pc on">
-        <div class="pc-top" style="background:linear-gradient(90deg,var(--brique),var(--orange))"></div>
-        <div class="pc-num">Phase 01</div>
+      <div class="pc on" id="phase-1">
+        <div class="pc-top">
+          <div class="pc-num">Phase 01</div>
+          <div class="pc-st on" id="phase-1-st">En cours · S1</div>
+        </div>
         <div class="pc-name">Fondations</div>
         <div class="pc-wks">Semaines 1–3</div>
-        <div class="pc-bar"><div class="pc-fill" style="width:75%;background:var(--orange)"></div></div>
-        <div class="pc-st on">En cours · S3</div>
+        <div class="pc-bar"><div class="pc-fill" id="phase-1-fill" style="width:0%;background:var(--orange)"></div></div>
       </div>
-      <div class="pc lk">
-        <div class="pc-top" style="background:rgba(255,255,255,0.1)"></div>
-        <div class="pc-num">Phase 02</div>
+      <div class="pc lk" id="phase-2">
+        <div class="pc-top"><div class="pc-num">Phase 02</div><div class="pc-st lk">Verrouillée</div></div>
         <div class="pc-name">Reprogrammation</div>
         <div class="pc-wks">Semaines 4–6</div>
         <div class="pc-bar"><div class="pc-fill" style="width:0%"></div></div>
-        <div class="pc-st lk">Verrouillée</div>
       </div>
-      <div class="pc lk">
-        <div class="pc-top" style="background:rgba(255,255,255,0.1)"></div>
-        <div class="pc-num">Phase 03</div>
+      <div class="pc lk" id="phase-3">
+        <div class="pc-top"><div class="pc-num">Phase 03</div><div class="pc-st lk">Verrouillée</div></div>
         <div class="pc-name">Activation</div>
         <div class="pc-wks">Semaines 7–9</div>
         <div class="pc-bar"><div class="pc-fill" style="width:0%"></div></div>
-        <div class="pc-st lk">Verrouillée</div>
       </div>
-      <div class="pc lk">
-        <div class="pc-top" style="background:rgba(255,255,255,0.1)"></div>
-        <div class="pc-num">Phase 04</div>
+      <div class="pc lk" id="phase-4">
+        <div class="pc-top"><div class="pc-num">Phase 04</div><div class="pc-st lk">Verrouillée</div></div>
         <div class="pc-name">Intégration</div>
         <div class="pc-wks">Semaines 10–12</div>
         <div class="pc-bar"><div class="pc-fill" style="width:0%"></div></div>
-        <div class="pc-st lk">Verrouillée</div>
       </div>
     </div>
 
-    <!-- SEMAINES -->
-    <div class="stitle">Phase 1 — Semaines</div>
-    <div class="wgrid">
-      <div class="wc done">
-        <div class="wc-num">Semaine 1 — Complétée <div class="wc-dot done"></div></div>
+    <!-- SEMAINES PHASE 1 -->
+    <div class="stitle" style="margin-top:20px">Phase 1 — Semaines</div>
+    <div class="wgrid" id="semaines-grid">
+
+      <!-- SEMAINE 1 — ACTIVE -->
+      <div class="wc on" id="wc-1" onclick="ouvrirSemaine(1)">
+        <div class="wc-num">
+          <span>Semaine 1 — En cours</span>
+          <div class="wc-dot" id="wc-dot-1"></div>
+        </div>
         <div class="wc-title">Revenir dans son corps</div>
-        <div class="tags"><span class="tag tv">3 vidéos</span><span class="tag te">2 exercices</span></div>
-        <div class="wbar"><div class="wfill" style="width:100%"></div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+          <span style="font-size:10px;background:rgba(208,98,36,0.1);border:0.5px solid rgba(208,98,36,0.25);color:var(--orange);padding:2px 8px;border-radius:10px">5 vidéos</span>
+          <span style="font-size:10px;background:rgba(184,164,101,0.1);border:0.5px solid rgba(184,164,101,0.2);color:var(--or);padding:2px 8px;border-radius:10px">2 PDF</span>
+          <span style="font-size:10px;background:rgba(122,158,142,0.1);border:0.5px solid rgba(122,158,142,0.2);color:var(--sauge);padding:2px 8px;border-radius:10px">1 exercice</span>
+        </div>
+        <div class="wc-bar" style="margin-top:10px"><div class="wfill" id="wfill-1" style="width:0%"></div></div>
       </div>
-      <div class="wc done">
-        <div class="wc-num">Semaine 2 — Complétée <div class="wc-dot done"></div></div>
+
+      <!-- SEMAINE 2 — VERROUILLÉE -->
+      <div class="wc locked" id="wc-2">
+        <div class="wc-num">
+          <span>Semaine 2</span>
+          <span class="lock-icon">🔒</span>
+        </div>
         <div class="wc-title">La fenêtre de tolérance</div>
-        <div class="tags"><span class="tag tv">2 vidéos</span><span class="tag tm">1 méditation</span></div>
-        <div class="wbar"><div class="wfill" style="width:100%"></div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+          <span style="font-size:10px;opacity:0.4;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:2px 8px;border-radius:10px">5 vidéos</span>
+          <span style="font-size:10px;opacity:0.4;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:2px 8px;border-radius:10px">2 PDF</span>
+        </div>
+        <div class="wc-bar" style="margin-top:10px"><div class="wfill" style="width:0%;opacity:0.3"></div></div>
       </div>
-      <div class="wc on">
-        <div class="wc-num">Semaine 3 — En cours <div class="wc-dot"></div></div>
+
+      <!-- SEMAINE 3 — VERROUILLÉE -->
+      <div class="wc locked" id="wc-3">
+        <div class="wc-num">
+          <span>Semaine 3</span>
+          <span class="lock-icon">🔒</span>
+        </div>
         <div class="wc-title">Libérer le stress stocké</div>
-        <div class="tags"><span class="tag tv">3 vidéos</span><span class="tag te">3 exercices</span><span class="tag tm">1 méditation</span></div>
-        <div class="wbar"><div class="wfill" style="width:40%"></div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+          <span style="font-size:10px;opacity:0.4;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:2px 8px;border-radius:10px">5 vidéos</span>
+          <span style="font-size:10px;opacity:0.4;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:2px 8px;border-radius:10px">2 PDF</span>
+        </div>
+        <div class="wc-bar" style="margin-top:10px"><div class="wfill" style="width:0%;opacity:0.3"></div></div>
+      </div>
+
+    </div>
+
+    <!-- CONTENU SEMAINE ACTIVE -->
+    <div id="semaine-content" style="margin-top:24px">
+
+      <!-- TITRE SEMAINE -->
+      <div class="stitle" id="semaine-title">Semaine 1 — Revenir dans son corps</div>
+      <div style="font-size:11px;color:var(--texte-muted);margin-bottom:16px;margin-top:-8px" id="semaine-tags">
+        Nerf vague · Cohérence cardiaque · Body scan · Théorie polyvagale · Journaling de décharge
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="week-progress" id="week-progress">
+        <div class="wp-label">Progression cette semaine</div>
+        <div class="wp-bar-wrap"><div class="wp-bar" id="wp-bar" style="width:0%"></div></div>
+        <div class="wp-count" id="wp-count">0 / 6</div>
+      </div>
+
+      <!-- VIDÉOS -->
+      <div class="stitle" style="font-size:12px;margin-bottom:10px">🎬 Vidéos</div>
+      <div class="vid-list" id="vid-list-1">
+        <div class="vid-item" onclick="ouvrirVideo('s1v1','S1 — Vidéo 1')" id="vid-1-1">
+          <div class="vid-num">1</div>
+          <div class="vid-info">
+            <div class="vid-type">Face cam · Vidéo d'accueil</div>
+            <div class="vid-title">Bienvenue dans la Semaine 1</div>
+            <div class="vid-desc">Ton histoire, le contexte émotionnel, ce qu'elle va vivre. Crée le lien affectif.</div>
+          </div>
+          <div class="vid-meta">
+            <div class="vid-duration">5–8 min</div>
+            <div class="vid-format">Face cam</div>
+          </div>
+        </div>
+        <div class="vid-item" onclick="ouvrirVideo('s1v2','S1 — Vidéo 2')" id="vid-1-2">
+          <div class="vid-num">2</div>
+          <div class="vid-info">
+            <div class="vid-type">Présentation slides · Neurosciences</div>
+            <div class="vid-title">Ce qui se passe dans ton cerveau</div>
+            <div class="vid-desc">Théorie polyvagale, amygdale, cortisol, fenêtre de tolérance.</div>
+          </div>
+          <div class="vid-meta">
+            <div class="vid-duration">10–15 min</div>
+            <div class="vid-format">Slides + voix</div>
+          </div>
+        </div>
+        <div class="vid-item" onclick="ouvrirVideo('s1v3','S1 — Vidéo 3')" id="vid-1-3">
+          <div class="vid-num">3</div>
+          <div class="vid-info">
+            <div class="vid-type">Tutoriel face cam · Outil pratique</div>
+            <div class="vid-title">La cohérence cardiaque pas à pas</div>
+            <div class="vid-desc">Tu montres le protocole en direct. Chrono à l'écran. Elle pratique avec toi.</div>
+          </div>
+          <div class="vid-meta">
+            <div class="vid-duration">8–10 min</div>
+            <div class="vid-format">Face cam</div>
+          </div>
+        </div>
+        <div class="vid-item" onclick="ouvrirVideo('s1v4','S1 — Vidéo 4')" id="vid-1-4">
+          <div class="vid-num">4</div>
+          <div class="vid-info">
+            <div class="vid-type">Pratique guidée · Méditation audio/vidéo</div>
+            <div class="vid-title">Body scan & ancrage corporel</div>
+            <div class="vid-desc">Méditation guidée à faire le soir. Voix douce, rythme lent, fond sonore naturel.</div>
+          </div>
+          <div class="vid-meta">
+            <div class="vid-duration">12–15 min</div>
+            <div class="vid-format">Guidée</div>
+          </div>
+        </div>
+        <div class="vid-item" onclick="ouvrirVideo('s1v5','S1 — Vidéo 5')" id="vid-1-5">
+          <div class="vid-num">5</div>
+          <div class="vid-info">
+            <div class="vid-type">Présentation slides · Approfondissement</div>
+            <div class="vid-title">Le nerf vague : ton bouton reset</div>
+            <div class="vid-desc">Approfondissement de la théorie polyvagale. 5 méthodes de stimulation vagale.</div>
+          </div>
+          <div class="vid-meta">
+            <div class="vid-duration">10–12 min</div>
+            <div class="vid-format">Slides + voix</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXERCICE -->
+      <div class="stitle" style="font-size:12px;margin-top:20px;margin-bottom:10px">✍️ Exercice d'introspection</div>
+      <div class="exos">
+        <div class="ex" onclick="ouvrirExercice('intro','journal-decharge-s1','Mon journal de décharge — Semaine 1')">
+          <div class="eck" id="ex-journal-s1"></div>
+          <div>
+            <div class="etype">Introspection · Écrit</div>
+            <div class="etitle">Mon journal de décharge — Semaine 1</div>
+            <div class="edesc">Protocole 3 étapes, questions de fond, espaces d'écriture. Téléchargeable en PDF.</div>
+          </div>
+          <div class="earr">›</div>
+        </div>
+      </div>
+
+      <!-- PDFs -->
+      <div class="stitle" style="font-size:12px;margin-top:20px;margin-bottom:10px">📄 Ressources PDF</div>
+      <div class="pdf-list">
+        <div class="pdf-item" onclick="telechargerPDF('journal-decharge-s1')">
+          <div class="pdf-icon">📋</div>
+          <div class="pdf-info">
+            <div class="pdf-type">Ressource PDF · Journaling</div>
+            <div class="pdf-title">Guide — Mon journal de décharge · Semaine 1</div>
+            <div class="pdf-desc">Protocole 3 étapes, questions de fond, espaces d'écriture.</div>
+          </div>
+          <div class="pdf-badge">PDF · 4 pages</div>
+        </div>
+        <div class="pdf-item" onclick="telechargerPDF('fiche-cerveau-s1')">
+          <div class="pdf-icon">🧠</div>
+          <div class="pdf-info">
+            <div class="pdf-type">Ressource PDF · Fiche scientifique</div>
+            <div class="pdf-title">Fiche — Ce qui se passe dans ton cerveau</div>
+            <div class="pdf-desc">Résumé visuel des neurosciences. Tableau des 3 états du système nerveux.</div>
+          </div>
+          <div class="pdf-badge">PDF · 2 pages</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VICTOIRES -->
+    <div class="stitle" style="margin-top:24px">Mes victoires cette semaine</div>
+    <div class="wins">
+      <div class="wlist" id="wlist"></div>
+      <div class="wrow">
+        <input class="winput" id="winput" type="text" placeholder="Note une victoire, même petite..."/>
+        <button class="wadd btn-sm" id="wadd">+ Ajouter</button>
       </div>
     </div>
 
-    <!-- EXO + CHAT -->
-    <div class="twocol">
-      <div>
-        <div class="stitle">Exercices de cette semaine</div>
-        <div class="exos">
-          <div class="ex" onclick="ouvrirExercice('intro','journal-regulation','Journal de régulation émotionnelle')">
-            <div class="eck done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div>
-              <div class="etype">Introspection · Écrit</div>
-              <div class="etitle">Journal de régulation émotionnelle</div>
-              <div class="edesc">Observe et nomme 3 émotions de ta journée avec leur localisation dans le corps.</div>
-            </div>
-            <div class="earr">›</div>
-          </div>
-          <div class="ex" onclick="ouvrirExercice('video','seance-eft','Séance EFT — libérer le stress chronique')">
-            <div class="eck"></div>
-            <div>
-              <div class="etype">Thérapie · Vidéo guidée</div>
-              <div class="etitle">Séance EFT — libérer le stress chronique</div>
-              <div class="edesc">Protocole de tapping guidé, 18 minutes. Dans un espace calme.</div>
-            </div>
-            <div class="earr">›</div>
-          </div>
-          <div class="ex" onclick="ouvrirExercice('intro','cartographie-declencheurs','Cartographie de mes déclencheurs')">
-            <div class="eck"></div>
-            <div>
-              <div class="etype">Introspection · Écrit</div>
-              <div class="etitle">Cartographie de mes déclencheurs</div>
-              <div class="edesc">Identifie tes 5 déclencheurs principaux de surcharge mentale et leur origine.</div>
-            </div>
-            <div class="earr">›</div>
-          </div>
-        </div>
+  </div><!-- /content -->
 
-        <div class="stitle" style="margin-top:20px">Mes victoires cette semaine</div>
-        <div class="wins">
-          <div class="wi"><span class="wstar">✦</span>J'ai fait ma méditation 3 jours de suite</div>
-          <div class="wi"><span class="wstar">✦</span>J'ai dit non sans me sentir coupable</div>
-          <div class="wrow">
-            <input class="winput" placeholder="Ajoute une victoire..."/>
-            <button class="wbtn">+ Ajouter</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CHAT -->
-      <div class="chat">
-        <div class="ch-head">
-          <div style="display:flex;align-items:center;gap:9px">
-            <div class="chav">V</div>
-            <div>
-              <div class="chname">Message à Vanille</div>
-              <div class="chsub">Répond sous 24h</div>
-            </div>
-          </div>
-          <div class="online"></div>
-        </div>
-        <div class="chtabs">
+  <!-- CHAT -->
+  <div class="twocol" style="display:none" id="chat-panel">
+    <div></div>
+    <div class="chat" id="chat-box">
+      <div class="chat-header">
+        <div class="chat-av">V</div>
+        <div><div class="chat-name">Message à Vanille</div><div class="chat-sub">Répond sous 24h</div></div>
+        <div class="chat-tabs">
           <div class="ctab on">Privé</div>
           <div class="ctab">Groupe cohorte</div>
         </div>
-        <div class="ch-msgs">
-          <div class="msg co">
-            <div class="bbl">Bonjour Sofia 🌿 Comment s'est passée ta séance EFT de cette semaine ?</div>
-            <div class="mtime">Lun · 10h14</div>
-          </div>
-          <div class="msg me">
-            <div class="bbl">Beaucoup de larmes mais je me suis sentie plus légère après. C'était puissant.</div>
-            <div class="mtime">Lun · 11h02</div>
-          </div>
-          <div class="msg co">
-            <div class="bbl">C'est exactement ce que ça fait. Les larmes c'est le système nerveux qui relâche. Continue, tu es exactement là où tu dois être. ✦</div>
-            <div class="mtime">Lun · 11h20</div>
-          </div>
-        </div>
-        <div class="ch-inp">
-          <input class="cinput" placeholder="Écrire un message..."/>
-          <button class="csnd">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 2L2 7l5 2 2 5 5-12z" fill="#fff"/></svg>
-          </button>
-        </div>
+      </div>
+      <div class="clist" id="clist"></div>
+      <div class="ch-inp">
+        <input class="cinput" id="cinput" type="text" placeholder="Écrire un message..."/>
+        <button class="csnd" id="csnd">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M14 2L2 7l5 2 2 5 5-12z" fill="#fff"/></svg>
+        </button>
       </div>
     </div>
-
   </div>
-</div>
 
+</div><!-- /main -->
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-// ═══════════════════════════════════════
-// MDB — PLATEFORME MEMBRE
-// ═══════════════════════════════════════
 
 const SUPA_URL = 'https://hzirvgssahyoxxopowjr.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXJ2Z3NzYWh5b3h4b3Bvd2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTEzMjMsImV4cCI6MjA5MDA2NzMyM30.9BOdDoAxKS_mn4CZ9E8YN3eZmkV388U0lZW_st1Jep0';
 
-// ── 1. NAVIGATION ──────────────────────
+// ── NAVIGATION ──
 function ouvrirExercice(type, slug, titre) {
-  window.location.href = 'MDB_exercice.html?type=' + type + '&slug=' + encodeURIComponent(slug) + '&titre=' + encodeURIComponent(titre);
+  window.location.href = 'MDB_exercice.html?type=' + type + '&slug=' + encodeURIComponent(slug) + '&titre=' + encodeURIComponent(titre) + '&semaine=1';
+}
+
+function ouvrirVideo(slug, titre) {
+  window.location.href = 'MDB_exercice.html?type=video&slug=' + encodeURIComponent(slug) + '&titre=' + encodeURIComponent(titre) + '&semaine=1';
+}
+
+function ouvrirSemaine(num) {
+  var wc = document.getElementById('wc-' + num);
+  if (wc && wc.classList.contains('locked')) return;
+  // Scroll vers le contenu
+  document.getElementById('semaine-content').scrollIntoView({behavior:'smooth'});
+}
+
+function telechargerPDF(slug) {
+  alert('PDF bientôt disponible — en cours de création.');
 }
 
 function navVers(page) {
-  const map = {
-    exercices: function(){ ouvrirExercice('intro','journal-regulation','Mes exercices'); },
-    videos:    function(){ ouvrirExercice('video','seance-eft','Médiathèque vidéos'); },
-    chat:      function(){ var el = document.querySelector('.cinput'); if(el) el.focus(); },
-    victoires: function(){ var el = document.querySelector('.winput'); if(el) el.focus(); },
-    profil:    function(){ alert('Espace profil — bientôt disponible'); },
-    pdf:       function(){ alert('Documents PDF — bientôt disponible'); }
-  };
-  if (map[page]) map[page]();
+  if (page === 'chat') { document.querySelector('.cinput') && document.querySelector('.cinput').focus(); return; }
+  if (page === 'victoires') { document.querySelector('.winput') && document.querySelector('.winput').focus(); return; }
+  if (page === 'profil' || page === 'pdf') { alert('Bientôt disponible'); return; }
+  if (page === 'programme') { window.scrollTo({top:0,behavior:'smooth'}); return; }
 }
 
 function ph(el) {
@@ -510,110 +639,124 @@ function ph(el) {
   el.classList.add('on');
 }
 
-// ── 2. SUPABASE ────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
+// ── SUPABASE ──
+window.addEventListener('load', function() {
+  if (typeof supabase === 'undefined') {
+    console.warn('Supabase SDK non chargé');
+    return;
+  }
   var sb = supabase.createClient(SUPA_URL, SUPA_KEY);
   var clienteId = localStorage.getItem('mdb_cliente_id');
 
-  if (!clienteId) {
-    window.location.href = 'index.html';
-    return;
-  }
+  if (!clienteId) { window.location.href = 'index.html'; return; }
 
-  // Charger les données cliente
+  // Charger cliente
   sb.from('clientes').select('*').eq('id', clienteId).maybeSingle()
     .then(function(res) {
       var c = res.data;
       if (!c) { window.location.href = 'index.html'; return; }
+      var prenom = c.prenom || 'Sofia';
       
-      // Prénom
-      document.querySelectorAll('.sb-greet-name, .tn').forEach(function(el) {
-        el.textContent = c.prenom + ' ✦';
-      });
-      document.querySelectorAll('.uname').forEach(function(el) {
-        el.textContent = (c.prenom||'V').charAt(0) + (c.nom||'T').charAt(0);
-      });
+      // Remplir les noms
+      document.getElementById('greet-name') && (document.getElementById('greet-name').textContent = prenom + ' ✦');
+      document.getElementById('topbar-name') && (document.getElementById('topbar-name').textContent = prenom + ' ✦');
+      document.getElementById('uname') && (document.getElementById('uname').textContent = prenom + ' ' + (c.nom||'').charAt(0) + '.');
+      document.getElementById('sb-avatar') && (document.getElementById('sb-avatar').textContent = prenom.charAt(0) + (c.nom||'T').charAt(0));
+      
+      // Progression
+      var semaine = c.semaine_actuelle || 1;
+      var pct = c.pourcentage_completion || 0;
+      document.getElementById('pfill') && (document.getElementById('pfill').style.width = pct + '%');
+      document.getElementById('ppct') && (document.getElementById('ppct').textContent = pct + '% complété');
+      document.getElementById('hero-wk') && (document.getElementById('hero-wk').textContent = semaine);
+      document.getElementById('hero-wk-sub') && (document.getElementById('hero-wk-sub').textContent = 'Semaine ' + semaine);
+      
+      // Débloquer les semaines selon la progression
+      if (semaine >= 2) {
+        var wc2 = document.getElementById('wc-2');
+        if (wc2) { wc2.classList.remove('locked'); wc2.onclick = function(){ ouvrirSemaine(2); }; }
+      }
+      if (semaine >= 3) {
+        var wc3 = document.getElementById('wc-3');
+        if (wc3) { wc3.classList.remove('locked'); wc3.onclick = function(){ ouvrirSemaine(3); }; }
+      }
     })
     .catch(function(e) { console.warn('Cliente:', e); });
 
-  // Charger victoires
-  sb.from('victoires').select('*').eq('cliente_id', clienteId).order('created_at', {ascending:false}).limit(10)
+  // Victoires
+  sb.from('victoires').select('*').eq('cliente_id', clienteId).order('created_at',{ascending:false}).limit(10)
     .then(function(res) {
       if (!res.data || res.data.length === 0) return;
-      var wlist = document.querySelector('.wlist');
+      var wlist = document.getElementById('wlist');
       if (!wlist) return;
       wlist.innerHTML = res.data.map(function(w) {
         return '<div class="wi"><span class="wstar">✦</span>' + w.contenu + '</div>';
       }).join('');
-    })
-    .catch(function(e) { console.warn('Victoires:', e); });
+    }).catch(function(){});
 
-  // Charger messages
+  // Messages
   sb.from('messages_chat').select('*').eq('cliente_id', clienteId).order('created_at').limit(20)
     .then(function(res) {
       if (!res.data || res.data.length === 0) return;
-      var clist = document.querySelector('.clist');
+      var clist = document.getElementById('clist');
       if (!clist) return;
       clist.innerHTML = res.data.map(function(m) {
         var isMe = m.expediteur_type === 'cliente';
-        var time = new Date(m.created_at).toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+        var time = new Date(m.created_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
         return '<div class="msg ' + (isMe?'me':'co') + '"><div class="bbl">' + m.contenu + '</div><div class="mtime">' + time + '</div></div>';
       }).join('');
       clist.scrollTop = clist.scrollHeight;
-    })
-    .catch(function(e) { console.warn('Messages:', e); });
+    }).catch(function(){});
 
   // Envoyer message
   function envoyerMessage() {
-    var cinput = document.querySelector('.cinput');
+    var cinput = document.getElementById('cinput');
     var txt = cinput && cinput.value.trim();
     if (!txt) return;
     cinput.value = '';
-    sb.from('messages_chat').insert({cliente_id: clienteId, contenu: txt, expediteur_type: 'cliente'})
+    sb.from('messages_chat').insert({cliente_id:clienteId, contenu:txt, expediteur_type:'cliente'})
       .then(function() {
-        var clist = document.querySelector('.clist');
+        var clist = document.getElementById('clist');
         if (!clist) return;
         var div = document.createElement('div');
         div.className = 'msg me';
         div.innerHTML = '<div class="bbl">' + txt + '</div><div class="mtime">maintenant</div>';
         clist.appendChild(div);
         clist.scrollTop = clist.scrollHeight;
-      })
-      .catch(function(e) { console.warn('Envoi message:', e); });
+      }).catch(function(){});
   }
 
-  var sendBtn = document.querySelector('.csnd');
-  var cinput = document.querySelector('.cinput');
-  if (sendBtn) sendBtn.onclick = envoyerMessage;
-  if (cinput) cinput.addEventListener('keypress', function(e) { if(e.key==='Enter') envoyerMessage(); });
+  var csnd = document.getElementById('csnd');
+  var cinput = document.getElementById('cinput');
+  if (csnd) csnd.onclick = envoyerMessage;
+  if (cinput) cinput.addEventListener('keypress', function(e){ if(e.key==='Enter') envoyerMessage(); });
 
   // Ajouter victoire
-  var wBtn = document.querySelector('.wadd');
-  var winput = document.querySelector('.winput');
-  if (wBtn && winput) {
-    wBtn.onclick = function() {
+  var wadd = document.getElementById('wadd');
+  var winput = document.getElementById('winput');
+  if (wadd && winput) {
+    wadd.onclick = function() {
       var txt = winput.value.trim();
       if (!txt) return;
       winput.value = '';
-      sb.from('victoires').insert({cliente_id: clienteId, contenu: txt})
+      sb.from('victoires').insert({cliente_id:clienteId, contenu:txt})
         .then(function() {
-          var wlist = document.querySelector('.wlist');
+          var wlist = document.getElementById('wlist');
           if (!wlist) return;
           var div = document.createElement('div');
           div.className = 'wi';
           div.innerHTML = '<span class="wstar">✦</span>' + txt;
           wlist.insertBefore(div, wlist.firstChild);
-        })
-        .catch(function(e) { console.warn('Victoire:', e); });
+        }).catch(function(){});
     };
   }
 
   // Déconnexion
   document.querySelectorAll('.logout').forEach(function(el) {
-    el.onclick = function() { localStorage.clear(); window.location.href = 'index.html'; };
+    el.onclick = function(){ localStorage.clear(); window.location.href = 'index.html'; };
   });
 
-  // PWA Service Worker
+  // PWA
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(function(){});
   }
