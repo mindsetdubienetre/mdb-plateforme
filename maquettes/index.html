@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Parcours membre</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+body {
+  background: var(--ivoire);
+  min-height: 100vh;
+  padding: 48px 24px 80px;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: -150px; right: -100px;
+  width: 520px; height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,96,48,0.10) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -150px; left: -120px;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154,128,144,0.13) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { max-width: 980px; margin: 0 auto; position: relative; z-index: 1; }
+
+.header-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 48px;
+}
+.header-logo .orb {
+  width: 52px; height: 52px;
+  margin-bottom: 18px;
+  position: relative;
+}
+.header-logo .orb::before {
+  content: ''; position: absolute; inset: -45%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154,128,144,0.38) 0%, transparent 70%);
+}
+.header-logo .orb::after {
+  content: ''; position: absolute; inset: -28%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.22) 0%, transparent 72%);
+}
+.header-logo .orb span {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #E08858, #D06030 55%, #B04018);
+  box-shadow: 0 0 24px rgba(200,96,48,0.35), 0 0 48px rgba(154,128,144,0.12);
+}
+.header-logo .logo-text {
+  font-size: 24px; line-height: 1;
+  white-space: nowrap;
+}
+.header-logo .l1 { font-family: 'Times New Roman', serif; font-style: italic; }
+.header-logo .l2 { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 800; }
+
+.title-block { text-align: center; margin-bottom: 48px; }
+.title-block .eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ambre);
+  margin-bottom: 14px;
+}
+.title-block h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--brun-noir);
+  margin-bottom: 10px;
+}
+.title-block h1 em {
+  font-style: italic;
+  color: var(--ambre);
+  font-weight: 600;
+}
+.title-block p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--texte-secondaire);
+  line-height: 1.5;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* FLOW : chemin numéroté */
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.flow-item {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 2px rgba(26,20,16,0.03);
+}
+.flow-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(26,20,16,0.08), 0 2px 4px rgba(26,20,16,0.05);
+  border-color: var(--taupe-light);
+}
+.flow-item-num {
+  flex-shrink: 0;
+  width: 80px;
+  background: var(--ivoire);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 38px;
+  color: var(--ambre);
+  border-right: 0.5px solid var(--ivoire-deep);
+}
+.flow-item-body {
+  flex: 1;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.flow-item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--brun-noir);
+  margin-bottom: 4px;
+}
+.flow-item-desc {
+  font-size: 13px;
+  color: var(--texte-secondaire);
+  line-height: 1.5;
+}
+.flow-item-arrow {
+  flex-shrink: 0;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  color: var(--ambre);
+  transition: transform 0.25s ease;
+}
+.flow-item:hover .flow-item-arrow { transform: translateX(4px); }
+
+/* Phase badge */
+.phase-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.phase-p1 { background: rgba(200,96,48,0.12); color: var(--ambre-deep); }
+.phase-bonus { background: rgba(201,168,76,0.18); color: var(--or-deep); }
+.phase-check { background: rgba(154,128,144,0.18); color: #6A5060; }
+
+/* Divider with label */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 36px 0 14px;
+}
+.section-label::before, .section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(176,160,144,0.35), transparent);
+}
+.section-label span {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--taupe-deep);
+  font-weight: 600;
+}
+
+.note {
+  margin-top: 32px;
+  padding: 20px 24px;
+  background: rgba(201,168,76,0.08);
+  border: 0.5px solid rgba(201,168,76,0.25);
+  border-radius: 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--brun-noir);
+  text-align: center;
+  line-height: 1.6;
+}
+.note strong { font-family: 'Be Vietnam Pro', sans-serif; font-style: normal; font-weight: 700; }
+
+@media (max-width: 640px) {
+  .title-block h1 { font-size: 32px; }
+  .flow-item-num { width: 60px; font-size: 30px; }
+  .flow-item-body { padding: 14px 16px; }
+  .flow-item-title { font-size: 16px; }
+  .flow-item-desc { font-size: 12px; }
+  .flow-item-arrow { padding: 0 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="header-logo">
+    <div class="orb"><span></span></div>
+    <div class="logo-text">
+      <span class="l1">Mindset</span><span class="l2"> du bien-être.</span>
+    </div>
+  </div>
+
+  <div class="title-block">
+    <div class="eyebrow">Parcours membre · maquettes</div>
+    <h1>Tu es <em>inscrite</em>.</h1>
+    <p>Voici ce que tu vis, semaine après semaine, dans ton espace MDB.<br>Clique sur chaque étape pour l'explorer.</p>
+  </div>
+
+  <div class="flow">
+
+    <a href="01-login-standalone.html" class="flow-item">
+      <div class="flow-item-num">01</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Connexion</div>
+        <div class="flow-item-desc">Point d'entrée avec code d'accès MDB ou email — <strong style="color:var(--ambre)">déjà validé</strong></div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <a href="02-onboarding.html" class="flow-item">
+      <div class="flow-item-num">02</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Onboarding <span class="phase-tag phase-check">5 écrans</span></div>
+        <div class="flow-item-desc">Bienvenue vidéo · infos perso (WhatsApp, situation) · consentement RGPD · premier check-in émotionnel</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <div class="section-label"><span>Espace principal</span></div>
+
+    <a href="03-dashboard.html" class="flow-item">
+      <div class="flow-item-num">03</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Dashboard · vue 12 semaines</div>
+        <div class="flow-item-desc">Progression globale, phase en cours, prochaine étape, accès rapide aux espaces thérapeutiques</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <a href="04-semaine.html" class="flow-item">
+      <div class="flow-item-num">04</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Une semaine <span class="phase-tag phase-p1">Phase 1 · Fondations</span></div>
+        <div class="flow-item-desc">Vidéo pédagogique · exercice d'introspection · journal · check-in de fin</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <a href="05-checkin.html" class="flow-item">
+      <div class="flow-item-num">05</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Check-in émotionnel</div>
+        <div class="flow-item-desc">Score 1–10 + mots-clés (épuisée / anxieuse / calme…) + note libre. Stocké, historique visuel côté admin.</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <div class="section-label"><span>Espaces thérapeutiques</span></div>
+
+    <a href="06-respiration.html" class="flow-item">
+      <div class="flow-item-num">06</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Respiration animée <span class="phase-tag phase-bonus">5-5-5 · 4-7-8</span></div>
+        <div class="flow-item-desc">Cercle qui pulse en temps réel, minuteur, guide sonore optionnel. Offline ready.</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <a href="07-eft.html" class="flow-item">
+      <div class="flow-item-num">07</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">EFT guidé</div>
+        <div class="flow-item-desc">Protocole pas-à-pas, points illustrés sur silhouette, sensations avant/après.</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <a href="08-meditation.html" class="flow-item">
+      <div class="flow-item-num">08</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Méditations audio</div>
+        <div class="flow-item-desc">Player dédié, favoris, historique. Body scan, respiration consciente, méditation theta.</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <div class="section-label"><span>L'accompagnement qui fait MDB</span></div>
+
+    <a href="09-tip-vanille.html" class="flow-item">
+      <div class="flow-item-num">09</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Tip "Voix de Vanille"</div>
+        <div class="flow-item-desc">Après un exercice d'introspection profond, un message dans ton ton apparaît — chaleur sans pitié.</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+    <a href="10-celebration.html" class="flow-item">
+      <div class="flow-item-num">10</div>
+      <div class="flow-item-body">
+        <div class="flow-item-title">Célébration fin de phase</div>
+        <div class="flow-item-desc">Animation + message de Vanille + badge. À chaque passage de phase (1→2, 2→3, 3→4).</div>
+      </div>
+      <div class="flow-item-arrow">→</div>
+    </a>
+
+  </div>
+
+  <div class="note">
+    Tu peux naviguer librement — chaque page a un <strong>lien retour</strong> vers ce sommaire.<br>
+    Les pages admin, CRM et freemium sont <strong>en attente de validation du côté membre</strong>.
+  </div>
+
+</div>
+
+</body>
+</html>
