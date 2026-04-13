@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Admin · CRM & Tunnels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { background: var(--ivoire); }
+  .topbar-admin { background: var(--brun-noir); color: var(--ivoire); padding: 14px 24px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 30; }
+  .back-link { color: var(--ivoire); display: flex; align-items: center; gap: 6px; font-size: 13px; opacity: 0.8; }
+  .breadcrumb { font-size: 12px; color: var(--taupe); }
+
+  .container-page { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+
+  .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; }
+  .page-header h1 em { font-style: italic; color: var(--ambre); }
+  .page-header .sub { font-size: 13px; color: var(--texte-secondaire); margin-top: 4px; }
+
+  /* SEGMENTS */
+  .segments-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 28px; }
+  .segment-card { background: #fff; border-radius: var(--radius-md); padding: 16px; border: 1px solid var(--ivoire-deep); cursor: pointer; transition: var(--transition); }
+  .segment-card:hover { border-color: var(--ambre); transform: translateY(-2px); }
+  .segment-card.active { background: var(--brun-noir); color: var(--ivoire); border-color: var(--brun-noir); }
+  .segment-name { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.7; }
+  .segment-card.active .segment-name { color: var(--taupe-light); }
+  .segment-count { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; line-height: 1; }
+  .segment-card.active .segment-count { color: var(--or); }
+
+  /* TUNNELS */
+  .tunnels-section { margin-bottom: 36px; }
+  .section-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .section-h h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+  .section-h h2 em { font-style: italic; color: var(--ambre); }
+
+  .tunnels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .tunnel-card { background: #fff; border-radius: var(--radius-lg); padding: 20px; border: 1px solid var(--ivoire-deep); transition: var(--transition); cursor: pointer; }
+  .tunnel-card:hover { border-color: var(--ambre); }
+  .tunnel-icon { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 14px; }
+  .tunnel-card.welcome .tunnel-icon { background: rgba(201,168,76,0.18); }
+  .tunnel-card.transition .tunnel-icon { background: rgba(200,96,48,0.18); }
+  .tunnel-card.relance .tunnel-icon { background: rgba(154,128,144,0.18); }
+  .tunnel-card.appel .tunnel-icon { background: rgba(176,160,144,0.25); }
+  .tunnel-card.prospect .tunnel-icon { background: rgba(232,223,228,0.6); }
+
+  .tunnel-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .tunnel-desc { font-size: 12px; color: var(--texte-secondaire); line-height: 1.5; margin-bottom: 14px; min-height: 40px; }
+  .tunnel-stats { display: flex; gap: 14px; padding-top: 14px; border-top: 1px solid var(--ivoire-deep); }
+  .tunnel-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--brun-noir); line-height: 1; }
+  .tunnel-stat-label { font-size: 10px; color: var(--texte-tertiaire); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+  .tunnel-status { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; margin-left: auto; }
+  .tunnel-status.on { background: rgba(74,138,74,0.15); color: #4A6A4A; }
+  .tunnel-status.off { background: var(--ivoire-soft); color: var(--texte-tertiaire); }
+
+  /* CONTACTS TABLE */
+  .contacts-card { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--ivoire-deep); overflow: hidden; }
+  .table-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--ivoire-deep); flex-wrap: wrap; }
+  .table-search { padding: 8px 14px; background: var(--ivoire-soft); border: 1px solid var(--ivoire-deep); border-radius: var(--radius-full); font-size: 13px; min-width: 220px; outline: none; }
+  .table-actions { display: flex; gap: 8px; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texte-tertiaire); text-align: left; padding: 12px 20px; background: var(--ivoire-soft); border-bottom: 1px solid var(--ivoire-deep); }
+  td { padding: 14px 20px; border-bottom: 1px solid var(--ivoire-deep); font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--ivoire-soft); }
+
+  .contact-cell { display: flex; align-items: center; gap: 12px; }
+  .contact-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--mauve); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+  .contact-name { font-weight: 500; }
+  .contact-email { font-size: 11px; color: var(--texte-tertiaire); }
+
+  .badge-segment { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 500; }
+  .badge-segment.prospect { background: var(--mauve-bg); color: #6A5060; }
+  .badge-segment.cliente { background: rgba(200,96,48,0.12); color: var(--ambre-deep); }
+  .badge-segment.freemium { background: rgba(176,160,144,0.25); color: var(--taupe-deep); }
+  .badge-segment.appel { background: rgba(201,168,76,0.18); color: var(--or-deep); }
+
+  .tags-cell { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tag-mini { padding: 2px 8px; background: var(--ivoire-soft); border: 1px solid var(--ivoire-deep); border-radius: var(--radius-full); font-size: 10px; color: var(--texte-secondaire); }
+
+  @media (max-width: 900px) {
+    .segments-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+  <a href="index.html" style="position: fixed; top: 12px; right: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
+
+  <div class="topbar-admin">
+    <a href="11-admin-dashboard.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Dashboard
+    </a>
+    <span class="breadcrumb">Admin / <strong style="color: var(--ivoire);">CRM & Tunnels</strong></span>
+  </div>
+
+  <div class="container-page">
+    <div class="page-header">
+      <div>
+        <h1>CRM & <em>tunnels emails</em></h1>
+        <div class="sub">156 contacts · 5 tunnels actifs · 12 emails programmés cette semaine</div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-ghost">📥 Import CSV</button>
+        <button class="btn btn-or">+ Nouveau contact</button>
+      </div>
+    </div>
+
+    <!-- SEGMENTS -->
+    <div class="segments-row">
+      <div class="segment-card active">
+        <div class="segment-name">Tous</div>
+        <div class="segment-count">156</div>
+      </div>
+      <div class="segment-card">
+        <div class="segment-name">Prospects froids</div>
+        <div class="segment-count">47</div>
+      </div>
+      <div class="segment-card">
+        <div class="segment-name">Prospects chauds</div>
+        <div class="segment-count">23</div>
+      </div>
+      <div class="segment-card">
+        <div class="segment-name">Clientes actives</div>
+        <div class="segment-count">12</div>
+      </div>
+      <div class="segment-card">
+        <div class="segment-name">Anciennes</div>
+        <div class="segment-count">8</div>
+      </div>
+      <div class="segment-card">
+        <div class="segment-name">Freemium</div>
+        <div class="segment-count">66</div>
+      </div>
+    </div>
+
+    <!-- TUNNELS -->
+    <div class="tunnels-section">
+      <div class="section-h">
+        <h2>Tes <em>5 tunnels</em> automatisés</h2>
+        <button class="btn btn-ghost btn-sm">⚙ Configurer</button>
+      </div>
+
+      <div class="tunnels-grid">
+        <div class="tunnel-card welcome">
+          <div class="tunnel-icon">✨</div>
+          <div class="tunnel-name">Bienvenue MDB</div>
+          <div class="tunnel-desc">3 emails après l'inscription : J0 (welcome) · J1 (premier pas) · J3 (tips semaine 1)</div>
+          <div class="tunnel-stats">
+            <div>
+              <div class="tunnel-stat-val">12</div>
+              <div class="tunnel-stat-label">Contacts</div>
+            </div>
+            <div>
+              <div class="tunnel-stat-val">94%</div>
+              <div class="tunnel-stat-label">Ouverture</div>
+            </div>
+            <span class="tunnel-status on">● Actif</span>
+          </div>
+        </div>
+
+        <div class="tunnel-card transition">
+          <div class="tunnel-icon">🌅</div>
+          <div class="tunnel-name">Transition de phase</div>
+          <div class="tunnel-desc">Email félicitations + ce qui attend dans la nouvelle phase. Auto sur passage Phase 1→2, 2→3, 3→4</div>
+          <div class="tunnel-stats">
+            <div>
+              <div class="tunnel-stat-val">8</div>
+              <div class="tunnel-stat-label">Envoyés</div>
+            </div>
+            <div>
+              <div class="tunnel-stat-val">87%</div>
+              <div class="tunnel-stat-label">Ouverture</div>
+            </div>
+            <span class="tunnel-status on">● Actif</span>
+          </div>
+        </div>
+
+        <div class="tunnel-card relance">
+          <div class="tunnel-icon">💌</div>
+          <div class="tunnel-name">Relance inactives</div>
+          <div class="tunnel-desc">3 emails doux : J3 ("tu me manques"), J7 ("c'est normal"), J14 ("on en parle ?")</div>
+          <div class="tunnel-stats">
+            <div>
+              <div class="tunnel-stat-val">3</div>
+              <div class="tunnel-stat-label">En cours</div>
+            </div>
+            <div>
+              <div class="tunnel-stat-val">62%</div>
+              <div class="tunnel-stat-label">Reprise</div>
+            </div>
+            <span class="tunnel-status on">● Actif</span>
+          </div>
+        </div>
+
+        <div class="tunnel-card appel">
+          <div class="tunnel-icon">📞</div>
+          <div class="tunnel-name">Appel découverte non converti</div>
+          <div class="tunnel-desc">3 emails après un appel sans achat : J1 (récap + lien), J3 (qu'est-ce qui te retient ?), J7 (dernier message)</div>
+          <div class="tunnel-stats">
+            <div>
+              <div class="tunnel-stat-val">5</div>
+              <div class="tunnel-stat-label">En cours</div>
+            </div>
+            <div>
+              <div class="tunnel-stat-val">28%</div>
+              <div class="tunnel-stat-label">Conversion</div>
+            </div>
+            <span class="tunnel-status on">● Actif</span>
+          </div>
+        </div>
+
+        <div class="tunnel-card prospect">
+          <div class="tunnel-icon">🌱</div>
+          <div class="tunnel-name">Prospects intéressés</div>
+          <div class="tunnel-desc">6 emails de valeur sur 3 semaines : contenus exclusifs, témoignages, invitation appel découverte</div>
+          <div class="tunnel-stats">
+            <div>
+              <div class="tunnel-stat-val">47</div>
+              <div class="tunnel-stat-label">En séquence</div>
+            </div>
+            <div>
+              <div class="tunnel-stat-val">15%</div>
+              <div class="tunnel-stat-label">→ appel</div>
+            </div>
+            <span class="tunnel-status on">● Actif</span>
+          </div>
+        </div>
+
+        <div class="tunnel-card" style="border-style: dashed; background: var(--ivoire-soft);">
+          <div class="tunnel-icon" style="background: rgba(0,0,0,0.05);">+</div>
+          <div class="tunnel-name" style="color: var(--texte-tertiaire);">Créer un tunnel</div>
+          <div class="tunnel-desc">Nouveau scénario d'automatisation avec triggers personnalisés.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="contacts-card">
+      <div class="table-header">
+        <h2 class="mdb-h3">Tous les contacts</h2>
+        <div class="table-actions">
+          <input class="table-search" placeholder="Rechercher email, prénom, tag..." />
+          <button class="btn btn-ghost btn-sm">Filtrer</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Contact</th>
+            <th>Segment</th>
+            <th>Tags</th>
+            <th>Source</th>
+            <th>Dernière interaction</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background: var(--ambre);">M</div>
+                <div>
+                  <div class="contact-name">Marie Lefèvre</div>
+                  <div class="contact-email">marie.lefevre@email.com</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge-segment cliente">Cliente active</span></td>
+            <td>
+              <div class="tags-cell">
+                <span class="tag-mini">phase 2</span>
+                <span class="tag-mini">VIP</span>
+              </div>
+            </td>
+            <td><span style="font-size: 12px; color: var(--texte-secondaire);">Instagram</span></td>
+            <td>il y a 2h</td>
+            <td>
+              <button class="btn btn-ghost btn-sm">→</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background: var(--mauve);">J</div>
+                <div>
+                  <div class="contact-name">Julie Bernard</div>
+                  <div class="contact-email">julie.b@email.com</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge-segment appel">Appel découverte</span></td>
+            <td>
+              <div class="tags-cell">
+                <span class="tag-mini">no-show</span>
+                <span class="tag-mini">à relancer</span>
+              </div>
+            </td>
+            <td><span style="font-size: 12px; color: var(--texte-secondaire);">Calendly</span></td>
+            <td>il y a 1j</td>
+            <td>
+              <button class="btn btn-ghost btn-sm">→</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background: var(--taupe);">S</div>
+                <div>
+                  <div class="contact-name">Sophie Martin</div>
+                  <div class="contact-email">sophie.m@email.com</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge-segment freemium">Freemium</span></td>
+            <td>
+              <div class="tags-cell">
+                <span class="tag-mini">3 médits</span>
+                <span class="tag-mini">engagée</span>
+              </div>
+            </td>
+            <td><span style="font-size: 12px; color: var(--texte-secondaire);">Landing</span></td>
+            <td>il y a 3h</td>
+            <td>
+              <button class="btn btn-ghost btn-sm">→</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background: var(--or);">E</div>
+                <div>
+                  <div class="contact-name">Emma Dupont</div>
+                  <div class="contact-email">emma.d@email.com</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge-segment prospect">Prospect chaud</span></td>
+            <td>
+              <div class="tags-cell">
+                <span class="tag-mini">DM IG</span>
+                <span class="tag-mini">à recontacter</span>
+              </div>
+            </td>
+            <td><span style="font-size: 12px; color: var(--texte-secondaire);">Instagram</span></td>
+            <td>il y a 5h</td>
+            <td>
+              <button class="btn btn-ghost btn-sm">→</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background: var(--ambre-deep);">L</div>
+                <div>
+                  <div class="contact-name">Léa Roussel</div>
+                  <div class="contact-email">lea.r@email.com</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge-segment cliente">Cliente active</span></td>
+            <td>
+              <div class="tags-cell">
+                <span class="tag-mini">phase 2</span>
+                <span class="tag-mini">urgence</span>
+              </div>
+            </td>
+            <td><span style="font-size: 12px; color: var(--texte-secondaire);">Recommandation</span></td>
+            <td>il y a 4h</td>
+            <td>
+              <button class="btn btn-ghost btn-sm">→</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

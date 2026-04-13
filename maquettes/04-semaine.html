@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Semaine 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { background: var(--ivoire); padding-bottom: 100px; }
+  .topbar { background: var(--brun-noir); color: var(--ivoire); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 30; }
+  .back-btn { color: var(--ivoire); display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
+  .container-page { max-width: 760px; margin: 0 auto; padding: 28px 20px; }
+
+  .week-header { margin-bottom: 28px; }
+  .week-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(200,96,48,0.12); border-radius: var(--radius-full); font-size: 11px; font-weight: 600; color: var(--ambre-deep); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+  .week-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1.15; margin-bottom: 8px; }
+  .week-title em { color: var(--ambre); font-style: italic; }
+  .week-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: var(--texte-secondaire); margin-bottom: 20px; }
+
+  .week-progress { display: flex; align-items: center; gap: 16px; margin-bottom: 4px; }
+  .week-progress-text { font-size: 12px; color: var(--texte-tertiaire); white-space: nowrap; }
+  .week-progress .progress { flex: 1; }
+
+  /* MODULES */
+  .module {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    margin-bottom: 16px;
+    border: 1px solid var(--ivoire-deep);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  .module:hover { border-color: var(--ambre-light); box-shadow: var(--shadow-soft); }
+  .module-header { padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; }
+  .module-icon {
+    width: 48px; height: 48px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .module-icon.video { background: rgba(200,96,48,0.12); }
+  .module-icon.intro { background: rgba(154,128,144,0.18); }
+  .module-icon.respi { background: rgba(122,158,170,0.18); }
+  .module-icon.medit { background: rgba(201,168,76,0.18); }
+  .module-icon.journal { background: rgba(176,160,144,0.25); }
+  .module-info { flex: 1; min-width: 0; }
+  .module-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texte-tertiaire); margin-bottom: 4px; }
+  .module-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+  .module-meta { font-size: 12px; color: var(--texte-secondaire); }
+  .module-status { width: 28px; height: 28px; border-radius: 50%; background: var(--ivoire); border: 1.5px solid var(--taupe-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .module.done .module-status { background: var(--or); border-color: var(--or); color: var(--brun-noir); }
+  .module.in-progress .module-status { background: var(--ambre); border-color: var(--ambre); color: #fff; }
+
+  /* MODULE EXPANDED (vidéo) */
+  .module-body { padding: 0 20px 20px; display: none; }
+  .module.open .module-body { display: block; }
+  .video-frame { background: var(--brun-noir); border-radius: var(--radius-md); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
+  .video-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,96,48,0.25), rgba(154,128,144,0.15)); }
+  .play-btn { width: 56px; height: 56px; border-radius: 50%; background: var(--or); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; box-shadow: var(--shadow-glow-or); }
+
+  /* CHECK-IN BANDE */
+  .checkin-strip {
+    background: var(--mauve-bg);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .checkin-strip-text { flex: 1; font-size: 13px; color: var(--texte-secondaire); line-height: 1.5; }
+  .checkin-strip-text strong { color: var(--brun-noir); font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <a href="03-dashboard.html" class="back-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Mon espace
+    </a>
+    <div style="font-size: 12px; color: var(--taupe);">Semaine 2 / 12</div>
+  </div>
+
+  <a href="index.html" style="position: fixed; top: 12px; right: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
+
+  <div class="container-page">
+    <div class="week-header">
+      <div class="week-eyebrow">
+        <span style="width:6px;height:6px;background:var(--ambre);border-radius:50%;"></span>
+        Phase 1 · Fondations · Semaine 2
+      </div>
+      <h1 class="week-title">Le stress chronique<br><em>et le cortisol</em></h1>
+      <p class="week-sub">"Comprendre ce qui se passe dans ton corps quand tu vis sous tension constante."</p>
+
+      <div class="week-progress">
+        <div class="progress"><div class="progress-bar" style="width: 33%;"></div></div>
+        <div class="week-progress-text">2/6 modules complétés</div>
+      </div>
+    </div>
+
+    <!-- MODULE 1 — VIDÉO (open by default) -->
+    <div class="module done open">
+      <div class="module-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="module-icon video">📹</div>
+        <div class="module-info">
+          <div class="module-label">Vidéo · 12 min</div>
+          <div class="module-title">Quand le corps s'épuise sans qu'on s'en rende compte</div>
+          <div class="module-meta">Vu hier · pense à le revoir si besoin</div>
+        </div>
+        <div class="module-status">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="video-frame">
+          <div class="play-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#1A1410" style="margin-left:3px"><path d="M5 4L16 10L5 16V4Z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 2 — INTROSPECTION -->
+    <a href="09-tip-vanille.html" style="text-decoration:none;color:inherit">
+      <div class="module in-progress">
+        <div class="module-header">
+          <div class="module-icon intro">📝</div>
+          <div class="module-info">
+            <div class="module-label">Introspection · 10 min</div>
+            <div class="module-title">Tes moments de tension</div>
+            <div class="module-meta">Tu as commencé · 2 questions sur 5</div>
+          </div>
+          <div class="module-status">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- MODULE 3 — RESPIRATION -->
+    <a href="06-respiration.html" style="text-decoration:none;color:inherit">
+      <div class="module">
+        <div class="module-header">
+          <div class="module-icon respi">🌬️</div>
+          <div class="module-info">
+            <div class="module-label">Respiration animée · 8 min</div>
+            <div class="module-title">Cohérence cardiaque 5-5-5</div>
+            <div class="module-meta">À faire le matin et le soir cette semaine</div>
+          </div>
+          <div class="module-status"></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- MODULE 4 — MÉDITATION -->
+    <a href="08-meditation.html" style="text-decoration:none;color:inherit">
+      <div class="module">
+        <div class="module-header">
+          <div class="module-icon medit">🧘</div>
+          <div class="module-info">
+            <div class="module-label">Méditation guidée · 15 min</div>
+            <div class="module-title">Body scan — relâcher en profondeur</div>
+            <div class="module-meta">Audio guidé par Vanille</div>
+          </div>
+          <div class="module-status"></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- MODULE 5 — JOURNAL -->
+    <a href="09-tip-vanille.html" style="text-decoration:none;color:inherit">
+      <div class="module">
+        <div class="module-header">
+          <div class="module-icon journal">📖</div>
+          <div class="module-info">
+            <div class="module-label">Journal · ton espace privé</div>
+            <div class="module-title">Qu'est-ce que tu voudrais ressentir à la place ?</div>
+            <div class="module-meta">Privé par défaut · à toi de partager si tu veux</div>
+          </div>
+          <div class="module-status"></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- MODULE 6 — CHECK-IN FIN -->
+    <a href="05-checkin.html" style="text-decoration:none;color:inherit">
+      <div class="module">
+        <div class="module-header">
+          <div class="module-icon" style="background:rgba(201,168,76,0.18)">✨</div>
+          <div class="module-info">
+            <div class="module-label">Check-in de fin de semaine</div>
+            <div class="module-title">Comment tu te sens après cette semaine ?</div>
+            <div class="module-meta">Pour mesurer le chemin parcouru · 2 min</div>
+          </div>
+          <div class="module-status"></div>
+        </div>
+      </div>
+    </a>
+
+    <div class="checkin-strip">
+      <div style="font-size: 32px;">💬</div>
+      <div class="checkin-strip-text">
+        <strong>Tu bloques quelque part ?</strong>
+        Écris-moi sur WhatsApp. Je lis chaque message — je ne réponds pas en urgence, mais je réponds.
+      </div>
+      <a href="https://wa.me/?text=Vanille%2C%20j%27ai%20besoin%20d%27aide%20sur%20la%20semaine%202" class="btn btn-whatsapp">WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="mobile-nav">
+    <a href="03-dashboard.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20C21 20.55 20.55 21 20 21H15V14H9V21H4C3.45 21 3 20.55 3 20V12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Mon espace
+    </a>
+    <a href="04-semaine.html" class="mobile-nav-item active">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M5 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H5C4.45 20 4 19.55 4 19V5C4 4.45 4.45 4 5 4Z M8 9H16 M8 13H16 M8 17H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Programme
+    </a>
+    <a href="06-respiration.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+      Thérapies
+    </a>
+    <a href="09-tip-vanille.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z M9 8H15 M9 12H15 M9 16H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Journal
+    </a>
+  </div>
+</body>
+</html>

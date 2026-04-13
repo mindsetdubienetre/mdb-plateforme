@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Mon espace</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { background: var(--ivoire); padding-bottom: 100px; }
+
+  .topbar {
+    background: var(--brun-noir);
+    color: var(--ivoire);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 30;
+  }
+  .topbar .mdb-logo-text { color: var(--ivoire); font-size: 14px; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--ambre); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
+
+  .container-page { max-width: 880px; margin: 0 auto; padding: 32px 20px; }
+
+  /* HERO */
+  .hero-card {
+    background: linear-gradient(135deg, var(--brun-noir), #2A211B);
+    color: var(--ivoire);
+    border-radius: var(--radius-2xl);
+    padding: 32px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -50px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,96,48,0.3) 0%, transparent 65%);
+  }
+  .hero-greeting { font-size: 13px; color: var(--taupe); letter-spacing: 0.04em; margin-bottom: 8px; }
+  .hero-name { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; margin-bottom: 6px; }
+  .hero-name em { color: var(--ambre); font-style: italic; font-weight: 400; }
+  .hero-mood { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: var(--taupe-light); margin-bottom: 24px; }
+
+  .progression-row { display: flex; align-items: center; gap: 20px; }
+  .progression-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(var(--or) 0% 17%, rgba(255,255,255,0.1) 17% 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .progression-inner {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--brun-noir);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .progression-text { font-size: 13px; line-height: 1.5; color: var(--taupe-light); }
+  .progression-text strong { color: var(--ivoire); display: block; font-size: 15px; font-weight: 600; }
+
+  /* SECTION CHECK-IN */
+  .checkin-card {
+    background: var(--mauve-bg);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .checkin-emoji { font-size: 48px; line-height: 1; }
+  .checkin-text { flex: 1; }
+  .checkin-text-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; margin-bottom: 4px; color: var(--brun-noir); }
+  .checkin-text-sub { font-size: 13px; color: var(--texte-secondaire); }
+  .checkin-btn {
+    background: #fff;
+    color: var(--brun-noir);
+    padding: 10px 18px;
+    border-radius: var(--radius-full);
+    font-size: 12.5px;
+    font-weight: 600;
+    border: 1px solid var(--mauve-light);
+    text-decoration: none;
+  }
+
+  /* SECTION TITLE */
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--brun-noir); }
+  .section-title em { font-style: italic; color: var(--ambre); }
+  .section-link { font-size: 13px; color: var(--ambre); font-weight: 500; }
+
+  /* PHASES */
+  .phases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 32px; }
+  .phase-card {
+    background: #fff;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    border: 1px solid var(--ivoire-deep);
+    position: relative;
+  }
+  .phase-card.active { border-color: var(--ambre); background: rgba(200,96,48,0.04); }
+  .phase-card.done { opacity: 0.6; }
+  .phase-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; line-height: 1; color: var(--ambre); margin-bottom: 6px; }
+  .phase-card.locked .phase-num { color: var(--taupe-light); }
+  .phase-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .phase-weeks { font-size: 11px; color: var(--texte-tertiaire); }
+  .phase-lock { position: absolute; top: 12px; right: 12px; color: var(--taupe-light); }
+
+  /* SEMAINES */
+  .week-list { display: flex; flex-direction: column; gap: 12px; }
+  .week-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    border: 1px solid var(--ivoire-deep);
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .week-card:hover { border-color: var(--ambre); transform: translateY(-1px); }
+  .week-card.current { background: linear-gradient(135deg, #fff, rgba(201,168,76,0.06)); border-color: var(--or); }
+  .week-card.done { opacity: 0.65; }
+  .week-card.locked { opacity: 0.5; cursor: not-allowed; background: var(--ivoire-soft); }
+
+  .week-num {
+    width: 48px; height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--ivoire);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    flex-shrink: 0;
+  }
+  .week-card.current .week-num { background: var(--or); color: var(--brun-noir); }
+  .week-card.done .week-num { background: var(--mauve-bg); }
+  .week-num-label { font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; opacity: 0.7; }
+  .week-num-val { font-size: 22px; font-weight: 700; line-height: 1; }
+
+  .week-info { flex: 1; min-width: 0; }
+  .week-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: var(--brun-noir); margin-bottom: 4px; }
+  .week-meta { display: flex; gap: 12px; font-size: 11px; color: var(--texte-tertiaire); }
+  .week-meta-item { display: flex; align-items: center; gap: 4px; }
+
+  .week-arrow { color: var(--taupe); flex-shrink: 0; }
+  .week-card.done .week-arrow svg { transform: scale(1.1); }
+  .check-icon { width: 20px; height: 20px; color: var(--or-deep); }
+
+  /* RACCOURCIS */
+  .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
+  .quick-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 18px 16px;
+    border: 1px solid var(--ivoire-deep);
+    text-align: center;
+    transition: var(--transition);
+    text-decoration: none;
+    color: var(--brun-noir);
+    display: block;
+  }
+  .quick-card:hover { transform: translateY(-2px); border-color: var(--ambre); box-shadow: var(--shadow-soft); }
+  .quick-icon { font-size: 28px; margin-bottom: 8px; }
+  .quick-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; }
+
+  /* MOBILE NAV */
+  .mobile-nav { background: #fff; }
+</style>
+</head>
+<body>
+  <a href="index.html" style="position: fixed; top: 12px; left: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="mdb-logo mdb-logo--row mdb-logo--sm" style="display: flex; align-items: center; gap: 10px;">
+      <div class="mdb-orb mdb-orb--sm"><div class="mdb-orb-core"></div></div>
+      <div class="mdb-logo-text">
+        <span class="l1">Mindset </span><span class="l2">du bien-être.</span>
+      </div>
+    </div>
+    <div class="avatar">S</div>
+  </div>
+
+  <div class="container-page">
+    <!-- HERO -->
+    <div class="hero-card">
+      <div class="hero-greeting">Mardi 14 avril · Bonjour</div>
+      <div class="hero-name">Sarah <em>·</em></div>
+      <div class="hero-mood">"Tu commences ta deuxième semaine. Doucement."</div>
+
+      <div class="progression-row">
+        <div class="progression-circle">
+          <div class="progression-inner">2/12</div>
+        </div>
+        <div class="progression-text">
+          <strong>Phase 1 — Fondations</strong>
+          17% du chemin parcouru.<br>
+          Continue à ton rythme, je suis là.
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECK-IN DU JOUR -->
+    <div class="checkin-card">
+      <div class="checkin-emoji">🌫️</div>
+      <div class="checkin-text">
+        <div class="checkin-text-title">Comment tu te sens aujourd'hui ?</div>
+        <div class="checkin-text-sub">Ton dernier check-in remonte à hier. 30 secondes.</div>
+      </div>
+      <a href="05-checkin.html" class="checkin-btn">Check-in →</a>
+    </div>
+
+    <!-- LES 4 PHASES -->
+    <div class="section-head">
+      <div class="section-title">Tes <em>4 phases</em></div>
+    </div>
+    <div class="phases-grid">
+      <div class="phase-card active">
+        <div class="phase-num">01</div>
+        <div class="phase-name">Fondations</div>
+        <div class="phase-weeks">Semaines 1 — 3</div>
+      </div>
+      <div class="phase-card locked">
+        <div class="phase-num">02</div>
+        <div class="phase-name">Reprogrammation</div>
+        <div class="phase-weeks">Semaines 4 — 6</div>
+        <div class="phase-lock">🔒</div>
+      </div>
+      <div class="phase-card locked">
+        <div class="phase-num">03</div>
+        <div class="phase-name">Activation</div>
+        <div class="phase-weeks">Semaines 7 — 9</div>
+        <div class="phase-lock">🔒</div>
+      </div>
+      <div class="phase-card locked">
+        <div class="phase-num">04</div>
+        <div class="phase-name">Intégration</div>
+        <div class="phase-weeks">Semaines 10 — 12</div>
+        <div class="phase-lock">🔒</div>
+      </div>
+    </div>
+
+    <!-- RACCOURCIS THÉRAPIES -->
+    <div class="section-head">
+      <div class="section-title">Tes <em>espaces</em></div>
+    </div>
+    <div class="quick-grid">
+      <a href="06-respiration.html" class="quick-card">
+        <div class="quick-icon">🌬️</div>
+        <div class="quick-name">Respiration</div>
+      </a>
+      <a href="07-eft.html" class="quick-card">
+        <div class="quick-icon">✋</div>
+        <div class="quick-name">EFT / Tapping</div>
+      </a>
+      <a href="08-meditation.html" class="quick-card">
+        <div class="quick-icon">🧘</div>
+        <div class="quick-name">Méditations</div>
+      </a>
+      <a href="09-tip-vanille.html" class="quick-card">
+        <div class="quick-icon">📖</div>
+        <div class="quick-name">Mon journal</div>
+      </a>
+    </div>
+
+    <!-- MES SEMAINES -->
+    <div class="section-head">
+      <div class="section-title">Tes <em>semaines</em></div>
+      <div class="section-link">12 au total</div>
+    </div>
+    <div class="week-list">
+
+      <div class="week-card done">
+        <div class="week-num">
+          <div class="week-num-label">Sem.</div>
+          <div class="week-num-val">1</div>
+        </div>
+        <div class="week-info">
+          <div class="week-title">Introduction au système nerveux</div>
+          <div class="week-meta">
+            <span class="tag-phase tag-phase-1"><span class="tag-phase-dot"></span>Phase 1 · Fondations</span>
+            <span class="week-meta-item">✓ Complétée le 7 avril</span>
+          </div>
+        </div>
+        <div class="week-arrow">
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <a href="04-semaine.html" class="week-card current" style="text-decoration:none">
+        <div class="week-num">
+          <div class="week-num-label">Sem.</div>
+          <div class="week-num-val">2</div>
+        </div>
+        <div class="week-info">
+          <div class="week-title">Le stress chronique et le cortisol</div>
+          <div class="week-meta">
+            <span class="tag-phase tag-phase-1"><span class="tag-phase-dot"></span>Phase 1 · En cours</span>
+            <span class="week-meta-item">⏱ 45 min</span>
+            <span class="week-meta-item">📹 1 vidéo · 3 exos</span>
+          </div>
+        </div>
+        <div class="week-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+
+      <div class="week-card">
+        <div class="week-num">
+          <div class="week-num-label">Sem.</div>
+          <div class="week-num-val">3</div>
+        </div>
+        <div class="week-info">
+          <div class="week-title">Reconnexion à ton corps</div>
+          <div class="week-meta">
+            <span class="tag-phase tag-phase-1"><span class="tag-phase-dot"></span>Phase 1 · À venir</span>
+          </div>
+        </div>
+        <div class="week-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="week-card locked">
+        <div class="week-num">
+          <div class="week-num-label">Sem.</div>
+          <div class="week-num-val">4</div>
+        </div>
+        <div class="week-info">
+          <div class="week-title">Premiers schémas à dénouer</div>
+          <div class="week-meta">
+            <span class="tag-phase tag-phase-2"><span class="tag-phase-dot"></span>Phase 2 · Verrouillée</span>
+          </div>
+        </div>
+        <div class="week-arrow">🔒</div>
+      </div>
+
+      <div class="week-card locked">
+        <div class="week-num">
+          <div class="week-num-label">Sem.</div>
+          <div class="week-num-val">5</div>
+        </div>
+        <div class="week-info">
+          <div class="week-title">Croyances limitantes</div>
+          <div class="week-meta">
+            <span class="tag-phase tag-phase-2"><span class="tag-phase-dot"></span>Phase 2 · Verrouillée</span>
+          </div>
+        </div>
+        <div class="week-arrow">🔒</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <a href="https://wa.me/?text=Hello%20Vanille" class="fab-whatsapp" title="WhatsApp Vanille">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.74.46 3.41 1.32 4.89L2 22l5.34-1.4c1.43.78 3.04 1.19 4.7 1.19h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01A9.81 9.81 0 0 0 12.04 2zm0 18.05c-1.45 0-2.87-.39-4.11-1.13l-.29-.17-3.05.8.81-2.97-.19-.31a8.16 8.16 0 0 1-1.26-4.36c0-4.51 3.67-8.18 8.19-8.18 2.18 0 4.24.85 5.78 2.4a8.13 8.13 0 0 1 2.4 5.79c0 4.51-3.67 8.18-8.18 8.18zm4.5-6.13c-.25-.13-1.46-.72-1.69-.8-.23-.08-.39-.13-.56.13-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.13-.56-1.34-.76-1.84-.2-.49-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01-.16 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.13.16 1.74 2.66 4.22 3.73.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.46-.6 1.66-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.29z"/></svg>
+  </a>
+
+  <!-- BOTTOM NAV -->
+  <div class="mobile-nav">
+    <a href="03-dashboard.html" class="mobile-nav-item active">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20C21 20.55 20.55 21 20 21H15V14H9V21H4C3.45 21 3 20.55 3 20V12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Mon espace
+    </a>
+    <a href="04-semaine.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M5 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H5C4.45 20 4 19.55 4 19V5C4 4.45 4.45 4 5 4Z M8 9H16 M8 13H16 M8 17H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Programme
+    </a>
+    <a href="06-respiration.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+      Thérapies
+    </a>
+    <a href="09-tip-vanille.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z M9 8H15 M9 12H15 M9 16H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Journal
+    </a>
+  </div>
+</body>
+</html>
