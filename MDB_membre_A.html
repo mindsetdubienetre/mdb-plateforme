@@ -632,24 +632,31 @@ function renderHero() {
   const wk = c.semaine_actuelle || 1;
   const activitesSemaine = currentState.activites.filter(a => a.semaine === wk);
   const slugsCompletes = new Set(currentState.completes.filter(co => co.semaine === wk).map(co => co.activite_slug));
-  const prochaine = activitesSemaine.find(a => !slugsCompletes.has(a.slug));
+  const semaineInfo = currentState.semaines.find(s => s.numero === wk);
 
-  if (prochaine) {
-    document.getElementById('hero-title').textContent = prochaine.titre;
-    document.getElementById('hero-desc').textContent = prochaine.description || 'À ton rythme.';
-  } else {
-    document.getElementById('hero-title').textContent = 'Semaine ' + wk + ' — tout est fait';
-    document.getElementById('hero-desc').textContent = 'Bravo. Prochaine semaine bientôt débloquée.';
-  }
+  const titre = semaineInfo ? semaineInfo.titre : 'Semaine ' + wk;
+  const theme = semaineInfo ? semaineInfo.theme : 'Continue à ton rythme.';
+
+  document.getElementById('hero-title').textContent = 'Semaine ' + wk + ' — ' + titre;
+  document.getElementById('hero-desc').textContent = theme;
 
   const totalSem = activitesSemaine.length || 1;
-  const doneSem = slugsCompletes.size;
+  const doneSem = activitesSemaine.filter(a => slugsCompletes.has(a.slug)).length;
   document.getElementById('hero-progress-week').textContent =
     'Semaine ' + wk + ' · ' + doneSem + '/' + totalSem + ' activités';
   document.getElementById('hero-progress-global').textContent = wk + '/12 du parcours';
 
-  const pct = Math.min(100, Math.round((wk / 12) * 100));
+  const pct = totalSem ? Math.round((doneSem / totalSem) * 100) : 0;
   document.getElementById('hero-progress-fill').style.width = pct + '%';
+
+  // Update CTA label (keep the arrow SVG untouched)
+  const ctaLabel = doneSem === 0 ? 'Découvrir ma semaine' : (doneSem >= totalSem ? 'Revoir ma semaine' : 'Continuer ma semaine');
+  const cta = document.getElementById('hero-cta');
+  if (cta) {
+    for (const node of cta.childNodes) {
+      if (node.nodeType === 3) { node.nodeValue = ' ' + ctaLabel + ' '; break; }
+    }
+  }
 }
 
 function renderPhases() {
@@ -741,19 +748,9 @@ function renderWeeks() {
 }
 
 function ouvrirSemaine(num) {
-  // Pour l'instant : on ouvre le premier exercice non complété de la semaine
-  const activitesSemaine = currentState.activites.filter(a => a.semaine === num);
-  const slugsCompletes = new Set(currentState.completes.filter(co => co.semaine === num).map(co => co.activite_slug));
-  const prochaine = activitesSemaine.find(a => !slugsCompletes.has(a.slug)) || activitesSemaine[0];
-  if (!prochaine) {
-    alert('Contenu de la semaine ' + num + ' à venir.');
-    return;
-  }
-  const url = 'MDB_exercice.html?type=' + encodeURIComponent(prochaine.type)
-    + '&slug=' + encodeURIComponent(prochaine.slug)
-    + '&titre=' + encodeURIComponent(prochaine.titre)
-    + '&semaine=' + num;
-  window.location.href = url;
+  // Ouvre la page Semaine — elle liste tout le contenu de la semaine,
+  // et la cliente choisit dans l'ordre qu'elle veut.
+  window.location.href = 'MDB_semaine.html?num=' + num;
 }
 
 function continuerSemaine() {

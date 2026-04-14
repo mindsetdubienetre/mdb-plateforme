@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Ma semaine</title>
+<meta name="theme-color" content="#F5F0E8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --ivoire:#F5F0E8;--ivoire-soft:#FAF6F0;--ivoire-deep:#EDE6DA;
+  --brun-noir:#1A1410;
+  --ambre:#C86030;--ambre-light:#D87A48;--ambre-deep:#A04820;
+  --or:#C9A84C;--or-light:#D4B86A;--or-deep:#A88830;
+  --mauve:#9A8090;--taupe:#B0A090;--taupe-light:#C8BEB0;--taupe-deep:#8A7A68;
+  --texte:#1A1410;--texte-secondaire:#5A4A40;--texte-tertiaire:#8A7A68;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--ivoire);color:var(--texte);min-height:100vh;padding-bottom:80px;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-150px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,96,48,0.09) 0%,transparent 65%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;bottom:-150px;left:-100px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(154,128,144,0.11) 0%,transparent 65%);pointer-events:none;z-index:0}
+
+.topbar{position:sticky;top:0;z-index:20;background:rgba(245,240,232,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--ivoire-deep);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.topbar-back{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--texte-secondaire);padding:8px 14px;border-radius:999px;background:#fff;border:0.5px solid var(--ivoire-deep);text-decoration:none;transition:all .2s}
+.topbar-back:hover{border-color:var(--taupe);color:var(--brun-noir)}
+.topbar-wa{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;background:#25D366;padding:8px 14px;border-radius:999px;text-decoration:none;cursor:pointer}
+
+.wrap{max-width:720px;margin:0 auto;padding:28px 20px;position:relative;z-index:1}
+
+.header{text-align:center;margin-bottom:28px;padding:28px 20px;background:#fff;border-radius:20px;border:0.5px solid var(--ivoire-deep);box-shadow:0 1px 3px rgba(26,20,16,.03)}
+.phase-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ambre);margin-bottom:12px}
+.week-num{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:60px;line-height:1;color:var(--brun-noir);margin-bottom:6px}
+.week-num-label{font-size:11px;color:var(--texte-tertiaire);letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.week-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:var(--brun-noir);line-height:1.2;margin-bottom:12px}
+.week-theme{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--texte-secondaire);line-height:1.55;max-width:480px;margin:0 auto}
+
+.progression{margin-bottom:8px;padding:16px 20px;background:#fff;border-radius:14px;border:0.5px solid var(--ivoire-deep)}
+.progression-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.progression-label{font-size:12.5px;font-weight:600;color:var(--brun-noir)}
+.progression-count{font-size:13px;color:var(--ambre);font-weight:700}
+.progress-bar{height:6px;background:var(--ivoire-deep);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--ambre),var(--or));border-radius:999px;transition:width .4s ease}
+
+.callout{margin:16px 0 24px;padding:16px 20px;background:rgba(154,128,144,.10);border:0.5px solid rgba(154,128,144,.22);border-radius:14px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14.5px;color:var(--brun-noir);line-height:1.55}
+.callout strong{font-style:normal;font-family:'Be Vietnam Pro',sans-serif;font-weight:600}
+
+.cat-label{display:flex;align-items:center;gap:10px;margin:24px 0 12px}
+.cat-label-icon{width:36px;height:36px;border-radius:10px;background:rgba(200,96,48,.10);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cat-label-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--brun-noir);flex:1}
+.cat-label-count{font-size:11px;color:var(--texte-tertiaire);background:var(--ivoire-deep);padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+.cat-label.introspection .cat-label-icon{background:rgba(154,128,144,.14)}
+.cat-label.pdf .cat-label-icon{background:rgba(201,168,76,.14)}
+
+.activity{display:flex;align-items:center;gap:14px;background:#fff;border:0.5px solid var(--ivoire-deep);border-radius:16px;padding:16px 18px;margin-bottom:10px;text-decoration:none;color:inherit;transition:all .2s;cursor:pointer}
+.activity:hover{transform:translateY(-1px);border-color:var(--taupe-light);box-shadow:0 6px 18px rgba(26,20,16,.05)}
+.activity.done{background:var(--ivoire-soft);opacity:.85}
+.activity.done .activity-title{color:var(--texte-tertiaire)}
+.activity.intro-therapie{border-color:rgba(154,128,144,.4);background:rgba(154,128,144,.04)}
+.activity-check{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--taupe-light);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff}
+.activity.done .activity-check{background:var(--or);border-color:var(--or);color:var(--brun-noir)}
+.activity-body{flex:1;min-width:0}
+.activity-title{font-size:14.5px;font-weight:600;color:var(--brun-noir);line-height:1.35;margin-bottom:3px}
+.activity-meta{font-size:12px;color:var(--texte-tertiaire);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.activity-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--taupe)}
+.activity-tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+.activity-tag.intro{background:rgba(154,128,144,.18);color:#6A5060}
+.activity-tag.bienvenue{background:rgba(200,96,48,.14);color:var(--ambre-deep)}
+.activity-arrow{color:var(--ambre);flex-shrink:0;font-size:18px}
+
+.checkin-card{display:block;margin-top:24px;padding:18px 22px;background:linear-gradient(135deg,var(--or-light),var(--or));border-radius:14px;text-decoration:none;color:var(--brun-noir);text-align:center;transition:all .2s;box-shadow:0 4px 18px rgba(201,168,76,.25);cursor:pointer}
+.checkin-card:hover{transform:translateY(-1px)}
+.checkin-card-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.checkin-card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600}
+
+.empty-cat{font-size:13px;color:var(--texte-tertiaire);font-style:italic;padding:14px 18px;background:var(--ivoire-soft);border-radius:14px;margin-bottom:10px}
+
+.loader{position:fixed;inset:0;background:var(--ivoire);display:flex;align-items:center;justify-content:center;z-index:100;transition:opacity .3s}
+.loader.hidden{opacity:0;pointer-events:none}
+.spinner{width:36px;height:36px;border:3px solid rgba(200,96,48,.2);border-top-color:var(--ambre);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (max-width: 500px){
+  .week-num{font-size:48px}
+  .week-title{font-size:24px}
+  .week-theme{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader"><div class="spinner"></div></div>
+
+<div class="topbar">
+  <a href="MDB_membre_A.html" class="topbar-back">← Mon parcours</a>
+  <a class="topbar-wa" id="wa-link" onclick="ouvrirWhatsapp()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+    Vanille
+  </a>
+</div>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="phase-badge" id="phase-badge">Phase — · —</div>
+    <div class="week-num" id="week-num">—</div>
+    <div class="week-num-label">Semaine</div>
+    <h1 class="week-title" id="week-title">...</h1>
+    <p class="week-theme" id="week-theme"></p>
+  </div>
+
+  <div class="progression">
+    <div class="progression-row">
+      <div class="progression-label">Ta progression cette semaine</div>
+      <div class="progression-count"><span id="done-count">0</span> / <span id="total-count">0</span></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div class="callout">
+    <strong>Panier de la semaine.</strong> Tout est disponible tout de suite.<br>
+    Tu avances à ton rythme — dans l'ordre que tu veux, selon ta vie et ton énergie.
+  </div>
+
+  <div id="sections"></div>
+
+  <a class="checkin-card" onclick="ouvrirCheckin()">
+    <div class="checkin-card-label">Fin de semaine · check-in</div>
+    <div class="checkin-card-title">Comment tu te sens aujourd'hui ?</div>
+  </a>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://hzirvgssahyoxxopowjr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXJ2Z3NzYWh5b3h4b3Bvd2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTEzMjMsImV4cCI6MjA5MDA2NzMyM30.9BOdDoAxKS_mn4CZ9E8YN3eZmkV388U0lZW_st1Jep0';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const clienteId = localStorage.getItem('mdb_cliente_id');
+if (!clienteId) window.location.href = 'index.html';
+
+const qs = new URLSearchParams(window.location.search);
+const semaine = parseInt(qs.get('num') || qs.get('semaine') || '1', 10);
+
+let cliente = null;
+
+const CAT_META = {
+  video:         { icon:'🎥', titre:'Vidéos', cls:'' },
+  introspection: { icon:'📝', titre:'Journal & introspection', cls:'introspection' },
+  journal:       { icon:'📝', titre:'Journal & introspection', cls:'introspection' },
+  eft:           { icon:'✋', titre:'EFT', cls:'' },
+  meditation:    { icon:'🌿', titre:'Méditations', cls:'' },
+  hypnose:       { icon:'✨', titre:'Auto-hypnose', cls:'' },
+  pdf:           { icon:'📄', titre:'Ressources à garder', cls:'pdf' }
+};
+
+const ORDER = ['video','introspection','journal','meditation','eft','hypnose','pdf'];
+
+async function init() {
+  try {
+    const [cliRes, semRes, phRes, acRes, coRes] = await Promise.all([
+      sb.from('clientes').select('*').eq('id', clienteId).maybeSingle(),
+      sb.from('semaines').select('*').eq('numero', semaine).maybeSingle(),
+      sb.from('phases').select('*'),
+      sb.from('activites').select('*').eq('semaine', semaine).order('ordre'),
+      sb.from('exercices_completes').select('activite_slug').eq('cliente_id', clienteId).eq('semaine', semaine)
+    ]);
+
+    cliente = cliRes.data;
+    if (!cliente) { localStorage.clear(); window.location.href = 'index.html'; return; }
+
+    const sem = semRes.data;
+    const phases = phRes.data || [];
+    const activites = acRes.data || [];
+    const doneSlugs = new Set((coRes.data || []).map(c => c.activite_slug));
+
+    const phase = phases.find(p => p.id === (sem && sem.phase_id));
+
+    // Header
+    const phaseName = phase ? ('Phase ' + phase.id + ' · ' + phase.nom) : 'Phase ' + (sem ? sem.phase_id : '—');
+    document.getElementById('phase-badge').textContent = phaseName;
+    document.getElementById('week-num').textContent = String(semaine).padStart(2, '0');
+    document.getElementById('week-title').textContent = sem ? sem.titre : 'Semaine ' + semaine;
+    document.getElementById('week-theme').textContent = sem && sem.theme ? sem.theme : 'Contenu de la semaine en cours de préparation.';
+
+    // Check access
+    const debloquee = cliente.semaine_debloquee || 1;
+    if (semaine > debloquee) {
+      document.getElementById('sections').innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--texte-tertiaire);font-style:italic;font-family:\'Cormorant Garamond\',serif;font-size:16px;">Cette semaine s\'ouvrira bientôt. Patience — tu y arrives.</div>';
+      hideLoader();
+      return;
+    }
+
+    // Progress
+    const total = activites.length;
+    const done = activites.filter(a => doneSlugs.has(a.slug)).length;
+    document.getElementById('done-count').textContent = done;
+    document.getElementById('total-count').textContent = total;
+    document.getElementById('progress-fill').style.width = (total ? (done / total * 100) : 0) + '%';
+
+    // Group by type
+    const byType = {};
+    activites.forEach(a => {
+      if (!byType[a.type]) byType[a.type] = [];
+      byType[a.type].push(a);
+    });
+
+    // Render sections in our preferred order, collapse introspection+journal
+    const seen = new Set();
+    const sections = document.getElementById('sections');
+    let html = '';
+    ORDER.forEach(type => {
+      if (seen.has(type)) return;
+      let items = byType[type] || [];
+      let meta = CAT_META[type] || { icon:'•', titre:type, cls:'' };
+      // Combine introspection + journal into one section
+      if (type === 'introspection') {
+        items = items.concat(byType['journal'] || []);
+        seen.add('journal');
+      }
+      if (!items.length) return;
+      seen.add(type);
+      html += '<div class="cat-label ' + (meta.cls || '') + '">'
+        + '<div class="cat-label-icon">' + meta.icon + '</div>'
+        + '<div class="cat-label-text">' + meta.titre + '</div>'
+        + '<div class="cat-label-count">' + items.length + '</div>'
+        + '</div>';
+      items.forEach(a => {
+        const isDone = doneSlugs.has(a.slug);
+        const isIntro = a.is_intro_therapie;
+        const isBienvenue = a.slug === 'sv' || (a.titre || '').toLowerCase().startsWith('bienvenue');
+        const metaBits = [];
+        if (a.format) metaBits.push(a.format);
+        if (a.duree_min) metaBits.push(a.duree_min + (a.duree_max && a.duree_max !== a.duree_min ? '-' + a.duree_max : '') + ' min');
+        const metaHtml = metaBits.map((m, i) => (i > 0 ? '<span class="activity-meta-dot"></span>' : '') + m).join('');
+        const tagHtml = isIntro ? '<span class="activity-tag intro">intro thérapie</span>' :
+                       isBienvenue ? '<span class="activity-tag bienvenue">bienvenue</span>' : '';
+        const url = 'MDB_exercice.html?type=' + encodeURIComponent(a.type)
+          + '&slug=' + encodeURIComponent(a.slug)
+          + '&titre=' + encodeURIComponent(a.titre)
+          + '&semaine=' + semaine;
+        html += '<a class="activity' + (isDone ? ' done' : '') + (isIntro ? ' intro-therapie' : '') + '" href="' + url + '">'
+          + '<div class="activity-check">' + (isDone ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '') + '</div>'
+          + '<div class="activity-body">'
+          +   '<div class="activity-title">' + escapeHtml(a.titre) + '</div>'
+          +   '<div class="activity-meta">' + metaHtml + (tagHtml && metaHtml ? '<span class="activity-meta-dot"></span>' : '') + tagHtml + '</div>'
+          + '</div>'
+          + '<div class="activity-arrow">→</div>'
+          + '</a>';
+      });
+    });
+
+    if (!html) {
+      html = '<div style="text-align:center;padding:40px 20px;color:var(--texte-tertiaire);font-style:italic;font-family:\'Cormorant Garamond\',serif;font-size:16px;">Contenu de la semaine en cours de préparation.</div>';
+    }
+
+    sections.innerHTML = html;
+    hideLoader();
+  } catch (e) {
+    console.error('semaine init:', e);
+    hideLoader();
+  }
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, function(c) {
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+  });
+}
+
+function hideLoader() {
+  document.getElementById('loader').classList.add('hidden');
+}
+
+function ouvrirCheckin() {
+  window.location.href = 'MDB_exercice.html?type=introspection&slug=checkin-fin-s' + semaine
+    + '&titre=' + encodeURIComponent('Check-in fin de semaine') + '&semaine=' + semaine;
+}
+
+function ouvrirWhatsapp() {
+  const prenom = (cliente && cliente.prenom) || '';
+  const msg = encodeURIComponent('Bonjour Vanille, c\'est ' + prenom + ' — Semaine ' + semaine);
+  window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
+init();
+</script>
+</body>
+</html>
