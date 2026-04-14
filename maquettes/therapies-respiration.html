@@ -79,20 +79,32 @@ body::after { content: ''; position: fixed; bottom: -180px; left: -120px; width:
   pointer-events: none;
   text-align: center;
 }
-.breath-phase {
+.breath-phase-main {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 500;
   letter-spacing: 0.01em;
   text-shadow: 0 1px 4px rgba(120,40,10,0.35);
-  margin-bottom: 6px;
   transition: opacity 0.3s ease;
+  margin-bottom: 2px;
+}
+.breath-phase-detail {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.88;
+  text-shadow: 0 1px 3px rgba(120,40,10,0.25);
+  transition: opacity 0.3s ease;
+  min-height: 16px;
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
 }
 .breath-countdown {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: 48px; line-height: 1;
+  font-size: 44px; line-height: 1;
   text-shadow: 0 1px 4px rgba(120,40,10,0.35);
   opacity: 0.92;
 }
@@ -238,7 +250,8 @@ body::after { content: ''; position: fixed; bottom: -180px; left: -120px; width:
         <div class="breath-circle-glow"></div>
         <div class="breath-circle"></div>
         <div class="breath-text-overlay">
-          <div class="breath-phase" id="breath-phase">Inspire</div>
+          <div class="breath-phase-main" id="phase-main">Inspire</div>
+          <div class="breath-phase-detail" id="phase-detail">par le nez</div>
           <div class="breath-countdown" id="breath-countdown">5</div>
         </div>
       </div>
@@ -315,11 +328,16 @@ body::after { content: ''; position: fixed; bottom: -180px; left: -120px; width:
 </div>
 
 <script>
-// Cycle 5-5-5 : Inspire 5s · Retiens 5s · Expire 5s
+// Cycle 5-5-5 : Inspire (nez) 5s · Retiens 5s · Expire (bouche) 5s
 (function() {
-  const phaseEl = document.getElementById('breath-phase');
+  const mainEl = document.getElementById('phase-main');
+  const detailEl = document.getElementById('phase-detail');
   const countdownEl = document.getElementById('breath-countdown');
-  const phases = ['Inspire', 'Retiens', 'Expire'];
+  const phases = [
+    { main: 'Inspire', detail: 'par le nez' },
+    { main: 'Retiens', detail: '' },
+    { main: 'Expire', detail: 'par la bouche' }
+  ];
   let phaseIdx = 0;
   let secondsLeft = 5;
 
@@ -329,10 +347,13 @@ body::after { content: ''; position: fixed; bottom: -180px; left: -120px; width:
     secondsLeft--;
     if (secondsLeft <= 0) {
       phaseIdx = (phaseIdx + 1) % 3;
-      phaseEl.style.opacity = '0';
+      mainEl.style.opacity = '0';
+      detailEl.style.opacity = '0';
       setTimeout(() => {
-        phaseEl.textContent = phases[phaseIdx];
-        phaseEl.style.opacity = '1';
+        mainEl.textContent = phases[phaseIdx].main;
+        detailEl.textContent = phases[phaseIdx].detail;
+        mainEl.style.opacity = '1';
+        detailEl.style.opacity = '1';
       }, 280);
       secondsLeft = 5;
     }
