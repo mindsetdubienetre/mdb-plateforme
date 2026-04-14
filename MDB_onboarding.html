@@ -4,384 +4,433 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MDB — Bienvenue</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --noir:#2d4a3e;--noir2:#243d32;--noir3:#eaf2ee;
-  --orange:#d06224;--brique:#af421c;--or:#b8a465;
-  --sauge:#7a9e8e;--sauge-mid:#5a826f;
-  --blanc:#ffffff;--texte-muted:#6b6560;--texte-dim:rgba(32,29,26,0.4);
-  --card:#ffffff;--card-border:rgba(255,255,255,0.09)
+  --ivoire:#F5F0E8;--ivoire-soft:#FAF6F0;--ivoire-deep:#EDE6DA;
+  --brun-noir:#1A1410;
+  --ambre:#C86030;--ambre-light:#D87A48;--ambre-deep:#A04820;
+  --or:#C9A84C;--or-light:#D4B86A;--or-deep:#A88830;
+  --mauve:#9A8090;--taupe:#B0A090;--taupe-light:#C8BEB0;--taupe-deep:#8A7A68;
+  --texte:#1A1410;--texte-secondaire:#5A4A40;--texte-tertiaire:#8A7A68;
 }
-html,body{height:100%;overflow:hidden}
-body{font-family:'Be Vietnam Pro',sans-serif;background:var(--noir);color:#fff;display:flex;align-items:stretch}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;
+  background:var(--ivoire);color:var(--texte);
+  min-height:100vh;padding-bottom:40px;
+  -webkit-font-smoothing:antialiased;
+  position:relative;overflow-x:hidden;
+}
+body::before{content:'';position:fixed;top:-140px;right:-100px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(200,96,48,0.10) 0%,transparent 65%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;bottom:-140px;left:-100px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(154,128,144,0.13) 0%,transparent 65%);pointer-events:none;z-index:0}
 
-/* HALOS */
-body::before{content:'';position:fixed;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(208,98,36,0.13) 0%,transparent 65%);pointer-events:none;z-index:0}
-body::after{content:'';position:fixed;bottom:-150px;left:-80px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(122,158,142,0.1) 0%,transparent 65%);pointer-events:none;z-index:0}
+.topbar{max-width:640px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.logo-text{font-size:14px;color:var(--brun-noir);white-space:nowrap}
+.logo-text .l1{font-family:'Times New Roman',serif;font-style:italic;font-weight:400}
+.logo-text .l2{font-family:'Be Vietnam Pro',sans-serif;font-weight:800}
+.step-dots{display:flex;gap:6px;align-items:center}
+.step-dot{width:7px;height:7px;border-radius:50%;background:var(--taupe-light);transition:all .3s}
+.step-dot.on{width:28px;border-radius:999px;background:var(--ambre)}
+.step-dot.done{background:var(--or)}
+.step-count{font-size:11px;color:var(--texte-tertiaire);font-weight:500;letter-spacing:.08em}
 
-/* STEPS NAV */
-.steps-nav{position:fixed;top:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:20}
-.step-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all 0.3s;cursor:pointer}
-.step-dot.on{background:var(--orange);width:24px;border-radius:4px}
-.step-dot.done{background:var(--sauge-mid)}
+.screen{max-width:560px;margin:0 auto;padding:24px 24px 40px;display:none;position:relative;z-index:1}
+.screen.on{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* LOGO */
-.top-logo{position:fixed;top:24px;left:28px;display:flex;align-items:center;gap:10px;z-index:20}
-.orb-wrap{position:relative;width:30px;height:30px}
-.orb-glow{position:absolute;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,0.22) 0%,transparent 70%)}
-.orb{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 38% 35%,#f08060,#d06224 55%,#af421c);position:relative}
-.logo-texts .l1{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:#fff;line-height:1.1}
-.logo-texts .l2{font-size:8px;font-weight:600;color:rgba(255,255,255,0.35);letter-spacing:0.16em;text-transform:uppercase}
+.head-center{text-align:center;margin-bottom:28px}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ambre);margin-bottom:12px}
+.eyebrow.or{color:var(--or-deep)}
+h1{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:var(--brun-noir);line-height:1.18;margin-bottom:10px}
+h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--brun-noir);line-height:1.2;margin-bottom:10px}
+h1 em,h2 em{font-style:italic;color:var(--ambre);font-weight:600}
+.sub-italic{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--texte-secondaire);line-height:1.5;max-width:440px;margin:0 auto}
 
-/* SCREENS */
-.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px 24px 40px;opacity:0;pointer-events:none;transition:opacity 0.5s;z-index:1}
-.screen.active{opacity:1;pointer-events:all}
+.orb{position:relative;width:68px;height:68px;margin:0 auto 24px}
+.orb::before{content:'';position:absolute;inset:-45%;border-radius:50%;background:radial-gradient(circle,rgba(154,128,144,0.35) 0%,transparent 70%)}
+.orb::after{content:'';position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.22) 0%,transparent 72%)}
+.orb-core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 38% 38%,#E08858,#D06030 55%,#B04018);box-shadow:0 0 28px rgba(200,96,48,0.38),inset -2px -3px 8px rgba(140,40,10,.25);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 
-/* ── SCREEN 1 — BIENVENUE ── */
-.s1-inner{max-width:620px;width:100%;text-align:center}
-.s1-orb{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 38% 35%,#f08060,#d06224 55%,#af421c);margin:0 auto 28px;position:relative}
-.s1-orb-glow{position:absolute;inset:-16px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,0.2) 0%,transparent 70%)}
-.s1-label{font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--orange);text-transform:uppercase;margin-bottom:14px}
-.s1-title{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;line-height:1.15;margin-bottom:8px}
-.s1-title em{font-style:italic;color:var(--orange)}
-.s1-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--texte-muted);margin-bottom:32px;line-height:1.5}
-.s1-video-frame{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;margin-bottom:28px;position:relative;overflow:hidden;cursor:pointer}
-.s1-video-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(175,66,28,0.15),rgba(122,158,142,0.08))}
-.s1-play{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--brique),var(--orange));display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 4px 20px rgba(208,98,36,0.4)}
-.s1-play svg{margin-left:4px}
-.s1-video-label{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:12px;color:rgba(255,255,255,0.5);z-index:1}
-.s1-video-from{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:28px}
-.btn-primary{background:linear-gradient(135deg,var(--brique),var(--orange));color:#fff;border:none;padding:14px 36px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;box-shadow:0 4px 20px rgba(208,98,36,0.35);transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(208,98,36,0.45)}
-.btn-secondary{background:transparent;color:rgba(255,255,255,0.5);border:0.5px solid rgba(255,255,255,0.15);padding:12px 28px;border-radius:30px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all 0.2s}
-.btn-secondary:hover{color:#fff;border-color:rgba(255,255,255,0.3)}
+.card{background:#fff;border:0.5px solid var(--ivoire-deep);border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 4px 20px rgba(26,20,16,.04)}
+.card p{font-size:14px;color:var(--texte-secondaire);line-height:1.7}
 
-/* ── SCREEN 2 — QUESTIONNAIRE ── */
-.s2-inner{max-width:640px;width:100%;overflow-y:auto;max-height:calc(100vh - 120px)}
-.s2-header{text-align:center;margin-bottom:32px}
-.s2-label{font-size:10px;font-weight:700;letter-spacing:0.16em;color:var(--sauge);text-transform:uppercase;margin-bottom:10px}
-.s2-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1.2;margin-bottom:8px}
-.s2-sub{font-size:13px;color:var(--texte-muted);line-height:1.6}
-.q-block{background:var(--card);border:0.5px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:12px}
-.q-num{font-size:9.5px;font-weight:700;letter-spacing:0.12em;color:var(--orange);text-transform:uppercase;margin-bottom:6px}
-.q-text{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.4}
-.q-options{display:flex;flex-direction:column;gap:7px}
-.q-opt{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:9px;border:0.5px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.2s;font-size:13px;color:rgba(255,255,255,0.7)}
-.q-opt:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.2);color:#fff}
-.q-opt.sel{background:rgba(208,98,36,0.14);border-color:rgba(208,98,36,0.38);color:#fff}
-.q-opt-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.25);flex-shrink:0;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
-.q-opt.sel .q-opt-dot{background:var(--orange);border-color:var(--orange)}
-.q-textarea{width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:13px;color:#fff;font-family:'Be Vietnam Pro',sans-serif;resize:none;outline:none;min-height:80px;line-height:1.6}
-.q-textarea::placeholder{color:rgba(255,255,255,0.2)}
-.q-textarea:focus{border-color:rgba(208,98,36,0.35);background:rgba(208,98,36,0.05)}
+.field{margin-bottom:16px}
+.field-label{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brun-noir);margin-bottom:8px;display:block}
+.field-input,.field-textarea{width:100%;background:var(--ivoire-soft);border:1px solid var(--taupe-light);border-radius:11px;padding:13px 15px;font-size:14px;color:var(--brun-noir);font-family:inherit;outline:none;transition:all .2s}
+.field-textarea{min-height:80px;resize:vertical}
+.field-input:focus,.field-textarea:focus{border-color:var(--ambre);background:#fff;box-shadow:0 0 0 3px rgba(200,96,48,.10)}
+.field-hint{font-size:11.5px;color:var(--texte-tertiaire);margin-top:6px}
 
-/* ── SCREEN 3 — CHARTE ── */
-.s3-inner{max-width:600px;width:100%;overflow-y:auto;max-height:calc(100vh - 120px)}
-.s3-header{text-align:center;margin-bottom:28px}
-.s3-label{font-size:10px;font-weight:700;letter-spacing:0.16em;color:var(--or);text-transform:uppercase;margin-bottom:10px}
-.s3-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:8px}
-.s3-sub{font-size:13px;color:var(--texte-muted);line-height:1.6}
-.charte-block{background:rgba(184,164,101,0.06);border:0.5px solid rgba(184,164,101,0.18);border-radius:14px;padding:22px;margin-bottom:12px}
-.charte-item{display:flex;gap:14px;padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
-.charte-item:last-child{border-bottom:none;padding-bottom:0}
-.charte-icon{width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.charte-title{font-size:13.5px;font-weight:600;color:#fff;margin-bottom:3px}
-.charte-desc{font-size:12px;color:var(--texte-muted);line-height:1.5}
-.sign-block{background:var(--card);border:0.5px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:20px}
-.sign-label{font-size:11px;color:var(--texte-muted);margin-bottom:8px}
-.sign-input{width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:14px;color:#fff;font-family:'Playfair Display',serif;font-style:italic;outline:none;transition:all 0.2s}
-.sign-input:focus{border-color:rgba(184,164,101,0.4);background:rgba(184,164,101,0.04)}
-.sign-input::placeholder{color:rgba(255,255,255,0.2);font-style:italic}
-.check-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;cursor:pointer}
-.check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid rgba(255,255,255,0.2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
-.check-box.on{background:var(--or);border-color:var(--or)}
-.check-text{font-size:12.5px;color:rgba(255,255,255,0.6);line-height:1.6}
+.options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.option{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--ivoire-soft);border:1px solid var(--taupe-light);border-radius:11px;cursor:pointer;font-size:13.5px;color:var(--brun-noir);transition:all .2s}
+.option:hover{border-color:var(--ambre)}
+.option-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--taupe);flex-shrink:0}
+.option.sel{background:rgba(200,96,48,.07);border-color:var(--ambre)}
+.option.sel .option-dot{background:var(--ambre);border-color:var(--ambre);box-shadow:inset 0 0 0 3px #fff}
 
-/* ── SCREEN 4 — PRÊTE ── */
-.s4-inner{max-width:580px;width:100%;text-align:center}
-.s4-circle{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,rgba(122,158,142,0.2),rgba(184,164,101,0.15));border:0.5px solid rgba(122,158,142,0.3);margin:0 auto 28px;display:flex;align-items:center;justify-content:center;position:relative}
-.s4-circle::before{content:'';position:absolute;inset:-12px;border-radius:50%;background:radial-gradient(circle,rgba(122,158,142,0.12) 0%,transparent 65%)}
-.s4-label{font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--sauge);text-transform:uppercase;margin-bottom:14px}
-.s4-title{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;line-height:1.15;margin-bottom:10px}
-.s4-title em{font-style:italic;color:var(--sauge)}
-.s4-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--texte-muted);margin-bottom:36px;line-height:1.6;max-width:440px;margin-left:auto;margin-right:auto}
-.s4-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;text-align:left}
-.s4-step{background:var(--card);border:0.5px solid var(--card-border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px}
-.s4-step-num{width:28px;height:28px;border-radius:50%;background:var(--orange-glow,rgba(208,98,36,0.15));border:0.5px solid rgba(208,98,36,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--orange);flex-shrink:0}
-.s4-step-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.4}
-.s4-step-text strong{color:#fff;font-weight:600}
+.charte-item{display:flex;gap:14px;padding:14px 0;border-bottom:0.5px solid var(--ivoire-deep)}
+.charte-item:last-child{border-bottom:none}
+.charte-icon{width:36px;height:36px;border-radius:10px;background:rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.charte-t{font-weight:600;font-size:13.5px;color:var(--brun-noir);margin-bottom:3px}
+.charte-d{font-size:12.5px;color:var(--texte-secondaire);line-height:1.5}
 
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:20}
+.checkbox-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;cursor:pointer}
+.checkbox-row+.checkbox-row{border-top:0.5px solid var(--ivoire-deep)}
+.checkbox{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--taupe);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.checkbox.on{background:var(--or);border-color:var(--or-deep)}
+.checkbox-text{font-size:13px;color:var(--brun-noir);line-height:1.5}
+.checkbox-text a{color:var(--ambre);font-weight:500}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.emoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.emoji-cell{aspect-ratio:1;background:#fff;border:1px solid var(--ivoire-deep);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:24px;cursor:pointer;transition:all .2s}
+.emoji-cell:hover{border-color:var(--ambre)}
+.emoji-cell.sel{background:rgba(200,96,48,.07);border-color:var(--ambre)}
+.emoji-label{font-size:9px;color:var(--texte-tertiaire);font-weight:500}
+
+.slider-block{margin-bottom:20px}
+.slider-label{font-size:11px;color:var(--texte-secondaire);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
+.slider-input{width:100%;-webkit-appearance:none;height:6px;background:var(--ivoire-deep);border-radius:999px;outline:none}
+.slider-input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;background:var(--or);border:3px solid #fff;border-radius:50%;cursor:pointer;box-shadow:0 2px 8px rgba(201,168,76,.35)}
+.slider-input::-moz-range-thumb{width:22px;height:22px;background:var(--or);border:3px solid #fff;border-radius:50%;cursor:pointer}
+.slider-row{display:flex;justify-content:space-between;font-size:11px;color:var(--texte-tertiaire);margin-top:10px}
+.slider-value{font-weight:700;color:var(--ambre)}
+
+.video-frame{background:var(--brun-noir);border-radius:16px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;overflow:hidden;cursor:pointer}
+.video-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,96,48,.22),rgba(154,128,144,.12))}
+.play-btn{width:60px;height:60px;border-radius:50%;background:var(--or);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 4px 20px rgba(201,168,76,.45)}
+.card-mauve{background:rgba(154,128,144,.10);border:0.5px solid rgba(154,128,144,.22);border-radius:16px;padding:22px;margin-bottom:24px}
+.card-mauve p{font-size:14px;color:var(--brun-noir);line-height:1.7}
+.signature{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--texte-secondaire);font-size:14px;margin-top:12px}
+
+.nav-row{display:flex;gap:10px;margin-top:28px}
+.nav-row .btn{flex:1}
+.btn{padding:14px 18px;border-radius:12px;font-size:13.5px;font-weight:700;letter-spacing:.02em;cursor:pointer;font-family:inherit;border:none;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-or{background:var(--or);color:var(--brun-noir);box-shadow:0 4px 14px rgba(201,168,76,.32)}
+.btn-or:hover:not(:disabled){background:var(--or-light);transform:translateY(-1px);box-shadow:0 6px 18px rgba(201,168,76,.40)}
+.btn-or:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn-ghost{background:transparent;border:1px solid var(--taupe-light);color:var(--texte-secondaire)}
+.btn-ghost:hover{background:var(--ivoire-soft)}
+.btn-block{width:100%}
+.btn-lg{padding:16px 20px;font-size:14px}
+.big{flex:2}
+
+.err{color:var(--ambre-deep);font-size:12.5px;margin-top:10px;display:none}
+.err.on{display:block}
 </style>
 </head>
 <body>
 
-<!-- LOGO -->
-<div class="top-logo">
-  <div class="orb-wrap">
-    <div class="orb-glow"></div>
-    <div class="orb"></div>
+<div class="topbar">
+  <div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+  <div class="step-dots">
+    <div class="step-dot on" data-step="0"></div>
+    <div class="step-dot" data-step="1"></div>
+    <div class="step-dot" data-step="2"></div>
+    <div class="step-dot" data-step="3"></div>
+    <div class="step-dot" data-step="4"></div>
   </div>
-  <div class="logo-texts">
-    <div class="l1">Mindset</div>
-    <div class="l2">du bien-être.</div>
-  </div>
+  <span class="step-count" id="step-count">1 / 5</span>
 </div>
 
-<!-- STEPS -->
-<div class="steps-nav">
-  <div class="step-dot on" onclick="goTo(0)"></div>
-  <div class="step-dot" onclick="goTo(1)"></div>
-  <div class="step-dot" onclick="goTo(2)"></div>
-  <div class="step-dot" onclick="goTo(3)"></div>
-</div>
-
-<!-- ── SCREEN 1 — BIENVENUE ── -->
-<div class="screen active" id="s0">
-  <div class="s1-inner">
-    <div class="s1-orb">
-      <div class="s1-orb-glow"></div>
-    </div>
-    <div class="s1-label">Bienvenue dans MDB</div>
-    <div class="s1-title">Tu es exactement<br><em>là où tu dois être.</em></div>
-    <div class="s1-sub">Ce programme est le début de quelque chose de réel.<br>Je suis là. On commence ensemble.</div>
-
-    <div class="s1-video-frame" onclick="this.style.background='rgba(208,98,36,0.1)'">
-      <div class="s1-play">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polygon points="6,4 20,12 6,20" fill="#fff"/></svg>
-      </div>
-      <div class="s1-video-label">Message de bienvenue de Vanille · 3 min</div>
-    </div>
-
-    <div class="s1-video-from">"Je t'ai préparé quelque chose de spécial pour ces 12 semaines."<br>— Vanille</div>
-
-    <button class="btn-primary" onclick="goTo(1)">
-      Commencer mon parcours
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
+<!-- S1 WELCOME -->
+<div class="screen on" id="s1">
+  <div class="head-center">
+    <div class="orb"><div class="orb-core"></div></div>
+    <div class="eyebrow">Bienvenue chez MDB</div>
+    <h1>Tu es <em>arrivée</em>.</h1>
+    <p class="sub-italic">Ce que tu commences ici, ce n'est pas un programme. C'est une reconstruction.</p>
   </div>
-</div>
-
-<!-- ── SCREEN 2 — QUESTIONNAIRE ── -->
-<div class="screen" id="s1">
-  <div class="s2-inner">
-    <div class="s2-header">
-      <div class="s2-label">Étape 1 sur 3 · Questionnaire d'intégration</div>
-      <div class="s2-title">Pour t'accompagner<br>au plus près</div>
-      <div class="s2-sub">Tes réponses restent confidentielles et me permettent de personnaliser ton parcours dès la première semaine.</div>
-    </div>
-
-    <div class="q-block">
-      <div class="q-num">Question 1</div>
-      <div class="q-text">Qu'est-ce qui t'a amenée à rejoindre MDB aujourd'hui ?</div>
-      <div class="q-options">
-        <div class="q-opt sel" onclick="selectOpt(this)">
-          <div class="q-opt-dot"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#fff"/></svg></div>
-          Je me sens épuisée et je n'arrive plus à me reconnecter à moi-même
-        </div>
-        <div class="q-opt" onclick="selectOpt(this)">
-          <div class="q-opt-dot"></div>
-          Je gère en apparence mais je suis à bout intérieurement
-        </div>
-        <div class="q-opt" onclick="selectOpt(this)">
-          <div class="q-opt-dot"></div>
-          J'ai du stress et de l'anxiété que je n'arrive pas à réguler
-        </div>
-        <div class="q-opt" onclick="selectOpt(this)">
-          <div class="q-opt-dot"></div>
-          Je sens que je ne vis pas en accord avec qui je suis vraiment
-        </div>
-      </div>
-    </div>
-
-    <div class="q-block">
-      <div class="q-num">Question 2</div>
-      <div class="q-text">Comment se manifeste cette surcharge dans ton quotidien ?</div>
-      <div class="q-options">
-        <div class="q-opt" onclick="selectOpt(this)">
-          <div class="q-opt-dot"></div>
-          Fatigue chronique, même après une nuit de sommeil
-        </div>
-        <div class="q-opt sel" onclick="selectOpt(this)">
-          <div class="q-opt-dot"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#fff"/></svg></div>
-          Pensées qui tournent en boucle, difficulté à lâcher prise
-        </div>
-        <div class="q-opt" onclick="selectOpt(this)">
-          <div class="q-opt-dot"></div>
-          Irritabilité, émotions qui débordent sans prévenir
-        </div>
-        <div class="q-opt" onclick="selectOpt(this)">
-          <div class="q-opt-dot"></div>
-          Sentiment de vide ou de déconnexion profonde
-        </div>
-      </div>
-    </div>
-
-    <div class="q-block">
-      <div class="q-num">Question 3</div>
-      <div class="q-text">Qu'est-ce que tu veux vraiment vivre à la fin de ces 12 semaines ?</div>
-      <textarea class="q-textarea" placeholder="Décris avec tes propres mots ce que tu veux ressentir, vivre, être..."></textarea>
-    </div>
-
-    <div class="q-block">
-      <div class="q-num">Question 4</div>
-      <div class="q-text">Y a-t-il quelque chose d'important que tu voudrais que je sache sur toi avant qu'on commence ?</div>
-      <textarea class="q-textarea" placeholder="Ce peut être une peur, une situation particulière, ce avec quoi tu arrives..."></textarea>
-    </div>
-
-    <div style="display:flex;justify-content:center;gap:12px;padding-top:8px;padding-bottom:20px">
-      <button class="btn-secondary" onclick="goTo(0)">Retour</button>
-      <button class="btn-primary" onclick="goTo(2)">
-        Continuer
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
+  <div class="card">
+    <p>Avant d'entrer, prenons trois minutes ensemble. Pour que ton espace soit vraiment <strong>le tien</strong>.<br><br>
+    On va parler de toi, de ce que tu portes, et de comment tu veux qu'on t'accompagne.</p>
   </div>
+  <button class="btn btn-or btn-block btn-lg" onclick="goTo(1)">Commencer →</button>
 </div>
 
-<!-- ── SCREEN 3 — CHARTE ── -->
+<!-- S2 INFOS -->
 <div class="screen" id="s2">
-  <div class="s3-inner">
-    <div class="s3-header">
-      <div class="s3-label">Étape 2 sur 3 · Engagement &amp; confidentialité</div>
-      <div class="s3-title">Notre espace,<br>nos règles</div>
-      <div class="s3-sub">Ce qui se vit dans MDB reste dans MDB. Voici les engagements qui protègent chaque femme de ce programme.</div>
+  <div class="head-center">
+    <div class="eyebrow">Étape 2</div>
+    <h2>Faisons <em>connaissance</em>.</h2>
+    <p class="sub-italic">Pour qu'on t'appelle par ton prénom et qu'on puisse t'écrire si besoin.</p>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label class="field-label">Ton prénom</label>
+      <input class="field-input" id="in-prenom" type="text" placeholder="Sarah">
     </div>
-
-    <div class="charte-block">
-      <div class="charte-item">
-        <div class="charte-icon" style="background:rgba(122,158,142,0.12)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 3 3.5.5-2.5 2.5.5 3.5L8 9l-3 1.5.5-3.5L3 4.5 6.5 4z" stroke="#7a9e8e" stroke-width="1.2" stroke-linejoin="round"/></svg>
-        </div>
-        <div>
-          <div class="charte-title">Confidentialité totale</div>
-          <div class="charte-desc">Tes réponses, tes exercices, tes partages dans la communauté restent strictement confidentiels. Personne d'autre que toi et moi n'y a accès.</div>
-        </div>
-      </div>
-      <div class="charte-item">
-        <div class="charte-icon" style="background:rgba(208,98,36,0.1)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#d06224" stroke-width="1.2"/><path d="M8 5v4M8 11v.5" stroke="#d06224" stroke-width="1.4" stroke-linecap="round"/></svg>
-        </div>
-        <div>
-          <div class="charte-title">Respect dans la communauté</div>
-          <div class="charte-desc">L'espace groupe est un espace de soutien bienveillant. Pas de jugement, pas de comparaison — chaque parcours est unique.</div>
-        </div>
-      </div>
-      <div class="charte-item">
-        <div class="charte-icon" style="background:rgba(184,164,101,0.1)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C5 2 2 5 2 8s3 6 6 6 6-3 6-6-3-6-6-6zm0 3v3l2 2" stroke="#b8a465" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </div>
-        <div>
-          <div class="charte-title">Engagement envers toi-même</div>
-          <div class="charte-desc">Ce programme demande ta présence. Pas la perfection — ta présence. Une semaine à la fois, à ton rythme.</div>
-        </div>
-      </div>
-      <div class="charte-item" style="border-bottom:none">
-        <div class="charte-icon" style="background:rgba(122,158,142,0.1)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2H3a1 1 0 00-1 1v9l3-2h8a1 1 0 001-1V3a1 1 0 00-1-1z" stroke="#7a9e8e" stroke-width="1.2"/></svg>
-        </div>
-        <div>
-          <div class="charte-title">Accès à ton accompagnement</div>
-          <div class="charte-desc">Le chat privé est là pour toi. Je réponds sous 24h en semaine. Tu n'es jamais seule dans ce parcours.</div>
-        </div>
+    <div class="field">
+      <label class="field-label">Ton numéro WhatsApp</label>
+      <input class="field-input" id="in-whatsapp" type="tel" placeholder="+33 6 12 34 56 78">
+      <div class="field-hint">Pour qu'on puisse échanger pendant ton parcours.</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Qu'est-ce qui t'amène ici ?</label>
+      <div class="options" id="situation-opts">
+        <div class="option" data-val="Stress chronique"><div class="option-dot"></div>Stress chronique</div>
+        <div class="option" data-val="Anxiété"><div class="option-dot"></div>Anxiété</div>
+        <div class="option" data-val="Surcharge mentale"><div class="option-dot"></div>Surcharge mentale</div>
+        <div class="option" data-val="Épuisement / burnout"><div class="option-dot"></div>Épuisement / burnout</div>
+        <div class="option" data-val="Désalignement profond"><div class="option-dot"></div>Désalignement profond</div>
+        <div class="option" data-val="Autre"><div class="option-dot"></div>Autre — j'en parlerai en privé</div>
       </div>
     </div>
-
-    <div class="sign-block">
-      <div class="sign-label">Signe ici pour valider ton engagement</div>
-      <input class="sign-input" placeholder="Ton prénom et nom..." />
-    </div>
-
-    <div class="check-row" onclick="toggleCheck(this)">
-      <div class="check-box on">
-        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#201d1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="check-text">J'ai lu et j'accepte la charte de confidentialité de MDB. Je comprends que mes données et mes échanges restent strictement privés.</div>
-    </div>
-
-    <div style="display:flex;justify-content:center;gap:12px;padding-bottom:20px">
-      <button class="btn-secondary" onclick="goTo(1)">Retour</button>
-      <button class="btn-primary" onclick="goTo(3)">
-        Valider mon engagement
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
+    <div class="err" id="err2">Remplis ton prénom et ton WhatsApp pour continuer.</div>
+  </div>
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(0)">← Retour</button>
+    <button class="btn btn-or big" onclick="next2()">Continuer →</button>
   </div>
 </div>
 
-<!-- ── SCREEN 4 — PRÊTE ── -->
+<!-- S3 CHARTE -->
 <div class="screen" id="s3">
-  <div class="s4-inner">
-    <div class="s4-circle">
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M10 20l7 7 13-14" stroke="#7a9e8e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <div class="s4-label">Tout est prêt</div>
-    <div class="s4-title">Tu es prête,<br><em>Sofia.</em></div>
-    <div class="s4-sub">"Ce que tu vas vivre dans les 12 prochaines semaines va changer quelque chose en toi. Je le sais parce que je l'ai vécu. Bienvenue."<br>— Vanille</div>
-
-    <div class="s4-steps">
-      <div class="s4-step">
-        <div class="s4-step-num">1</div>
-        <div class="s4-step-text"><strong>Ta première semaine est débloquée.</strong> Commence par regarder la vidéo d'introduction de la Phase 1.</div>
-      </div>
-      <div class="s4-step">
-        <div class="s4-step-num">2</div>
-        <div class="s4-step-text"><strong>Rejoins le groupe de ta cohorte</strong> dans le chat — présente-toi en quelques mots.</div>
-      </div>
-      <div class="s4-step">
-        <div class="s4-step-num">3</div>
-        <div class="s4-step-text"><strong>Active les notifications WhatsApp</strong> pour recevoir ton Boost Mindset 2x par semaine.</div>
-      </div>
-    </div>
-
-    <button class="btn-primary" onclick="window.location.href='MDB_membre_A.html'" style="font-size:15px;padding:16px 44px">
-      Entrer dans mon espace MDB
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
+  <div class="head-center">
+    <div class="eyebrow or">Étape 3 · Charte</div>
+    <h2><em>Notre engagement</em> mutuel.</h2>
+    <p class="sub-italic">Lis attentivement. Ces points fondent notre confiance.</p>
   </div>
+  <div class="card">
+    <div class="charte-item">
+      <div class="charte-icon">🔒</div>
+      <div><div class="charte-t">Confidentialité absolue</div><div class="charte-d">Tes journaux, réponses et check-ins sont chiffrés. Je ne vois que ce que tu choisis de partager avec moi.</div></div>
+    </div>
+    <div class="charte-item">
+      <div class="charte-icon">🌿</div>
+      <div><div class="charte-t">Ton rythme, pas le mien</div><div class="charte-d">Tu avances quand tu te sens prête. Pas de pression, pas de comparaison.</div></div>
+    </div>
+    <div class="charte-item">
+      <div class="charte-icon">⚠️</div>
+      <div><div class="charte-t">Ce programme ne remplace pas un suivi médical</div><div class="charte-d">En cas de crise : 3114 (gratuit, 24h/24) ou le 15. Je ne pose pas de diagnostic — je t'accompagne.</div></div>
+    </div>
+    <div class="charte-item">
+      <div class="charte-icon">💬</div>
+      <div><div class="charte-t">Présence WhatsApp</div><div class="charte-d">Je suis là plusieurs fois par semaine. Pas en urgence 24/7, mais avec constance et chaleur.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="checkbox-row" onclick="toggleConsent(0)">
+      <div class="checkbox" id="c0">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none"><path d="M2 6L5 9L10 3" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="checkbox-text">J'accepte les <a>CGU</a> et la <a>politique de confidentialité</a>.</div>
+    </div>
+    <div class="checkbox-row" onclick="toggleConsent(1)">
+      <div class="checkbox" id="c1">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none"><path d="M2 6L5 9L10 3" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="checkbox-text">Je consens au traitement de mes données dans le cadre du programme MDB (RGPD).</div>
+    </div>
+    <div class="checkbox-row" onclick="toggleConsent(2)">
+      <div class="checkbox" id="c2">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none"><path d="M2 6L5 9L10 3" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="checkbox-text">J'ai compris que ce programme ne se substitue pas à un suivi médical ou psychologique professionnel.</div>
+    </div>
+    <div class="err" id="err3">Tu dois accepter les 3 points pour continuer.</div>
+  </div>
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(1)">← Retour</button>
+    <button class="btn btn-or big" onclick="next3()">J'accepte →</button>
+  </div>
+</div>
+
+<!-- S4 CHECK-IN -->
+<div class="screen" id="s4">
+  <div class="head-center">
+    <div class="eyebrow">Étape 4 · Premier check-in</div>
+    <h2>Comment tu te sens, <em>là, maintenant</em> ?</h2>
+    <p class="sub-italic">Aucune mauvaise réponse. Juste ta vérité du moment.</p>
+  </div>
+  <div class="card">
+    <div class="slider-label" style="margin-bottom:16px">Choisis ce qui te ressemble :</div>
+    <div class="emoji-grid" id="emoji-grid">
+      <div class="emoji-cell" data-l="Épuisée">😞<div class="emoji-label">Épuisée</div></div>
+      <div class="emoji-cell" data-l="Anxieuse">😰<div class="emoji-label">Anxieuse</div></div>
+      <div class="emoji-cell" data-l="En colère">😡<div class="emoji-label">En colère</div></div>
+      <div class="emoji-cell" data-l="Triste">😔<div class="emoji-label">Triste</div></div>
+      <div class="emoji-cell" data-l="Neutre">😐<div class="emoji-label">Neutre</div></div>
+      <div class="emoji-cell" data-l="Calme">🌿<div class="emoji-label">Calme</div></div>
+      <div class="emoji-cell" data-l="En paix">☀️<div class="emoji-label">En paix</div></div>
+      <div class="emoji-cell" data-l="Confiante">💪<div class="emoji-label">Confiante</div></div>
+      <div class="emoji-cell" data-l="Joyeuse">✨<div class="emoji-label">Joyeuse</div></div>
+      <div class="emoji-cell" data-l="Brouillée">🌫️<div class="emoji-label">Brouillée</div></div>
+    </div>
+    <div class="slider-block">
+      <div class="slider-label">Intensité de ce que tu ressens</div>
+      <input type="range" min="1" max="10" value="5" class="slider-input" id="slider">
+      <div class="slider-row">
+        <span>1 — très bas</span>
+        <span class="slider-value" id="slider-val">5 / 10</span>
+        <span>10 — très haut</span>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Note libre (facultatif)</label>
+      <textarea class="field-textarea" id="note-libre" placeholder="Ce que tu veux ajouter, dans tes mots..."></textarea>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(2)">← Retour</button>
+    <button class="btn btn-or big" onclick="goTo(4)">Continuer →</button>
+  </div>
+</div>
+
+<!-- S5 VIDEO -->
+<div class="screen" id="s5">
+  <div class="head-center">
+    <div class="eyebrow or">Dernière étape</div>
+    <h2>Un mot, <em>de moi à toi</em>.</h2>
+    <p class="sub-italic">Prends 90 secondes. C'est important.</p>
+  </div>
+  <div class="video-frame">
+    <div class="play-btn">
+      <svg width="22" height="22" viewBox="0 0 20 20" fill="#1A1410" style="margin-left:3px"><path d="M5 4L16 10L5 16V4Z"/></svg>
+    </div>
+  </div>
+  <div class="card-mauve">
+    <p><strong id="final-name">Bienvenue</strong>.<br><br>
+    Ton espace est prêt. Tout y est : tes vidéos, tes exercices, tes méditations, ton journal.
+    Tu vas avancer à ton rythme, semaine après semaine. Et je suis là — à chaque étape.</p>
+    <p class="signature">— Vanille</p>
+  </div>
+  <div class="err" id="err5">Un souci pendant l'enregistrement. Réessaie dans un instant.</div>
+  <button class="btn btn-or btn-block btn-lg" id="btn-final" onclick="finalize()">Entrer dans mon espace ✨</button>
 </div>
 
 <script>
-let current = 0;
-const screens = document.querySelectorAll('.screen');
-const dots = document.querySelectorAll('.step-dot');
+const SUPABASE_URL = 'https://hzirvgssahyoxxopowjr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXJ2Z3NzYWh5b3h4b3Bvd2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTEzMjMsImV4cCI6MjA5MDA2NzMyM30.9BOdDoAxKS_mn4CZ9E8YN3eZmkV388U0lZW_st1Jep0';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const clienteId = localStorage.getItem('mdb_cliente_id');
+if (!clienteId) { window.location.href = 'index.html'; }
 
-function goTo(n){
-  screens[current].classList.remove('active');
-  dots[current].classList.remove('on');
-  if(current < n) dots[current].classList.add('done');
-  current = n;
-  screens[current].classList.add('active');
-  dots[current].classList.add('on');
-  dots[current].classList.remove('done');
-}
+const state = {
+  current: 0,
+  prenom: '',
+  whatsapp: '',
+  situation: [],
+  consents: [false, false, false],
+  mots_cles: [],
+  score: 5,
+  note_libre: ''
+};
 
-function selectOpt(el){
-  const parent = el.closest('.q-options');
-  parent.querySelectorAll('.q-opt').forEach(o=>{
-    o.classList.remove('sel');
-    o.querySelector('.q-opt-dot').innerHTML='';
+// Check onboarding not already done
+(async () => {
+  const { data } = await sb.from('clientes').select('onboarding_complete, prenom').eq('id', clienteId).maybeSingle();
+  if (data && data.onboarding_complete) {
+    window.location.href = 'MDB_membre_A.html';
+    return;
+  }
+  if (data && data.prenom) { document.getElementById('in-prenom').value = data.prenom; state.prenom = data.prenom; }
+})();
+
+function goTo(i) {
+  state.current = i;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+  document.getElementById('s' + (i + 1)).classList.add('on');
+  document.querySelectorAll('.step-dot').forEach((d, idx) => {
+    d.classList.remove('on', 'done');
+    if (idx < i) d.classList.add('done');
+    else if (idx === i) d.classList.add('on');
   });
-  el.classList.add('sel');
-  el.querySelector('.q-opt-dot').innerHTML='<svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#fff"/></svg>';
+  document.getElementById('step-count').textContent = (i + 1) + ' / 5';
+  if (i === 4) {
+    const nm = state.prenom || 'Bienvenue';
+    document.getElementById('final-name').textContent = nm + ', bienvenue';
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function toggleCheck(el){
-  const box = el.querySelector('.check-box');
-  box.classList.toggle('on');
-  if(box.classList.contains('on')){
-    box.innerHTML='<svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#201d1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  } else {
-    box.innerHTML='';
+// S2 options multi-select
+document.querySelectorAll('#situation-opts .option').forEach(el => {
+  el.addEventListener('click', () => {
+    el.classList.toggle('sel');
+    const val = el.dataset.val;
+    const i = state.situation.indexOf(val);
+    if (i >= 0) state.situation.splice(i, 1); else state.situation.push(val);
+  });
+});
+
+function next2() {
+  state.prenom = document.getElementById('in-prenom').value.trim();
+  state.whatsapp = document.getElementById('in-whatsapp').value.trim();
+  const err = document.getElementById('err2');
+  if (!state.prenom || !state.whatsapp) { err.classList.add('on'); return; }
+  err.classList.remove('on');
+  goTo(2);
+}
+
+// S3 consents
+function toggleConsent(i) {
+  state.consents[i] = !state.consents[i];
+  const box = document.getElementById('c' + i);
+  const svg = box.querySelector('svg');
+  box.classList.toggle('on', state.consents[i]);
+  svg.style.display = state.consents[i] ? 'block' : 'none';
+}
+function next3() {
+  const err = document.getElementById('err3');
+  if (!state.consents.every(c => c)) { err.classList.add('on'); return; }
+  err.classList.remove('on');
+  goTo(3);
+}
+
+// S4 emoji + slider
+document.querySelectorAll('#emoji-grid .emoji-cell').forEach(el => {
+  el.addEventListener('click', () => {
+    el.classList.toggle('sel');
+    const val = el.dataset.l;
+    const i = state.mots_cles.indexOf(val);
+    if (i >= 0) state.mots_cles.splice(i, 1); else state.mots_cles.push(val);
+  });
+});
+const slider = document.getElementById('slider');
+slider.addEventListener('input', (e) => {
+  state.score = parseInt(e.target.value, 10);
+  document.getElementById('slider-val').textContent = state.score + ' / 10';
+});
+
+// S5 finalize
+async function finalize() {
+  state.note_libre = document.getElementById('note-libre').value.trim();
+  const btn = document.getElementById('btn-final');
+  const err = document.getElementById('err5');
+  btn.disabled = true;
+  btn.textContent = 'Un instant...';
+  err.classList.remove('on');
+  try {
+    const { error: u1 } = await sb.from('clientes').update({
+      prenom: state.prenom,
+      whatsapp: state.whatsapp,
+      situation: state.situation,
+      consentements: { cgu: true, rgpd: true, medical: true, accepted_at: new Date().toISOString() },
+      onboarding_complete: true
+    }).eq('id', clienteId);
+    if (u1) throw u1;
+    const { error: u2 } = await sb.from('checkins_emotionnels').insert({
+      cliente_id: clienteId,
+      score: state.score,
+      mots_cles: state.mots_cles,
+      note_libre: state.note_libre || null,
+      contexte: 'onboarding',
+      semaine: 1
+    });
+    if (u2) console.warn('check-in err', u2);
+    localStorage.setItem('mdb_cliente_prenom', state.prenom);
+    window.location.href = 'MDB_membre_A.html';
+  } catch (e) {
+    console.error('finalize', e);
+    err.classList.add('on');
+    btn.disabled = false;
+    btn.textContent = 'Entrer dans mon espace ✨';
   }
 }
 </script>
+
 </body>
 </html>
