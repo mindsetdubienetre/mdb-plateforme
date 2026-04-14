@@ -66,46 +66,48 @@ body::after {
   color: var(--texte-secondaire); line-height: 1.5;
 }
 
-/* HERO — carte "prochaine action" */
+/* HERO — carte "prochaine action" (version claire) */
 .hero-action {
-  background: linear-gradient(135deg, #2A211B, var(--brun-noir));
-  color: var(--ivoire);
+  background: #fff;
+  color: var(--brun-noir);
   border-radius: 24px;
   padding: 28px 24px;
   margin-bottom: 32px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(26,20,16,0.18);
+  border: 0.5px solid var(--ivoire-deep);
+  box-shadow: 0 8px 32px rgba(26,20,16,0.06), 0 2px 6px rgba(26,20,16,0.03);
 }
 .hero-action::before {
   content: ''; position: absolute;
   top: -80px; right: -60px;
-  width: 220px; height: 220px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,96,48,0.35) 0%, transparent 70%);
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 .hero-action::after {
   content: ''; position: absolute;
   bottom: -80px; left: -60px;
   width: 200px; height: 200px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(200,96,48,0.10) 0%, transparent 70%);
   pointer-events: none;
 }
 .hero-inner { position: relative; z-index: 1; }
 .hero-eyebrow {
   font-size: 10px; font-weight: 700;
   letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--or-light); margin-bottom: 14px;
+  color: var(--ambre); margin-bottom: 14px;
 }
 .hero-title {
   font-family: 'Playfair Display', serif;
   font-size: 26px; font-weight: 600;
   line-height: 1.25; margin-bottom: 8px;
+  color: var(--brun-noir);
 }
 .hero-desc {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic; font-size: 16px;
-  color: rgba(245,240,232,0.78); line-height: 1.55;
+  color: var(--texte-secondaire); line-height: 1.55;
   margin-bottom: 20px;
 }
 .hero-cta {
@@ -119,17 +121,17 @@ body::after {
 }
 .hero-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,168,76,0.45); }
 .hero-progress-label {
-  font-size: 11.5px; color: rgba(245,240,232,0.6);
+  font-size: 11.5px; color: var(--texte-tertiaire);
   margin-bottom: 6px; display: flex; justify-content: space-between;
 }
 .hero-progress-bar {
-  height: 5px; background: rgba(245,240,232,0.14);
+  height: 5px; background: var(--ivoire-deep);
   border-radius: 999px; overflow: hidden;
   margin-bottom: 18px;
 }
 .hero-progress-fill {
   height: 100%; width: 8.3%;
-  background: linear-gradient(90deg, var(--ambre-light), var(--or));
+  background: linear-gradient(90deg, var(--ambre), var(--or));
   border-radius: 999px;
 }
 
