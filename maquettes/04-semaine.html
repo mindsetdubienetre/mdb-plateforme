@@ -3,231 +3,407 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MDB — Semaine 2</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<title>MDB — Semaine 1 · Revenir dans son corps</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/mdb.css">
 <style>
-  body { background: var(--ivoire); padding-bottom: 100px; }
-  .topbar { background: var(--brun-noir); color: var(--ivoire); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 30; }
-  .back-btn { color: var(--ivoire); display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
-  .container-page { max-width: 760px; margin: 0 auto; padding: 28px 20px; }
+body {
+  background: var(--ivoire);
+  min-height: 100vh;
+  padding-bottom: 100px;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: ''; position: fixed; top: -150px; right: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,96,48,0.09) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
 
-  .week-header { margin-bottom: 28px; }
-  .week-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(200,96,48,0.12); border-radius: var(--radius-full); font-size: 11px; font-weight: 600; color: var(--ambre-deep); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
-  .week-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1.15; margin-bottom: 8px; }
-  .week-title em { color: var(--ambre); font-style: italic; }
-  .week-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: var(--texte-secondaire); margin-bottom: 20px; }
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(245,240,232,0.92); backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid var(--ivoire-deep);
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--texte-secondaire);
+  padding: 8px 14px; border-radius: 999px;
+  background: #fff; border: 0.5px solid var(--ivoire-deep);
+  transition: all 0.2s;
+}
+.topbar-back:hover { border-color: var(--taupe); color: var(--brun-noir); }
+.topbar-wa {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: #fff;
+  background: #25D366; padding: 8px 14px; border-radius: 999px;
+}
 
-  .week-progress { display: flex; align-items: center; gap: 16px; margin-bottom: 4px; }
-  .week-progress-text { font-size: 12px; color: var(--texte-tertiaire); white-space: nowrap; }
-  .week-progress .progress { flex: 1; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px; position: relative; z-index: 1; }
 
-  /* MODULES */
-  .module {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    margin-bottom: 16px;
-    border: 1px solid var(--ivoire-deep);
-    overflow: hidden;
-    transition: var(--transition);
-  }
-  .module:hover { border-color: var(--ambre-light); box-shadow: var(--shadow-soft); }
-  .module-header { padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; }
-  .module-icon {
-    width: 48px; height: 48px;
-    border-radius: var(--radius-md);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-  .module-icon.video { background: rgba(200,96,48,0.12); }
-  .module-icon.intro { background: rgba(154,128,144,0.18); }
-  .module-icon.respi { background: rgba(122,158,170,0.18); }
-  .module-icon.medit { background: rgba(201,168,76,0.18); }
-  .module-icon.journal { background: rgba(176,160,144,0.25); }
-  .module-info { flex: 1; min-width: 0; }
-  .module-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texte-tertiaire); margin-bottom: 4px; }
-  .module-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 2px; }
-  .module-meta { font-size: 12px; color: var(--texte-secondaire); }
-  .module-status { width: 28px; height: 28px; border-radius: 50%; background: var(--ivoire); border: 1.5px solid var(--taupe-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .module.done .module-status { background: var(--or); border-color: var(--or); color: var(--brun-noir); }
-  .module.in-progress .module-status { background: var(--ambre); border-color: var(--ambre); color: #fff; }
+.header {
+  text-align: center; margin-bottom: 36px;
+  padding: 28px 20px;
+  background: #fff; border-radius: 20px;
+  border: 0.5px solid var(--ivoire-deep);
+  box-shadow: 0 1px 3px rgba(26,20,16,0.03);
+}
+.phase-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ambre); margin-bottom: 12px;
+}
+.week-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 60px; line-height: 1;
+  color: var(--brun-noir); margin-bottom: 6px;
+}
+.week-num-label {
+  font-size: 11px; color: var(--texte-tertiaire);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.week-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; font-weight: 600;
+  color: var(--brun-noir);
+  line-height: 1.2; margin-bottom: 12px;
+}
+.week-theme {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 16px;
+  color: var(--texte-secondaire);
+  line-height: 1.55; max-width: 480px; margin: 0 auto;
+}
 
-  /* MODULE EXPANDED (vidéo) */
-  .module-body { padding: 0 20px 20px; display: none; }
-  .module.open .module-body { display: block; }
-  .video-frame { background: var(--brun-noir); border-radius: var(--radius-md); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
-  .video-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,96,48,0.25), rgba(154,128,144,0.15)); }
-  .play-btn { width: 56px; height: 56px; border-radius: 50%; background: var(--or); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; box-shadow: var(--shadow-glow-or); }
+.progression {
+  margin-bottom: 24px; padding: 16px 20px;
+  background: #fff; border-radius: 14px;
+  border: 0.5px solid var(--ivoire-deep);
+}
+.progression-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.progression-label { font-size: 12.5px; font-weight: 600; color: var(--brun-noir); }
+.progression-count { font-size: 13px; color: var(--ambre); font-weight: 700; }
+.progress-bar { height: 6px; background: var(--ivoire-deep); border-radius: 999px; overflow: hidden; }
+.progress-fill {
+  height: 100%; width: 37.5%;
+  background: linear-gradient(90deg, var(--ambre), var(--or));
+  border-radius: 999px;
+}
 
-  /* CHECK-IN BANDE */
-  .checkin-strip {
-    background: var(--mauve-bg);
-    border-radius: var(--radius-lg);
-    padding: 18px 20px;
-    margin-top: 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .checkin-strip-text { flex: 1; font-size: 13px; color: var(--texte-secondaire); line-height: 1.5; }
-  .checkin-strip-text strong { color: var(--brun-noir); font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; display: block; margin-bottom: 4px; }
+.cat-label { display: flex; align-items: center; gap: 10px; margin: 28px 0 14px; }
+.cat-label-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(200,96,48,0.10);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.cat-label-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--brun-noir);
+}
+.cat-label-count {
+  font-size: 11px; color: var(--texte-tertiaire);
+  background: var(--ivoire-deep);
+  padding: 3px 9px; border-radius: 999px;
+  letter-spacing: 0.06em;
+}
+
+.activity {
+  display: flex; align-items: center; gap: 14px;
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 16px;
+  padding: 16px 18px; margin-bottom: 10px;
+  text-decoration: none; color: inherit;
+  transition: all 0.2s; cursor: pointer;
+}
+.activity:hover {
+  transform: translateY(-1px);
+  border-color: var(--taupe-light);
+  box-shadow: 0 6px 18px rgba(26,20,16,0.05);
+}
+.activity.done { background: var(--ivoire); opacity: 0.75; }
+.activity.done .activity-title { text-decoration: line-through; color: var(--texte-tertiaire); }
+.activity-check {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--taupe-light);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+}
+.activity.done .activity-check {
+  background: var(--or); border-color: var(--or);
+  color: var(--brun-noir);
+}
+.activity-body { flex: 1; min-width: 0; }
+.activity-title {
+  font-size: 14.5px; font-weight: 600;
+  color: var(--brun-noir); line-height: 1.35;
+  margin-bottom: 3px;
+}
+.activity-meta {
+  font-size: 12px; color: var(--texte-tertiaire);
+  display: flex; align-items: center; gap: 10px;
+}
+.activity-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--taupe); }
+.activity-arrow { color: var(--ambre); flex-shrink: 0; }
+
+.pdf-card {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(201,168,76,0.06);
+  border: 0.5px solid rgba(201,168,76,0.25);
+  border-radius: 14px;
+  padding: 14px 18px; margin-bottom: 10px;
+  text-decoration: none; color: inherit;
+  transition: all 0.2s;
+}
+.pdf-card:hover { background: rgba(201,168,76,0.10); }
+.pdf-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  border: 0.5px solid rgba(201,168,76,0.30);
+  flex-shrink: 0;
+}
+.pdf-body { flex: 1; }
+.pdf-title {
+  font-size: 13.5px; font-weight: 600;
+  color: var(--brun-noir); margin-bottom: 2px;
+}
+.pdf-desc {
+  font-size: 11.5px; color: var(--texte-secondaire);
+  line-height: 1.4;
+}
+.pdf-download {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--or-deep);
+  padding: 6px 12px; border-radius: 8px;
+  background: rgba(201,168,76,0.15);
+  flex-shrink: 0;
+}
+
+.callout {
+  margin-top: 28px; padding: 20px 24px;
+  background: rgba(154,128,144,0.10);
+  border: 0.5px solid rgba(154,128,144,0.25);
+  border-radius: 16px; text-align: center;
+}
+.callout-eyebrow {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: #6A5060; margin-bottom: 8px;
+}
+.callout-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 16px;
+  color: var(--brun-noir); line-height: 1.55;
+}
+
+.footer-week {
+  margin-top: 36px; padding: 22px 24px;
+  background: #fff; border-radius: 16px;
+  border: 0.5px solid var(--ivoire-deep);
+  text-align: center;
+}
+.footer-countdown-label {
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ambre); margin-bottom: 6px;
+}
+.footer-countdown {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--brun-noir); margin-bottom: 8px;
+}
+.footer-countdown em { color: var(--ambre); font-style: italic; }
+.footer-note {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 14px;
+  color: var(--texte-secondaire);
+}
+
+.checkin-card {
+  display: block; margin-top: 18px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, var(--or-light), var(--or));
+  border-radius: 14px;
+  text-decoration: none; color: var(--brun-noir);
+  text-align: center; transition: all 0.2s;
+  box-shadow: 0 4px 18px rgba(201,168,76,0.25);
+}
+.checkin-card:hover { transform: translateY(-1px); }
+.checkin-card-label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.checkin-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; font-weight: 600;
+}
+
+@media (max-width: 500px) {
+  .week-num { font-size: 48px; }
+  .week-title { font-size: 24px; }
+  .week-theme { font-size: 14px; }
+}
 </style>
 </head>
 <body>
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <a href="03-dashboard.html" class="back-btn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Mon espace
-    </a>
-    <div style="font-size: 12px; color: var(--taupe);">Semaine 2 / 12</div>
+
+<div class="topbar">
+  <a href="03-dashboard.html" class="topbar-back">← Mon parcours</a>
+  <a href="#" class="topbar-wa">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+    Vanille
+  </a>
+</div>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="phase-badge">Phase 1 · Fondations</div>
+    <div class="week-num">01</div>
+    <div class="week-num-label">Semaine</div>
+    <h1 class="week-title">Revenir dans son corps</h1>
+    <p class="week-theme">
+      Reconnecter au corps. Comprendre le système nerveux autonome. Poser les premières bases de la régulation.
+    </p>
   </div>
 
-  <a href="index.html" style="position: fixed; top: 12px; right: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
-
-  <div class="container-page">
-    <div class="week-header">
-      <div class="week-eyebrow">
-        <span style="width:6px;height:6px;background:var(--ambre);border-radius:50%;"></span>
-        Phase 1 · Fondations · Semaine 2
-      </div>
-      <h1 class="week-title">Le stress chronique<br><em>et le cortisol</em></h1>
-      <p class="week-sub">"Comprendre ce qui se passe dans ton corps quand tu vis sous tension constante."</p>
-
-      <div class="week-progress">
-        <div class="progress"><div class="progress-bar" style="width: 33%;"></div></div>
-        <div class="week-progress-text">2/6 modules complétés</div>
-      </div>
+  <div class="progression">
+    <div class="progression-row">
+      <div class="progression-label">Ta progression cette semaine</div>
+      <div class="progression-count">3 / 8</div>
     </div>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
 
-    <!-- MODULE 1 — VIDÉO (open by default) -->
-    <div class="module done open">
-      <div class="module-header" onclick="this.parentElement.classList.toggle('open')">
-        <div class="module-icon video">📹</div>
-        <div class="module-info">
-          <div class="module-label">Vidéo · 12 min</div>
-          <div class="module-title">Quand le corps s'épuise sans qu'on s'en rende compte</div>
-          <div class="module-meta">Vu hier · pense à le revoir si besoin</div>
-        </div>
-        <div class="module-status">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-        </div>
-      </div>
-      <div class="module-body">
-        <div class="video-frame">
-          <div class="play-btn">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="#1A1410" style="margin-left:3px"><path d="M5 4L16 10L5 16V4Z"/></svg>
-          </div>
-        </div>
-      </div>
+  <div class="cat-label">
+    <div class="cat-label-icon">🎥</div>
+    <div class="cat-label-text">Vidéos</div>
+    <div class="cat-label-count">5</div>
+  </div>
+
+  <a class="activity done">
+    <div class="activity-check">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
+    <div class="activity-body">
+      <div class="activity-title">Bienvenue dans la Semaine 1</div>
+      <div class="activity-meta">Face cam <span class="activity-meta-dot"></span> 5-8 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
 
-    <!-- MODULE 2 — INTROSPECTION -->
-    <a href="09-tip-vanille.html" style="text-decoration:none;color:inherit">
-      <div class="module in-progress">
-        <div class="module-header">
-          <div class="module-icon intro">📝</div>
-          <div class="module-info">
-            <div class="module-label">Introspection · 10 min</div>
-            <div class="module-title">Tes moments de tension</div>
-            <div class="module-meta">Tu as commencé · 2 questions sur 5</div>
-          </div>
-          <div class="module-status">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
+  <a class="activity done">
+    <div class="activity-check">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="activity-body">
+      <div class="activity-title">Ce qui se passe dans ton cerveau</div>
+      <div class="activity-meta">Slides + voix <span class="activity-meta-dot"></span> 10-15 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
 
-    <!-- MODULE 3 — RESPIRATION -->
-    <a href="06-respiration.html" style="text-decoration:none;color:inherit">
-      <div class="module">
-        <div class="module-header">
-          <div class="module-icon respi">🌬️</div>
-          <div class="module-info">
-            <div class="module-label">Respiration animée · 8 min</div>
-            <div class="module-title">Cohérence cardiaque 5-5-5</div>
-            <div class="module-meta">À faire le matin et le soir cette semaine</div>
-          </div>
-          <div class="module-status"></div>
-        </div>
-      </div>
-    </a>
+  <a class="activity">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">La cohérence cardiaque pas à pas</div>
+      <div class="activity-meta">Tutoriel face cam <span class="activity-meta-dot"></span> 8-10 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
 
-    <!-- MODULE 4 — MÉDITATION -->
-    <a href="08-meditation.html" style="text-decoration:none;color:inherit">
-      <div class="module">
-        <div class="module-header">
-          <div class="module-icon medit">🧘</div>
-          <div class="module-info">
-            <div class="module-label">Méditation guidée · 15 min</div>
-            <div class="module-title">Body scan — relâcher en profondeur</div>
-            <div class="module-meta">Audio guidé par Vanille</div>
-          </div>
-          <div class="module-status"></div>
-        </div>
-      </div>
-    </a>
+  <a class="activity">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">Body scan & ancrage corporel</div>
+      <div class="activity-meta">Méditation guidée <span class="activity-meta-dot"></span> 12-15 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
 
-    <!-- MODULE 5 — JOURNAL -->
-    <a href="09-tip-vanille.html" style="text-decoration:none;color:inherit">
-      <div class="module">
-        <div class="module-header">
-          <div class="module-icon journal">📖</div>
-          <div class="module-info">
-            <div class="module-label">Journal · ton espace privé</div>
-            <div class="module-title">Qu'est-ce que tu voudrais ressentir à la place ?</div>
-            <div class="module-meta">Privé par défaut · à toi de partager si tu veux</div>
-          </div>
-          <div class="module-status"></div>
-        </div>
-      </div>
-    </a>
+  <a class="activity">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">Le nerf vague : ton bouton reset</div>
+      <div class="activity-meta">Slides + voix <span class="activity-meta-dot"></span> 10-12 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
 
-    <!-- MODULE 6 — CHECK-IN FIN -->
-    <a href="05-checkin.html" style="text-decoration:none;color:inherit">
-      <div class="module">
-        <div class="module-header">
-          <div class="module-icon" style="background:rgba(201,168,76,0.18)">✨</div>
-          <div class="module-info">
-            <div class="module-label">Check-in de fin de semaine</div>
-            <div class="module-title">Comment tu te sens après cette semaine ?</div>
-            <div class="module-meta">Pour mesurer le chemin parcouru · 2 min</div>
-          </div>
-          <div class="module-status"></div>
-        </div>
-      </div>
-    </a>
+  <div class="cat-label">
+    <div class="cat-label-icon" style="background:rgba(154,128,144,0.14);">📝</div>
+    <div class="cat-label-text">Introspection</div>
+    <div class="cat-label-count">1</div>
+  </div>
 
-    <div class="checkin-strip">
-      <div style="font-size: 32px;">💬</div>
-      <div class="checkin-strip-text">
-        <strong>Tu bloques quelque part ?</strong>
-        Écris-moi sur WhatsApp. Je lis chaque message — je ne réponds pas en urgence, mais je réponds.
-      </div>
-      <a href="https://wa.me/?text=Vanille%2C%20j%27ai%20besoin%20d%27aide%20sur%20la%20semaine%202" class="btn btn-whatsapp">WhatsApp</a>
+  <a class="activity done">
+    <div class="activity-check">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="activity-body">
+      <div class="activity-title">Journal de décharge</div>
+      <div class="activity-meta">7 jours de journaling libre <span class="activity-meta-dot"></span> Méthode RAIN</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <div class="cat-label">
+    <div class="cat-label-icon" style="background:rgba(201,168,76,0.14);">📄</div>
+    <div class="cat-label-text">Ressources à garder</div>
+    <div class="cat-label-count">2</div>
+  </div>
+
+  <a class="pdf-card">
+    <div class="pdf-icon">📄</div>
+    <div class="pdf-body">
+      <div class="pdf-title">Guide de bienvenue Phase 1</div>
+      <div class="pdf-desc">Présentation de la phase · conseils pour bien démarrer · planning</div>
+    </div>
+    <div class="pdf-download">PDF</div>
+  </a>
+
+  <a class="pdf-card">
+    <div class="pdf-icon">📄</div>
+    <div class="pdf-body">
+      <div class="pdf-title">Fiche — Ce qui se passe dans ton cerveau</div>
+      <div class="pdf-desc">Résumé visuel · 3 états du système nerveux</div>
+    </div>
+    <div class="pdf-download">PDF</div>
+  </a>
+
+  <a href="05-checkin.html" class="checkin-card">
+    <div class="checkin-card-label">Fin de semaine · check-in</div>
+    <div class="checkin-card-title">Comment tu te sens aujourd'hui ?</div>
+  </a>
+
+  <div class="callout">
+    <div class="callout-eyebrow">Ton panier de la semaine</div>
+    <div class="callout-text">
+      Tout est disponible, tout de suite. Tu avances à ton rythme — selon ta vie, tes journées, ton énergie.<br>
+      Pas de pression. Si tu n'as pas tout fait en 7 jours, ce n'est pas grave.
     </div>
   </div>
 
-  <!-- BOTTOM NAV -->
-  <div class="mobile-nav">
-    <a href="03-dashboard.html" class="mobile-nav-item">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20C21 20.55 20.55 21 20 21H15V14H9V21H4C3.45 21 3 20.55 3 20V12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      Mon espace
-    </a>
-    <a href="04-semaine.html" class="mobile-nav-item active">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M5 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H5C4.45 20 4 19.55 4 19V5C4 4.45 4.45 4 5 4Z M8 9H16 M8 13H16 M8 17H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Programme
-    </a>
-    <a href="06-respiration.html" class="mobile-nav-item">
-      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
-      Thérapies
-    </a>
-    <a href="09-tip-vanille.html" class="mobile-nav-item">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z M9 8H15 M9 12H15 M9 16H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Journal
-    </a>
+  <div class="footer-week">
+    <div class="footer-countdown-label">Prochaine étape</div>
+    <div class="footer-countdown">Semaine 2 s'ouvre dans <em>4 jours</em></div>
+    <div class="footer-note">La fenêtre de tolérance — où tu apprends à reconnaître tes zones de surcharge.</div>
   </div>
+
+</div>
+
 </body>
 </html>
