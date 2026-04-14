@@ -3,224 +3,570 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MDB — Phase 1 complétée</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>MDB — Célébration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/mdb.css">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --noir:#0f0d0b;--orange:#d06224;--brique:#af421c;--or:#b8a465;
-  --sauge:#7a9e8e;--sauge-mid:#5a826f;--blanc:#fff;
-  --texte-muted:#6b6560;--texte-dim:rgba(255,255,255,0.22)
+:root {
+  --ivoire: #F5F0E8;
+  --ivoire-soft: #FAF6F0;
+  --ivoire-deep: #EDE6DA;
+  --brun-noir: #1A1410;
+  --ambre: #C86030;
+  --ambre-light: #D87A48;
+  --ambre-deep: #A04820;
+  --or: #C9A84C;
+  --or-light: #D4B86A;
+  --or-deep: #A88830;
+  --mauve: #9A8090;
+  --mauve-light: #B8A0B0;
+  --taupe: #B0A090;
+  --taupe-light: #C8BEB0;
+  --taupe-deep: #8A7A68;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
 }
-html,body{height:100%;overflow:hidden}
-body{font-family:'Be Vietnam Pro',sans-serif;background:var(--noir);color:#fff;display:flex;align-items:center;justify-content:center;position:relative}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  background: var(--brun-noir);
+  color: var(--ivoire);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
 
-/* HALOS CELEBRATION */
-.halo-center{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(184,164,101,0.12) 0%,rgba(208,98,36,0.08) 35%,transparent 65%);pointer-events:none;z-index:0;animation:pulse 4s ease-in-out infinite}
-.halo-tl{position:fixed;top:-100px;left:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(208,98,36,0.1) 0%,transparent 65%);pointer-events:none;z-index:0}
-.halo-br{position:fixed;bottom:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(122,158,142,0.1) 0%,transparent 65%);pointer-events:none;z-index:0}
+/* PARTICULES OR */
+.sparkle {
+  position: absolute;
+  width: 4px; height: 4px;
+  background: var(--or);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(201,168,76,0.8);
+  animation: float 8s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+  20%, 80% { opacity: 1; }
+  50% { transform: translateY(-200px) scale(1.5); opacity: 0.6; }
+}
 
-@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.06);opacity:0.8}}
-@keyframes floatUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}
-@keyframes orbPulse{0%,100%{box-shadow:0 0 40px rgba(184,164,101,0.3),0 0 80px rgba(208,98,36,0.15)}50%{box-shadow:0 0 60px rgba(184,164,101,0.45),0 0 120px rgba(208,98,36,0.25)}}
-@keyframes particleFly{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(-200px) rotate(720deg);opacity:0}}
-@keyframes ringExpand{0%{transform:translate(-50%,-50%) scale(0.8);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
-@keyframes shimmer{0%,100%{opacity:0.4}50%{opacity:1}}
+/* HALOS */
+.bg-halo-1 {
+  position: absolute;
+  top: 10%; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,96,48,0.18) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-halo-2 {
+  position: absolute;
+  bottom: -20%; left: -10%;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154,128,144,0.15) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-/* PARTICLES */
-.particles{position:fixed;inset:0;pointer-events:none;z-index:1}
-.particle{position:absolute;border-radius:50%;animation:particleFly 3s ease-out infinite}
+.container-page {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 60px 24px 40px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
 
-/* MAIN CARD */
-.card{position:relative;z-index:2;max-width:640px;width:100%;padding:24px;display:flex;flex-direction:column;align-items:center;text-align:center;max-height:100vh;overflow-y:auto}
+/* ORBE GIANT */
+.celebration-orb {
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #E08858, #D06030, #B04018);
+  box-shadow: 0 0 80px rgba(200,96,48,0.5), 0 0 160px rgba(154,128,144,0.3);
+  margin-bottom: 40px;
+  animation: orb-celebrate 4s ease-in-out infinite;
+  position: relative;
+}
+.celebration-orb::after {
+  content: '';
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.3);
+  animation: ring 4s ease-out infinite;
+}
+@keyframes orb-celebrate {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+@keyframes ring {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
 
-/* RING */
-.ring-wrap{position:relative;width:140px;height:140px;margin:0 auto 28px;animation:floatUp 0.8s ease both}
-.ring-outer{position:absolute;inset:-16px;border-radius:50%;border:0.5px solid rgba(184,164,101,0.15);animation:ringExpand 1.2s ease both 0.2s}
-.ring-mid{position:absolute;inset:-8px;border-radius:50%;border:0.5px solid rgba(184,164,101,0.25);animation:ringExpand 1.2s ease both 0.4s}
-.ring-inner-bg{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(184,164,101,0.18),rgba(208,98,36,0.12));border:1px solid rgba(184,164,101,0.35);animation:orbPulse 3s ease-in-out infinite}
-.ring-number{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
-.ring-num{font-family:'Playfair Display',serif;font-size:42px;font-weight:300;color:var(--blanc);line-height:1}
-.ring-label{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--or);text-transform:uppercase;margin-top:2px}
+.badge-phase {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--or-light);
+  margin-bottom: 24px;
+}
 
-/* CONTENT */
-.phase-badge{background:rgba(184,164,101,0.12);border:0.5px solid rgba(184,164,101,0.3);color:var(--or);font-size:10px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;display:inline-block;animation:floatUp 0.8s ease both 0.3s}
-.main-title{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;line-height:1.15;margin-bottom:8px;animation:floatUp 0.8s ease both 0.4s}
-.main-title em{font-style:italic;color:var(--or)}
-.main-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--texte-muted);line-height:1.6;max-width:480px;margin:0 auto 32px;animation:floatUp 0.8s ease both 0.5s}
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  color: var(--ivoire);
+}
+.title em { font-style: italic; color: var(--ambre-light); }
+
+.subtitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--taupe-light);
+  margin-bottom: 40px;
+  max-width: 420px;
+}
 
 /* MESSAGE VANILLE */
-.vanille-msg{background:linear-gradient(135deg,rgba(175,66,28,0.15),rgba(184,164,101,0.08));border:0.5px solid rgba(184,164,101,0.22);border-radius:16px;padding:22px 26px;margin-bottom:24px;text-align:left;animation:floatUp 0.8s ease both 0.6s;position:relative;overflow:hidden}
-.vanille-msg::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(184,164,101,0.1),transparent 70%)}
-.vm-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.vm-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brique),var(--orange));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
-.vm-name{font-size:13px;font-weight:600;color:#fff}
-.vm-role{font-size:10.5px;color:var(--texte-muted)}
-.vm-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:rgba(255,255,255,0.82);line-height:1.75}
-.vm-sign{font-size:12px;color:var(--or);margin-top:10px;font-weight:500}
+.vanille-msg {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 32px;
+  text-align: left;
+  max-width: 460px;
+  width: 100%;
+  backdrop-filter: blur(8px);
+}
+.vanille-msg-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.vanille-msg-orb { width: 32px; height: 32px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #E08858, #D06030, #B04018); flex-shrink: 0; }
+.vanille-msg-meta { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--or); font-weight: 600; }
+.vanille-msg-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ivoire);
+}
+.vanille-msg-sign {
+  margin-top: 16px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--taupe);
+  text-align: right;
+}
 
 /* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;width:100%;animation:floatUp 0.8s ease both 0.7s}
-.stat-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 12px;text-align:center}
-.stat-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#fff;line-height:1;margin-bottom:3px}
-.stat-num span{font-size:14px;color:var(--texte-muted)}
-.stat-label{font-size:10px;color:var(--texte-dim);line-height:1.4}
+.stats-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  width: 100%;
+  max-width: 460px;
+  justify-content: center;
+}
+.stat {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  text-align: center;
+  flex: 1;
+}
+.stat-val { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--or); line-height: 1; }
+.stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--taupe); margin-top: 6px; }
 
-/* TRANSFORMATIONS */
-.transfo-block{background:rgba(122,158,142,0.07);border:0.5px solid rgba(122,158,142,0.2);border-radius:14px;padding:18px 20px;margin-bottom:24px;width:100%;text-align:left;animation:floatUp 0.8s ease both 0.8s}
-.transfo-label{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--sauge);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.tdot{width:5px;height:5px;border-radius:50%;background:var(--sauge)}
-.transfo-items{display:flex;flex-direction:column;gap:7px}
-.ti{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,0.72);line-height:1.5}
-.ti-check{width:18px;height:18px;border-radius:5px;background:rgba(122,158,142,0.2);border:0.5px solid rgba(122,158,142,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+/* VICTOIRE */
+.victoire-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 32px;
+  text-align: left;
+  max-width: 460px;
+  width: 100%;
+  backdrop-filter: blur(8px);
+}
+.victoire-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--or-light);
+  margin-bottom: 10px;
+}
+.victoire-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ivoire);
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+.victoire-input {
+  width: 100%;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ivoire);
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  min-height: 92px;
+  transition: all 0.2s;
+}
+.victoire-input::placeholder { color: var(--taupe); font-style: italic; }
+.victoire-input:focus {
+  border-color: var(--or);
+  background: rgba(0,0,0,0.35);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+}
+.victoire-msg {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--or-light);
+  font-style: italic;
+  min-height: 16px;
+}
+.victoire-save {
+  margin-top: 14px;
+  width: 100%;
+  background: rgba(201,168,76,0.18);
+  border: 1px solid rgba(201,168,76,0.35);
+  color: var(--or-light);
+  padding: 11px 16px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.victoire-save:hover:not(:disabled) { background: rgba(201,168,76,0.28); }
+.victoire-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* NEXT PHASE */
-.next-phase{background:rgba(208,98,36,0.08);border:0.5px solid rgba(208,98,36,0.2);border-radius:14px;padding:18px 20px;margin-bottom:28px;width:100%;text-align:left;animation:floatUp 0.8s ease both 0.9s}
-.np-label{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--orange);text-transform:uppercase;margin-bottom:10px}
-.np-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
-.np-sub{font-size:12.5px;color:var(--texte-muted);line-height:1.6;margin-bottom:12px}
-.np-tools{display:flex;gap:6px;flex-wrap:wrap}
-.np-tool{font-size:10.5px;padding:4px 10px;border-radius:20px;background:rgba(208,98,36,0.1);border:0.5px solid rgba(208,98,36,0.22);color:rgba(255,255,255,0.65)}
+/* ACTIONS */
+.actions { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 360px; }
+.btn {
+  width: 100%;
+  padding: 15px 18px;
+  border-radius: 13px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-or {
+  background: var(--or);
+  color: var(--brun-noir);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.35);
+}
+.btn-or:hover { background: var(--or-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,168,76,0.45); }
+.btn-ghost {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--ivoire);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.1); }
 
-/* BUTTONS */
-.btns-row{display:flex;gap:12px;animation:floatUp 0.8s ease both 1s;width:100%;justify-content:center;margin-bottom:8px}
-.btn-main{background:linear-gradient(135deg,var(--brique),var(--orange));color:#fff;border:none;padding:14px 36px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;box-shadow:0 4px 20px rgba(208,98,36,0.4);transition:all 0.2s;display:flex;align-items:center;gap:8px}
-.btn-main:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(208,98,36,0.5)}
-.btn-sec{background:transparent;color:rgba(255,255,255,0.5);border:0.5px solid rgba(255,255,255,0.15);padding:12px 24px;border-radius:30px;font-size:13px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all 0.2s}
-.btn-sec:hover{color:#fff;border-color:rgba(255,255,255,0.3)}
+/* Loader */
+.loading-overlay {
+  position: fixed; inset: 0;
+  background: var(--brun-noir);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  transition: opacity 0.4s;
+}
+.loading-overlay.hidden { opacity: 0; pointer-events: none; }
+.spinner-big {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(200,96,48,0.25);
+  border-top-color: var(--ambre);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+@media (max-width: 540px) {
+  .title { font-size: 34px; }
+  .subtitle { font-size: 16px; }
+  .celebration-orb { width: 150px; height: 150px; }
+  .vanille-msg { padding: 22px; }
+  .stat-val { font-size: 24px; }
+}
 </style>
 </head>
 <body>
 
-<!-- HALOS -->
-<div class="halo-center"></div>
-<div class="halo-tl"></div>
-<div class="halo-br"></div>
+<div class="loading-overlay" id="loader"><div class="spinner-big"></div></div>
 
-<!-- PARTICLES -->
-<div class="particles" id="particles"></div>
+<div class="bg-halo-1"></div>
+<div class="bg-halo-2"></div>
 
-<!-- MAIN -->
-<div class="card">
+<!-- Particules sparkle -->
+<div class="sparkle" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+<div class="sparkle" style="top: 30%; right: 20%; animation-delay: 1s;"></div>
+<div class="sparkle" style="top: 60%; left: 10%; animation-delay: 2s;"></div>
+<div class="sparkle" style="top: 70%; right: 15%; animation-delay: 3s;"></div>
+<div class="sparkle" style="top: 25%; left: 50%; animation-delay: 1.5s;"></div>
+<div class="sparkle" style="top: 80%; right: 40%; animation-delay: 2.5s;"></div>
+<div class="sparkle" style="top: 45%; right: 8%; animation-delay: 0.5s;"></div>
+<div class="sparkle" style="top: 50%; left: 8%; animation-delay: 3.5s;"></div>
 
-  <!-- RING -->
-  <div class="ring-wrap">
-    <div class="ring-outer"></div>
-    <div class="ring-mid"></div>
-    <div class="ring-inner-bg">
-      <div class="ring-number">
-        <div class="ring-num">1</div>
-        <div class="ring-label">Phase</div>
-      </div>
-    </div>
-  </div>
+<div class="container-page">
+  <div class="celebration-orb" aria-hidden="true"></div>
 
-  <div class="phase-badge">✦ Phase 1 complétée</div>
-  <div class="main-title">Tu l'as fait,<br><em>Sofia.</em></div>
-  <div class="main-sub">"Fondations" n'était pas la phase la plus facile. C'était la plus courageuse. Tu as choisi de regarder ce qui se passait vraiment en toi.</div>
+  <div class="badge-phase" id="badge-phase">&#10022; Phase 1 — Fondations · complétée</div>
 
-  <!-- MESSAGE VANILLE -->
+  <h1 class="title" id="title">Tu as <em>posé</em><br>tes fondations.</h1>
+  <p class="subtitle" id="subtitle">3 semaines de présence à toi-même. C'est immense.</p>
+
   <div class="vanille-msg">
-    <div class="vm-header">
-      <div class="vm-av">V</div>
-      <div>
-        <div class="vm-name">Vanille</div>
-        <div class="vm-role">Ton accompagnatrice MDB</div>
-      </div>
+    <div class="vanille-msg-header">
+      <div class="vanille-msg-orb" aria-hidden="true"></div>
+      <div class="vanille-msg-meta">Vanille — pour toi</div>
     </div>
-    <div class="vm-quote">"Sofia, ce que tu viens de traverser en 3 semaines, certaines femmes ne l'affrontent jamais. Tu as regardé ton système nerveux en face, tu as commencé à t'écouter différemment. Ce n'est pas anodin. Je suis fière de toi et je suis là pour la suite."</div>
-    <div class="vm-sign">— Vanille ✦</div>
+    <p class="vanille-msg-text" id="vanille-msg-text">
+      Regarde ce que tu viens de faire.<br><br>
+      Tu as appris à habiter ton corps. À reconnaître ce qui te traverse. À respirer quand tout serre.<br><br>
+      Ce que tu commences maintenant, c'est là que tout devient concret. Tu vas voir des schémas se déplacer. Pas d'un coup. Doucement. Mais profondément.
+    </p>
+    <p class="vanille-msg-sign">— V.</p>
   </div>
 
-  <!-- STATS -->
   <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-num">3<span>sem.</span></div>
-      <div class="stat-label">Complétées</div>
+    <div class="stat">
+      <div class="stat-val" id="stat-weeks">3</div>
+      <div class="stat-label">Semaines</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num">9</div>
-      <div class="stat-label">Exercices réalisés</div>
+    <div class="stat">
+      <div class="stat-val" id="stat-exos">—</div>
+      <div class="stat-label">Exercices</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num">5</div>
-      <div class="stat-label">Vidéos thérapeutiques</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">12</div>
-      <div class="stat-label">Victoires notées</div>
+    <div class="stat">
+      <div class="stat-val" id="stat-checkins">—</div>
+      <div class="stat-label">Check-ins</div>
     </div>
   </div>
 
-  <!-- TRANSFORMATIONS -->
-  <div class="transfo-block">
-    <div class="transfo-label"><div class="tdot"></div>Ce que tu as accompli</div>
-    <div class="transfo-items">
-      <div class="ti">
-        <div class="ti-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#7a9e8e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        Comprendre le fonctionnement de ton système nerveux autonome
-      </div>
-      <div class="ti">
-        <div class="ti-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#7a9e8e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        Identifier tes déclencheurs principaux de surcharge mentale
-      </div>
-      <div class="ti">
-        <div class="ti-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#7a9e8e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        Poser les bases de ta régulation émotionnelle quotidienne
-      </div>
-      <div class="ti">
-        <div class="ti-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#7a9e8e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        Vivre ta première séance EFT complète — et le sentir dans ton corps
-      </div>
-    </div>
+  <div class="victoire-card">
+    <div class="victoire-label">&#10022; Note ta victoire</div>
+    <div class="victoire-title">Qu'est-ce qui a changé pour toi sur cette phase ?</div>
+    <textarea class="victoire-input" id="victoire-input" placeholder="Un mot, une phrase, une sensation... Ce que tu veux garder en mémoire."></textarea>
+    <div class="victoire-msg" id="victoire-msg"></div>
+    <button class="victoire-save" id="victoire-save" onclick="saveVictoire()">Enregistrer ma victoire</button>
   </div>
 
-  <!-- NEXT PHASE -->
-  <div class="next-phase">
-    <div class="np-label">Ce qui t'attend · Phase 2</div>
-    <div class="np-title">Reprogrammation</div>
-    <div class="np-sub">Tu vas maintenant aller chercher les anciens schémas — croyances limitantes, mécanismes inconscients, blessures relationnelles. C'est là que la vraie transformation commence.</div>
-    <div class="np-tools">
-      <span class="np-tool">EFT avancé</span>
-      <span class="np-tool">Autothérapies guidées</span>
-      <span class="np-tool">Travail sur le subconscient</span>
-      <span class="np-tool">Méditations profondes</span>
-    </div>
-  </div>
-
-  <!-- BUTTONS -->
-  <div class="btns-row">
-    <button class="btn-sec">Revoir la Phase 1</button>
-    <button class="btn-main">
-      Commencer la Phase 2
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="actions">
+    <button class="btn btn-or" id="btn-continuer" onclick="continuer()">
+      <span id="btn-continuer-label">Continuer</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </button>
+    <button class="btn btn-ghost" onclick="retourDashboard()">Retour au tableau de bord</button>
   </div>
-
 </div>
 
 <script>
-// Particules célébration
-const colors = ['#d06224','#b8a465','#7a9e8e','#af421c','rgba(255,255,255,0.6)'];
-const container = document.getElementById('particles');
-for(let i = 0; i < 28; i++){
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const size = Math.random() * 6 + 3;
-  p.style.cssText = `
-    width:${size}px;height:${size}px;
-    left:${Math.random()*100}%;
-    top:${40 + Math.random()*60}%;
-    background:${colors[Math.floor(Math.random()*colors.length)]};
-    animation-delay:${Math.random()*4}s;
-    animation-duration:${3 + Math.random()*3}s;
-    opacity:0
-  `;
-  container.appendChild(p);
+// ═══════════════════════════════════════════════════════════
+// CONFIG SUPABASE
+// ═══════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://hzirvgssahyoxxopowjr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXJ2Z3NzYWh5b3h4b3Bvd2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTEzMjMsImV4cCI6MjA5MDA2NzMyM30.9BOdDoAxKS_mn4CZ9E8YN3eZmkV388U0lZW_st1Jep0';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ─── Auth guard ───
+const clienteId = localStorage.getItem('mdb_cliente_id');
+if (!clienteId) { window.location.href = 'index.html'; }
+
+// ─── URL params ───
+const urlParams = new URLSearchParams(window.location.search);
+let phaseNum = parseInt(urlParams.get('phase') || '1', 10);
+if (isNaN(phaseNum) || phaseNum < 1 || phaseNum > 4) phaseNum = 1;
+
+// ─── Fallback phase data ───
+const PHASE_FALLBACK = {
+  1: { nom: 'Fondations',      titre: 'Tu as <em>posé</em><br>tes fondations.',        subtitle: '3 semaines de présence à toi-même. C\'est immense.' },
+  2: { nom: 'Reprogrammation', titre: 'Tu as <em>transformé</em><br>tes schémas.',     subtitle: '3 semaines à déplacer ce qui te pesait. Profondément.' },
+  3: { nom: 'Activation',      titre: 'Tu as <em>incarné</em><br>ton nouvel état.',    subtitle: '3 semaines à devenir celle que tu es vraiment.' },
+  4: { nom: 'Intégration',     titre: 'Tu as <em>intégré</em><br>ta transformation.',  subtitle: '3 semaines à ancrer ce qui restera. Pour toujours.' }
+};
+
+// ─── State ───
+let currentCliente = null;
+let currentPhase = null;
+
+async function init() {
+  try {
+    const [cliRes, phRes, exoRes, checkinRes] = await Promise.all([
+      sb.from('clientes').select('*').eq('id', clienteId).maybeSingle(),
+      sb.from('phases').select('*').eq('id', phaseNum).maybeSingle(),
+      sb.from('exercices_completes').select('id').eq('cliente_id', clienteId),
+      sb.from('reponses_introspection').select('id').eq('cliente_id', clienteId)
+    ]);
+
+    const cliente = cliRes.data;
+    if (!cliente) {
+      localStorage.clear();
+      window.location.href = 'index.html';
+      return;
+    }
+    currentCliente = cliente;
+    currentPhase = phRes.data || null;
+
+    renderBadge();
+    renderTitle();
+    renderStats(exoRes.data || [], checkinRes.data || []);
+
+    hideLoader();
+  } catch (err) {
+    console.error('Erreur init célébration:', err);
+    // Fallback UI gracieux : on affiche au moins le contenu statique
+    renderBadge();
+    renderTitle();
+    hideLoader();
+  }
 }
+
+function renderBadge() {
+  const name = (currentPhase && currentPhase.nom)
+    || (PHASE_FALLBACK[phaseNum] && PHASE_FALLBACK[phaseNum].nom)
+    || ('Phase ' + phaseNum);
+  document.getElementById('badge-phase').innerHTML =
+    '&#10022; Phase ' + phaseNum + ' — ' + escapeHtml(name) + ' · complétée';
+}
+
+function renderTitle() {
+  const data = PHASE_FALLBACK[phaseNum] || PHASE_FALLBACK[1];
+  document.getElementById('title').innerHTML = data.titre;
+  document.getElementById('subtitle').textContent = data.subtitle;
+
+  // Personnalisation avec le prénom
+  const prenom = (currentCliente && currentCliente.prenom) ? currentCliente.prenom : null;
+  const msgEl = document.getElementById('vanille-msg-text');
+  if (prenom) {
+    msgEl.innerHTML =
+      escapeHtml(prenom) + ', regarde ce que tu viens de faire.<br><br>' +
+      'Tu as appris à habiter ton corps. À reconnaître ce qui te traverse. À respirer quand tout serre.<br><br>' +
+      'Ce que tu commences maintenant, c\'est là que tout devient concret. Tu vas voir des schémas se déplacer. Pas d\'un coup. Doucement. Mais profondément.';
+  }
+
+  // Label du bouton continuer
+  const nextPhase = phaseNum + 1;
+  const btnLabel = document.getElementById('btn-continuer-label');
+  if (nextPhase <= 4) {
+    btnLabel.textContent = 'Entrer dans la Phase ' + nextPhase;
+  } else {
+    btnLabel.textContent = 'Retour à mon espace';
+  }
+}
+
+function renderStats(exos, checkins) {
+  // Nombre de semaines dans la phase (3 pour toutes les phases MDB)
+  const weeksInPhase = 3;
+  document.getElementById('stat-weeks').textContent = weeksInPhase;
+  document.getElementById('stat-exos').textContent = exos.length || '—';
+  document.getElementById('stat-checkins').textContent = checkins.length || '—';
+}
+
+// ─── Enregistrer une victoire ───
+async function saveVictoire() {
+  const input = document.getElementById('victoire-input');
+  const msgEl = document.getElementById('victoire-msg');
+  const btn = document.getElementById('victoire-save');
+  const contenu = input.value.trim();
+
+  if (!contenu) {
+    msgEl.textContent = 'Écris quelques mots avant d\'enregistrer.';
+    msgEl.style.color = 'var(--ambre-light)';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Enregistrement...';
+
+  try {
+    const { error } = await sb.from('victoires').insert({
+      cliente_id: clienteId,
+      contenu: contenu
+    });
+    if (error) throw error;
+    msgEl.innerHTML = '&#10022; Victoire enregistrée. Tu peux continuer.';
+    msgEl.style.color = 'var(--or-light)';
+    input.disabled = true;
+    btn.textContent = 'Enregistrée';
+  } catch (err) {
+    console.error('Erreur victoire:', err);
+    msgEl.textContent = 'Impossible d\'enregistrer pour le moment. Réessaie.';
+    msgEl.style.color = 'var(--ambre-light)';
+    btn.disabled = false;
+    btn.textContent = 'Enregistrer ma victoire';
+  }
+}
+
+// ─── Navigation ───
+function continuer() {
+  window.location.href = 'MDB_membre_A.html';
+}
+function retourDashboard() {
+  window.location.href = 'MDB_membre_A.html';
+}
+
+function hideLoader() {
+  document.getElementById('loader').classList.add('hidden');
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// Go
+init();
 </script>
+
 </body>
 </html>

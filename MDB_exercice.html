@@ -2,572 +2,361 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#2d4a3e">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F5F0E8">
 <title>MDB — Exercice</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --noir:#2d4a3e;--noir2:#1e3329;--noir3:#c5d9d0;
-  --orange:#d06224;--brique:#af421c;--or:#b8a465;
-  --sauge:#7a9e8e;--sauge-mid:#5a826f;
-  --blanc:#201d1a;--texte-muted:#5a7a6a;--texte-dim:#8a9e90;
-  --card:#ffffff;--card-border:rgba(122,158,142,0.25)
+  --ivoire:#F5F0E8; --ivoire-soft:#FAF6F0; --ivoire-deep:#EDE6DA;
+  --brun-noir:#1A1410; --ambre:#C86030; --ambre-deep:#A04820;
+  --or:#C9A84C; --or-light:#D4B86A; --or-deep:#A88830;
+  --mauve:#9A8090; --taupe:#B0A090; --taupe-light:#C8BEB0; --taupe-deep:#8A7A68;
+  --texte:#1A1410; --texte-secondaire:#5A4A40; --texte-tertiaire:#8A7A68;
 }
-html,body{height:100%;overflow:hidden;display:flex;flex-direction:column}
-body{font-family:'Be Vietnam Pro',sans-serif;background:var(--noir3);color:var(--blanc);display:flex;flex-direction:column;height:100vh}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--ivoire);color:var(--texte);min-height:100vh;padding-bottom:80px;-webkit-font-smoothing:antialiased}
 
-/* TOPBAR */
-.topbar{height:54px;background:#2d4a3e;border-bottom:0.5px solid rgba(122,158,142,0.2);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0;z-index:10}
-.back-btn{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.8);font-size:12.5px;cursor:pointer;padding:5px 10px;border-radius:8px;border:0.5px solid rgba(255,255,255,0.1);transition:all 0.2s}
-.back-btn:hover{background:rgba(255,255,255,0.08);color:#fff}
-.tb-center{display:flex;align-items:center;gap:10px}
-.tb-phase{font-size:11px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px}
-.tb-phase span{color:var(--orange)}
-.tab-switcher{display:flex;background:rgba(255,255,255,0.1);border-radius:20px;padding:3px;gap:2px}
-.tab-sw{padding:5px 14px;border-radius:16px;font-size:11.5px;font-weight:500;cursor:pointer;color:rgba(255,255,255,0.6);transition:all 0.2s}
-.tab-sw.on{background:var(--orange);color:#fff}
-.tb-right{font-size:11px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:8px}
-.progress-pill{background:rgba(255,255,255,0.08);border-radius:10px;padding:3px 10px;display:flex;align-items:center;gap:6px}
-.progress-bar-sm{width:60px;height:3px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden}
-.progress-fill-sm{height:100%;background:var(--orange);border-radius:2px;transition:width 0.3s}
+.topbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:0.5px solid var(--ivoire-deep);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:15px;color:var(--brun-noir)}
+.topbar-brand em{font-style:italic;font-weight:400}
+.topbar-brand strong{font-weight:800;font-family:'Be Vietnam Pro',sans-serif}
+.topbar-back{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--texte-secondaire);padding:8px 14px;border-radius:999px;background:var(--ivoire-soft);border:0.5px solid var(--ivoire-deep);text-decoration:none;transition:all .2s;cursor:pointer}
+.topbar-back:hover{border-color:var(--taupe);color:var(--brun-noir)}
 
-/* LAYOUT */
-.layout{display:flex;flex:1;overflow:hidden;min-height:0}
-.left-panel{width:280px;background:rgba(22,43,34,0.6);border-right:0.5px solid rgba(122,158,142,0.15);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;padding:20px 16px}
-.right-panel{flex:1;overflow-y:auto;padding:28px 32px}
+.wrap{max-width:720px;margin:0 auto;padding:32px 20px;position:relative}
 
-/* LEFT PANEL */
-.exo-badge{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--sauge);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.type-dot{width:5px;height:5px;border-radius:50%;background:var(--sauge)}
-.exo-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.3}
-.exo-desc{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:16px}
-.meta-row{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.meta-item{display:flex;align-items:center;gap:7px;font-size:11.5px;color:rgba(255,255,255,0.55)}
-.meta-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.consigne-block{background:rgba(208,98,36,0.1);border:0.5px solid rgba(208,98,36,0.2);border-radius:10px;padding:12px;margin-bottom:14px}
-.consigne-lbl{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
-.consigne-text{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.6}
-.note-block{background:rgba(122,158,142,0.08);border:0.5px solid rgba(122,158,142,0.2);border-radius:10px;padding:12px}
-.note-lbl{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sauge);margin-bottom:6px}
-.note-text{font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:rgba(255,255,255,0.65);line-height:1.6}
+.eyebrow{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--ambre);margin-bottom:14px}
+.eyebrow .sep{color:var(--taupe);margin:0 8px;font-weight:400}
 
-/* VIDEO VIEW */
-.video-view{display:flex;flex-direction:column;gap:16px}
-.video-player{background:#0a0a0a;border-radius:16px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
-.video-placeholder{display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff}
-.play-btn{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--brique),var(--orange));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(208,98,36,0.4);transition:all 0.2s}
-.play-btn:hover{transform:scale(1.08)}
-.video-title-over{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#fff;text-align:center}
-.video-sub{font-size:12px;color:rgba(255,255,255,0.5);text-align:center}
-.video-controls{background:rgba(10,10,10,0.8);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px}
-.vc-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.vc-progress{flex:1;height:3px;background:rgba(255,255,255,0.15);border-radius:2px;cursor:pointer;position:relative}
-.vc-fill{height:100%;width:35%;background:var(--orange);border-radius:2px}
-.vc-time{font-size:11px;color:rgba(255,255,255,0.5);flex-shrink:0}
-.chapitres{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden}
-.ch-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--texte-dim);padding:12px 16px;border-bottom:0.5px solid rgba(255,255,255,0.06)}
-.ch-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:0.5px solid rgba(255,255,255,0.04);cursor:pointer;transition:all 0.2s}
-.ch-item:last-child{border-bottom:none}
-.ch-item:hover{background:rgba(255,255,255,0.04)}
-.ch-item.active{background:rgba(208,98,36,0.08)}
-.ch-time{font-size:11px;font-weight:700;color:var(--orange);width:36px;flex-shrink:0}
-.ch-title{font-size:12.5px;color:rgba(255,255,255,0.75)}
-.ch-check{margin-left:auto;width:16px;height:16px;border-radius:50%;border:0.5px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center}
-.ch-check.done{background:var(--sauge-mid);border-color:var(--sauge-mid)}
+h1.titre{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--brun-noir);line-height:1.25;margin-bottom:12px}
+p.subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--texte-secondaire);line-height:1.55;margin-bottom:32px}
 
-/* INTRO VIEW — JOURNAL */
-.intro-view{display:flex;flex-direction:column;gap:0}
-.journal-header{margin-bottom:24px}
-.journal-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#201d1a;margin-bottom:6px}
-.journal-sub{font-size:13px;color:var(--texte-muted);line-height:1.6;margin-bottom:16px}
-.protocol-banner{background:linear-gradient(135deg,rgba(45,74,62,0.08),rgba(122,158,142,0.06));border:0.5px solid rgba(122,158,142,0.25);border-radius:12px;padding:14px 18px;margin-bottom:20px}
-.protocol-title{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#2d4a3e;margin-bottom:6px}
-.protocol-text{font-size:12.5px;color:var(--texte-muted);line-height:1.6}
+/* MEDIA CARD (video/eft/meditation/hypnose) */
+.media-card{background:#1A1410;border-radius:20px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:24px;box-shadow:0 8px 28px rgba(26,20,16,0.12)}
+.media-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(200,96,48,0.22) 0%,transparent 60%)}
+.media-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:14px}
+.play-btn{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--ambre),var(--ambre-deep));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(200,96,48,0.45);cursor:pointer;transition:transform .2s}
+.play-btn:hover{transform:scale(1.06)}
+.media-label{font-family:'Playfair Display',serif;font-size:16px;color:#fff;opacity:.85}
+.media-meta{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.6)}
 
-/* JOUR TABS */
-.jour-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.jour-tab{padding:6px 12px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid rgba(122,158,142,0.3);color:var(--texte-muted);background:#fff;transition:all 0.2s}
-.jour-tab.on{background:#2d4a3e;color:#fff;border-color:#2d4a3e}
-.jour-tab.done{background:rgba(122,158,142,0.15);border-color:var(--sauge);color:var(--sauge)}
+/* PDF CARD */
+.pdf-card{background:#fff;border-radius:20px;padding:32px 28px;border:0.5px solid var(--ivoire-deep);box-shadow:0 1px 3px rgba(26,20,16,0.03);text-align:center;margin-bottom:24px}
+.pdf-icon{width:64px;height:64px;border-radius:16px;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+.pdf-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--brun-noir);margin-bottom:8px}
+.pdf-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--texte-secondaire);margin-bottom:20px}
 
-/* JOUR CONTENT */
+/* INTRO/JOURNAL */
+.jour-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.jour-tab{padding:8px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:0.5px solid var(--ivoire-deep);color:var(--texte-secondaire);background:#fff;transition:all .2s}
+.jour-tab:hover{border-color:var(--taupe-light)}
+.jour-tab.on{background:var(--brun-noir);color:#fff;border-color:var(--brun-noir)}
+.jour-tab.done{background:rgba(201,168,76,0.14);border-color:var(--or);color:var(--or-deep)}
+.jour-tab.done.on{background:var(--brun-noir);color:#fff}
+
 .jour-content{display:none}
 .jour-content.on{display:block}
-.jour-date{font-size:11px;color:var(--texte-dim);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.jour-date-input{border:1px solid rgba(122,158,142,0.3);border-radius:6px;padding:3px 8px;font-size:11px;color:#201d1a;background:#f5faf7;outline:none}
+.jour-card{background:#fff;border-radius:18px;padding:24px 22px;border:0.5px solid var(--ivoire-deep);box-shadow:0 1px 3px rgba(26,20,16,0.03);margin-bottom:18px}
+.jour-label{font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--ambre);margin-bottom:18px}
 
-/* ÉTAPES */
-.etape-block{margin-bottom:20px}
-.etape-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.etape-num{width:24px;height:24px;border-radius:50%;background:#2d4a3e;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.etape-title{font-size:12px;font-weight:700;color:#201d1a;text-transform:uppercase;letter-spacing:0.06em}
-.etape-subtitle{font-size:11px;color:var(--texte-muted);margin-left:34px;margin-bottom:8px;font-style:italic}
-.etape-textarea{width:100%;background:#f5faf7;border:1.5px solid rgba(122,158,142,0.3);border-radius:10px;padding:13px 14px;font-size:13px;color:#201d1a;font-family:'Be Vietnam Pro',sans-serif;resize:none;outline:none;min-height:100px;line-height:1.7;transition:border-color 0.2s}
-.etape-textarea:focus{border-color:rgba(45,74,62,0.5);background:#fff}
-.etape-textarea::placeholder{color:#9aaa9a;font-style:italic}
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--brun-noir);margin-bottom:8px}
+.field label em{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:14px;color:var(--texte-secondaire);margin-left:4px}
+textarea,input[type=text]{width:100%;background:var(--ivoire-soft);border:1px solid var(--ivoire-deep);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--brun-noir);font-family:'Be Vietnam Pro',sans-serif;resize:vertical;outline:none;line-height:1.6;transition:all .2s}
+textarea{min-height:90px}
+textarea:focus,input[type=text]:focus{border-color:var(--taupe);background:#fff}
+textarea::placeholder,input[type=text]::placeholder{color:var(--texte-tertiaire);font-style:italic}
 
-/* CHAMPS OBSERVATION */
-.obs-fields{display:flex;flex-direction:column;gap:10px;margin-left:34px}
-.obs-field label{font-size:11px;font-weight:600;color:var(--texte-muted);display:block;margin-bottom:4px}
-.obs-input{width:100%;background:#f5faf7;border:1.5px solid rgba(122,158,142,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:#201d1a;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:all 0.2s}
-.obs-input:focus{border-color:rgba(45,74,62,0.5);background:#fff}
-.obs-input::placeholder{color:#9aaa9a;font-style:italic}
+/* BUTTONS */
+.actions{display:flex;gap:10px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.btn-or{background:var(--or);color:var(--brun-noir);border:none;padding:13px 22px;border-radius:12px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-or:hover{background:var(--or-light);transform:translateY(-1px);box-shadow:0 6px 18px rgba(201,168,76,0.3)}
+.btn-ghost{background:transparent;border:1px solid var(--taupe-light);color:var(--texte-secondaire);padding:13px 22px;border-radius:12px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all .2s}
+.btn-ghost:hover{border-color:var(--taupe-deep);color:var(--brun-noir)}
 
-/* CHAMPS ANCRAGE */
-.ancrage-fields{display:flex;flex-direction:column;gap:12px;margin-left:34px}
-.ancrage-field{}
-.ancrage-prompt{font-size:12.5px;color:#2d4a3e;font-weight:500;margin-bottom:5px;line-height:1.5}
-.ancrage-input{width:100%;background:#f5faf7;border:1.5px solid rgba(122,158,142,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:#201d1a;font-family:'Be Vietnam Pro',sans-serif;outline:none;resize:none;min-height:60px;transition:all 0.2s;line-height:1.6}
-.ancrage-input:focus{border-color:rgba(45,74,62,0.5);background:#fff}
-.ancrage-input::placeholder{color:#9aaa9a;font-style:italic}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--brun-noir);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(26,20,16,0.25);opacity:0;transition:all .3s;z-index:50;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.err{background:var(--ambre-deep)}
 
-/* DIVIDER */
-.etape-divider{height:1px;background:rgba(122,158,142,0.15);margin:4px 0 20px}
-
-/* BILAN SEMAINE */
-.bilan-block{background:rgba(45,74,62,0.05);border:1px solid rgba(122,158,142,0.2);border-radius:14px;padding:20px;margin-top:8px}
-.bilan-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#201d1a;margin-bottom:4px}
-.bilan-sub{font-size:11.5px;color:var(--texte-muted);margin-bottom:16px}
-.bilan-q{margin-bottom:14px}
-.bilan-q label{font-size:12px;font-weight:600;color:#2d4a3e;display:block;margin-bottom:5px}
-.bilan-textarea{width:100%;background:#f5faf7;border:1.5px solid rgba(122,158,142,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:#201d1a;font-family:'Be Vietnam Pro',sans-serif;resize:none;outline:none;min-height:70px;transition:all 0.2s;line-height:1.6}
-.bilan-textarea:focus{border-color:rgba(45,74,62,0.5);background:#fff}
-
-/* QUESTIONS APPROFONDISSEMENT */
-.appro-block{background:rgba(184,164,101,0.06);border:0.5px solid rgba(184,164,101,0.2);border-radius:14px;padding:20px;margin-top:16px}
-.appro-badge{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--or);margin-bottom:8px}
-.appro-intro{font-size:12px;color:var(--texte-muted);line-height:1.6;margin-bottom:16px;font-style:italic}
-.appro-q{margin-bottom:14px}
-.appro-q label{font-size:12.5px;font-weight:600;color:#201d1a;display:block;margin-bottom:6px;line-height:1.5}
-.appro-textarea{width:100%;background:#fff;border:1.5px solid rgba(184,164,101,0.3);border-radius:8px;padding:10px 12px;font-size:13px;color:#201d1a;font-family:'Be Vietnam Pro',sans-serif;resize:none;outline:none;min-height:70px;transition:all 0.2s;line-height:1.6}
-.appro-textarea:focus{border-color:rgba(184,164,101,0.5)}
-.vanille-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--texte-muted);text-align:center;margin-top:16px;line-height:1.7;padding:0 10px}
-
-/* FOOTER */
-.exo-footer{background:#2d4a3e;border-top:0.5px solid rgba(122,158,142,0.2);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:10}
-.footer-left{font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer}
-.footer-right{display:flex;gap:10px;align-items:center}
-.btn-save{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);padding:8px 18px;border-radius:20px;font-size:12.5px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all 0.2s}
-.btn-save:hover{border-color:rgba(255,255,255,0.4);color:#fff}
-.btn-save.saved{color:var(--sauge);border-color:var(--sauge)}
-.btn-pdf{background:rgba(184,164,101,0.15);border:1px solid rgba(184,164,101,0.3);color:var(--or);padding:8px 18px;border-radius:20px;font-size:12.5px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:6px}
-.btn-pdf:hover{background:rgba(184,164,101,0.25)}
-.btn-done{background:linear-gradient(135deg,var(--brique),var(--orange));color:#fff;border:none;padding:9px 22px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;box-shadow:0 2px 12px rgba(208,98,36,0.3);transition:all 0.2s;display:flex;align-items:center;gap:6px}
-.btn-done:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(208,98,36,0.4)}
-
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(45,74,62,0.2);border-radius:2px}
+@media (max-width:500px){
+  h1.titre{font-size:24px}
+  p.subtitle{font-size:15px}
+  .topbar{padding:12px 16px}
+  .topbar-brand{font-size:13px}
+  .wrap{padding:24px 16px}
+}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
-  <div class="back-btn" onclick="window.location.href='MDB_membre_A.html'">
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 2L4 8l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Retour au programme
-  </div>
-  <div class="tb-center">
-    <div class="tb-phase" id="tb-phase">Phase 1 · Semaine 1 <span>·</span> <span id="tb-titre">Exercice</span></div>
-    <div class="tab-switcher" id="tab-switcher">
-      <div class="tab-sw" onclick="switchView('video',this)" id="tab-video">Vidéo thérapeutique</div>
-      <div class="tab-sw on" onclick="switchView('intro',this)" id="tab-intro">Introspection écrite</div>
+  <div class="topbar-brand"><em>Mindset</em> <strong>du bien-être.</strong></div>
+  <a class="topbar-back" href="MDB_membre_A.html">← Retour au tableau de bord</a>
+</div>
+
+<div class="wrap">
+  <div class="eyebrow" id="eyebrow">Exercice <span class="sep">·</span> Semaine 1</div>
+  <h1 class="titre" id="titre">Exercice</h1>
+  <p class="subtitle" id="subtitle">Prends un moment pour toi.</p>
+
+  <!-- MEDIA VIEW (video/eft/meditation/hypnose) -->
+  <div id="view-media" style="display:none">
+    <div class="media-card">
+      <div class="media-inner">
+        <div class="play-btn" onclick="showToast('Lecture bientôt disponible')">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><polygon points="6,3 21,12 6,21" fill="#fff"/></svg>
+        </div>
+        <div class="media-label" id="media-label">Vidéo</div>
+        <div class="media-meta" id="media-meta">à venir</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn-or" onclick="marquerTermine()">Marquer comme terminé
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
-  <div class="tb-right">
-    <div class="progress-pill">
-      Semaine <span id="tb-semaine">1</span>
-      <div class="progress-bar-sm"><div class="progress-fill-sm" id="tb-progress" style="width:40%"></div></div>
-      40%
+
+  <!-- PDF VIEW -->
+  <div id="view-pdf" style="display:none">
+    <div class="pdf-card">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-title" id="pdf-title">Ressource PDF</div>
+      <div class="pdf-desc">À garder précieusement. À imprimer ou consulter sur ton téléphone.</div>
+      <div class="actions">
+        <button class="btn-or" onclick="telechargerPDF()">Télécharger le PDF</button>
+        <button class="btn-ghost" onclick="marquerTermine()">Marquer comme lu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRO / JOURNAL VIEW -->
+  <div id="view-intro" style="display:none">
+    <div class="jour-tabs" id="jour-tabs"></div>
+    <div id="jour-contents"></div>
+    <div class="actions">
+      <button class="btn-ghost" onclick="sauvegarder(false)">Enregistrer</button>
+      <button class="btn-or" onclick="marquerTermine()">Marquer comme terminé
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
 </div>
 
-<!-- LAYOUT -->
-<div class="layout">
-
-  <!-- LEFT PANEL -->
-  <div class="left-panel">
-    <div class="exo-badge" id="exo-badge">
-      <div class="type-dot"></div>Introspection · Écrit
-    </div>
-    <div class="exo-title" id="exo-title">Mon journal de décharge</div>
-    <div class="exo-desc" id="exo-desc">Un espace d'écriture libre pour vider ce qui pèse et ancrer ce qui nourrit. Chaque matin, 10 minutes.</div>
-    <div class="meta-row">
-      <div class="meta-item">
-        <div class="meta-icon"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-        10 min · Chaque matin
-      </div>
-      <div class="meta-item">
-        <div class="meta-icon"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1L2 5.6l4.2-.4z" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/></svg></div>
-        7 jours consécutifs
-      </div>
-      <div class="meta-item">
-        <div class="meta-icon"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h5" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-        Avant de regarder ton téléphone
-      </div>
-    </div>
-    <div class="consigne-block">
-      <div class="consigne-lbl">Consigne</div>
-      <div class="consigne-text" id="consigne-text">Ton cerveau au réveil est encore en ondes alpha — plus réceptif, moins défensif. <strong>C'est le moment idéal pour libérer ce qui pèse.</strong> Remplis chaque jour dans l'ordre des étapes.</div>
-    </div>
-    <div class="note-block">
-      <div class="note-lbl">Note de Vanille</div>
-      <div class="note-text" id="tip-text">"Tu n'as pas besoin d'être réparée. Tu as besoin d'être entendue. Ce journal est cet espace d'écoute."</div>
-    </div>
-  </div>
-
-  <!-- RIGHT PANEL -->
-  <div class="right-panel" id="right-panel">
-
-    <!-- VIDEO VIEW -->
-    <div id="view-video" style="display:none">
-      <div class="video-view">
-        <div class="video-player" onclick="togglePlay()">
-          <div class="video-placeholder">
-            <div class="play-btn" id="play-btn">
-              <svg id="pp-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <polygon points="5,3 19,12 5,21" fill="rgba(255,255,255,0.9)"/>
-              </svg>
-            </div>
-            <div class="video-title-over" id="video-title-over">Vidéo à venir</div>
-            <div class="video-sub" id="video-sub">Phase 1 · Semaine 1</div>
-          </div>
-        </div>
-        <div class="video-controls">
-          <button class="vc-btn"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 3l8 5-8 5V3z" fill="rgba(255,255,255,0.6)"/><rect x="12" y="3" width="2" height="10" rx="1" fill="rgba(255,255,255,0.6)"/></svg></button>
-          <button class="vc-btn" id="vc-play"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><polygon points="3,2 13,8 3,14" fill="rgba(255,255,255,0.7)"/></svg></button>
-          <button class="vc-btn"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 3l-8 5 8 5V3z" fill="rgba(255,255,255,0.6)"/><rect x="2" y="3" width="2" height="10" rx="1" fill="rgba(255,255,255,0.6)"/></svg></button>
-          <div class="vc-progress"><div class="vc-fill" id="vc-fill"></div></div>
-          <div class="vc-time" id="vc-time">0:00 / 0:00</div>
-        </div>
-        <div class="chapitres" id="chapitres-container"></div>
-      </div>
-    </div>
-
-    <!-- INTRO VIEW — JOURNAL DE DÉCHARGE -->
-    <div id="view-intro">
-      <div class="journal-header">
-        <div class="journal-title" id="journal-main-title">Mon journal de décharge — Semaine 1</div>
-        <div class="journal-sub">Protocole en 3 étapes · Basé sur les travaux de Pennebaker, Hayes et Seligman</div>
-        <div class="protocol-banner">
-          <div class="protocol-title">Comment ça fonctionne</div>
-          <div class="protocol-text"><strong>Étape 1 — Décharge brute (5 min) :</strong> Écris sans filtre tout ce qui te pèse. Ne relis pas.<br><strong>Étape 2 — Observation (3 min) :</strong> Prends du recul. Nomme ce que tu ressens.<br><strong>Étape 3 — Ancrage positif (2 min) :</strong> Recadrage intentionnel pour terminer dans un état régulé.</div>
-        </div>
-      </div>
-
-      <!-- ONGLETS JOURS -->
-      <div class="jour-tabs" id="jour-tabs">
-        <div class="jour-tab on" onclick="switchJour(1,this)">Lun</div>
-        <div class="jour-tab" onclick="switchJour(2,this)">Mar</div>
-        <div class="jour-tab" onclick="switchJour(3,this)">Mer</div>
-        <div class="jour-tab" onclick="switchJour(4,this)">Jeu</div>
-        <div class="jour-tab" onclick="switchJour(5,this)">Ven</div>
-        <div class="jour-tab" onclick="switchJour(6,this)">Sam</div>
-        <div class="jour-tab" onclick="switchJour(7,this)">Dim</div>
-        <div class="jour-tab" onclick="switchJour(8,this)">✦ Bilan</div>
-      </div>
-
-      <!-- JOURS 1-7 -->
-      <div id="jour-1" class="jour-content on">
-        <div class="jour-date">Lundi — <input type="date" class="jour-date-input" id="date-1"></div>
-        <div class="etape-block">
-          <div class="etape-header"><div class="etape-num">1</div><div class="etape-title">Décharge brute</div></div>
-          <div class="etape-subtitle">Écris tout ce qui te pèse. Sans filtre. Sans censure. Ne relis pas.</div>
-          <textarea class="etape-textarea" id="decharge-1" rows="6" placeholder="Vide tout ici — personne ne relira cette étape..."></textarea>
-        </div>
-        <div class="etape-divider"></div>
-        <div class="etape-block">
-          <div class="etape-header"><div class="etape-num">2</div><div class="etape-title">Observation consciente</div></div>
-          <div class="obs-fields">
-            <div><label>Dans mon corps, je ressens :</label><input type="text" class="obs-input" id="corps-1" placeholder="Ex : gorge serrée, ventre noué, épaules lourdes..."></div>
-            <div><label>L'émotion dominante en un mot :</label><input type="text" class="obs-input" id="emotion-1" placeholder="Ex : anxiété, fatigue, colère, tristesse..."></div>
-          </div>
-        </div>
-        <div class="etape-divider"></div>
-        <div class="etape-block">
-          <div class="etape-header"><div class="etape-num">3</div><div class="etape-title">Ancrage positif</div></div>
-          <div class="ancrage-fields">
-            <div class="ancrage-field"><div class="ancrage-prompt">Malgré tout ça, une chose qui fonctionne dans ma vie c'est...</div><textarea class="ancrage-input" id="ancrage1-1" placeholder="..."></textarea></div>
-            <div class="ancrage-field"><div class="ancrage-prompt">Une chose que je me reconnais aujourd'hui c'est...</div><textarea class="ancrage-input" id="ancrage2-1" placeholder="..."></textarea></div>
-            <div class="ancrage-field"><div class="ancrage-prompt">Mon intention pour aujourd'hui c'est...</div><textarea class="ancrage-input" id="ancrage3-1" placeholder="..."></textarea></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- JOURS 2-7 (structure identique) -->
-      <div id="jour-2" class="jour-content" data-jour="2" data-label="Mardi"></div>
-      <div id="jour-3" class="jour-content" data-jour="3" data-label="Mercredi"></div>
-      <div id="jour-4" class="jour-content" data-jour="4" data-label="Jeudi"></div>
-      <div id="jour-5" class="jour-content" data-jour="5" data-label="Vendredi"></div>
-      <div id="jour-6" class="jour-content" data-jour="6" data-label="Samedi"></div>
-      <div id="jour-7" class="jour-content" data-jour="7" data-label="Dimanche"></div>
-
-      <!-- BILAN + APPROFONDISSEMENT -->
-      <div id="jour-8" class="jour-content">
-        <div class="bilan-block">
-          <div class="bilan-title">Mini-bilan de la semaine</div>
-          <div class="bilan-sub">Prends 5 minutes pour observer le chemin parcouru.</div>
-          <div class="bilan-q"><label>Quel jour a été le plus difficile à écrire ?</label><textarea class="bilan-textarea" id="bilan-1" placeholder="..."></textarea></div>
-          <div class="bilan-q"><label>Est-ce que quelque chose a changé dans ton corps depuis le début de la semaine ?</label><textarea class="bilan-textarea" id="bilan-2" placeholder="..."></textarea></div>
-        </div>
-        <div class="appro-block">
-          <div class="appro-badge">✦ Questions d'approfondissement — Méthode RAIN</div>
-          <div class="appro-intro">À faire une seule fois dans la semaine — le jour qui te parle le plus. La méthode RAIN (Reconnaître · Accueillir · Investiguer · Non-identification) de Tara Brach.</div>
-          <div class="appro-q"><label>Quelle émotion est revenue le plus souvent cette semaine dans tes décharges ?</label><textarea class="appro-textarea" id="appro-1" placeholder="..."></textarea></div>
-          <div class="appro-q"><label>Qu'est-ce que cette émotion essaie de te dire ? De quoi a-t-elle besoin ?</label><textarea class="appro-textarea" id="appro-2" placeholder="..."></textarea></div>
-          <div class="appro-q"><label>Si tu pouvais parler à la petite fille en toi qui ressent ça, que lui dirais-tu ?</label><textarea class="appro-textarea" id="appro-3" placeholder="..."></textarea></div>
-          <div class="appro-q"><label>Qu'est-ce que tu choisis de déposer ici, sur ce papier, et de ne plus porter ?</label><textarea class="appro-textarea" id="appro-4" placeholder="..."></textarea></div>
-          <div class="vanille-quote">"Tu n'as pas besoin d'être réparée. Tu as besoin d'être entendue. Ce journal est cet espace d'écoute." — Vanille</div>
-        </div>
-      </div>
-
-    </div><!-- /view-intro -->
-  </div><!-- /right-panel -->
-</div><!-- /layout -->
-
-<!-- FOOTER -->
-<div class="exo-footer">
-  <div class="footer-left" onclick="window.location.href='MDB_membre_A.html'">‹ Exercice précédent</div>
-  <div class="footer-right">
-    <button class="btn-save" id="btn-save" onclick="sauvegarder()">Sauvegarder</button>
-    <button class="btn-pdf" id="btn-pdf" onclick="telechargerPDF()">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 2h8l2 2v10H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M9 2v3h3M6 9h4M8 7v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Télécharger PDF
-    </button>
-    <button class="btn-done" id="btn-done" onclick="marquerTermine()">
-      Marquer comme terminé
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-</div>
+<div class="toast" id="toast"></div>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-const SUPA_URL = 'https://hzirvgssahyoxxopowjr.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXJ2Z3NzYWh5b3h4b3Bvd2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTEzMjMsImV4cCI6MjA5MDA2NzMyM30.9BOdDoAxKS_mn4CZ9E8YN3eZmkV388U0lZW_st1Jep0';
+const SUPABASE_URL = 'https://hzirvgssahyoxxopowjr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXJ2Z3NzYWh5b3h4b3Bvd2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTEzMjMsImV4cCI6MjA5MDA2NzMyM30.9BOdDoAxKS_mn4CZ9E8YN3eZmkV388U0lZW_st1Jep0';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const clienteId = localStorage.getItem('mdb_cliente_id');
+if (!clienteId) window.location.href = 'index.html';
 
-var currentSlug = 'journal-decharge-s1';
-var currentType = 'intro';
-var jourActif = 1;
+const qs = new URLSearchParams(window.location.search);
+const type = qs.get('type') || 'video';
+const slug = qs.get('slug') || '';
+const titreParam = decodeURIComponent(qs.get('titre') || 'Exercice');
+const semaine = parseInt(qs.get('semaine') || '1', 10);
+const urlPdf = qs.get('url_pdf') || '';
 
-// ── INIT JOURS 2-7 ──
-document.addEventListener('DOMContentLoaded', function() {
-  var jours = ['Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
-  for (var i = 2; i <= 7; i++) {
-    var label = jours[i-2];
-    var el = document.getElementById('jour-' + i);
-    if (!el) continue;
-    el.innerHTML = `
-      <div class="jour-date">${label} — <input type="date" class="jour-date-input" id="date-${i}"></div>
-      <div class="etape-block">
-        <div class="etape-header"><div class="etape-num">1</div><div class="etape-title">Décharge brute</div></div>
-        <div class="etape-subtitle">Écris tout ce qui te pèse. Sans filtre. Sans censure. Ne relis pas.</div>
-        <textarea class="etape-textarea" id="decharge-${i}" rows="6" placeholder="Vide tout ici — personne ne relira cette étape..."></textarea>
-      </div>
-      <div class="etape-divider"></div>
-      <div class="etape-block">
-        <div class="etape-header"><div class="etape-num">2</div><div class="etape-title">Observation consciente</div></div>
-        <div class="obs-fields">
-          <div><label>Dans mon corps, je ressens :</label><input type="text" class="obs-input" id="corps-${i}" placeholder="Ex : gorge serrée, ventre noué..."></div>
-          <div><label>L'émotion dominante en un mot :</label><input type="text" class="obs-input" id="emotion-${i}" placeholder="Ex : anxiété, fatigue, colère..."></div>
-        </div>
-      </div>
-      <div class="etape-divider"></div>
-      <div class="etape-block">
-        <div class="etape-header"><div class="etape-num">3</div><div class="etape-title">Ancrage positif</div></div>
-        <div class="ancrage-fields">
-          <div class="ancrage-field"><div class="ancrage-prompt">Malgré tout ça, une chose qui fonctionne dans ma vie c'est...</div><textarea class="ancrage-input" id="ancrage1-${i}" placeholder="..."></textarea></div>
-          <div class="ancrage-field"><div class="ancrage-prompt">Une chose que je me reconnais aujourd'hui c'est...</div><textarea class="ancrage-input" id="ancrage2-${i}" placeholder="..."></textarea></div>
-          <div class="ancrage-field"><div class="ancrage-prompt">Mon intention pour aujourd'hui c'est...</div><textarea class="ancrage-input" id="ancrage3-${i}" placeholder="..."></textarea></div>
+let jourActif = 1;
+
+// ── TYPE LABELS ──
+const typeLabels = {
+  video: 'Vidéo thérapeutique',
+  eft: 'EFT · Tapping guidé',
+  meditation: 'Méditation guidée',
+  hypnose: 'Auto-hypnose',
+  pdf: 'Ressource PDF',
+  introspection: 'Introspection écrite',
+  journal: 'Journal quotidien'
+};
+
+// ── INIT HEADER ──
+document.getElementById('titre').textContent = titreParam;
+document.getElementById('eyebrow').innerHTML = (typeLabels[type] || 'Exercice') + ' <span class="sep">·</span> Semaine ' + semaine;
+
+// ── SUBTITLES ──
+const subtitles = {
+  video: 'Installe-toi confortablement. Offre-toi cette pause.',
+  eft: 'Pose tes doigts, suis la séquence, accueille ce qui remonte.',
+  meditation: 'Ferme les yeux. Respire. Laisse la voix te guider.',
+  hypnose: 'Un moment pour descendre en toi. Sans effort.',
+  pdf: 'Une ressource à garder. À relire quand tu en as besoin.',
+  introspection: 'Un espace d\'écriture pour toi. Sans jugement.',
+  journal: 'Sept jours d\'écoute de toi-même.'
+};
+document.getElementById('subtitle').textContent = subtitles[type] || 'Prends un moment pour toi.';
+
+// ── MEDIA LABELS ──
+if (['video','eft','meditation','hypnose'].includes(type)) {
+  document.getElementById('view-media').style.display = 'block';
+  document.getElementById('media-label').textContent = titreParam;
+  document.getElementById('media-meta').textContent = 'Phase 1 · Semaine ' + semaine;
+} else if (type === 'pdf') {
+  document.getElementById('view-pdf').style.display = 'block';
+  document.getElementById('pdf-title').textContent = titreParam;
+} else if (type === 'introspection' || type === 'journal') {
+  document.getElementById('view-intro').style.display = 'block';
+  buildJours();
+  loadReponses();
+}
+
+// ── BUILD JOURS ──
+function buildJours() {
+  const labels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  const fullLabels = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+  const tabs = document.getElementById('jour-tabs');
+  const contents = document.getElementById('jour-contents');
+  let tabsHtml = '', contentsHtml = '';
+  for (let i = 1; i <= 7; i++) {
+    tabsHtml += `<div class="jour-tab${i===1?' on':''}" onclick="switchJour(${i},this)">${labels[i-1]}</div>`;
+    contentsHtml += `
+      <div class="jour-content${i===1?' on':''}" id="jour-${i}">
+        <div class="jour-card">
+          <div class="jour-label">${fullLabels[i-1]} · Jour ${i}</div>
+          <div class="field">
+            <label>Décharge <em>— ce qui pèse, sans filtre</em></label>
+            <textarea id="decharge_j${i}" rows="5" placeholder="Vide tout ici..."></textarea>
+          </div>
+          <div class="field">
+            <label>Dans mon corps <em>— les sensations physiques</em></label>
+            <input type="text" id="corps_j${i}" placeholder="Gorge serrée, ventre noué, épaules lourdes...">
+          </div>
+          <div class="field">
+            <label>Émotion dominante <em>— en un mot</em></label>
+            <input type="text" id="emotion_j${i}" placeholder="Anxiété, fatigue, colère, tristesse...">
+          </div>
+          <div class="field">
+            <label>Ancrage 1 <em>— une chose qui fonctionne dans ma vie</em></label>
+            <textarea id="ancrage1_j${i}" rows="2" placeholder="..."></textarea>
+          </div>
+          <div class="field">
+            <label>Ancrage 2 <em>— une chose que je me reconnais aujourd'hui</em></label>
+            <textarea id="ancrage2_j${i}" rows="2" placeholder="..."></textarea>
+          </div>
         </div>
       </div>`;
   }
-
-  // Lire les paramètres URL
-  initFromURL();
-
-  // PWA
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(function(){});
-  }
-});
-
-// ── INIT URL ──
-function switchView(type, tabEl) {
-  document.querySelectorAll('.tab-sw').forEach(function(t){ t.classList.remove('on'); });
-  if (tabEl) tabEl.classList.add('on');
-  document.getElementById('view-video').style.display = type === 'video' ? 'block' : 'none';
-  document.getElementById('view-intro').style.display = type === 'intro' ? 'block' : 'none';
+  tabs.innerHTML = tabsHtml;
+  contents.innerHTML = contentsHtml;
 }
 
-function initFromURL() {
-  var params = new URLSearchParams(window.location.search);
-  currentType = params.get('type') || 'intro';
-  currentSlug = params.get('slug') || 'journal-decharge-s1';
-  var titre = decodeURIComponent(params.get('titre') || 'Mon journal de décharge');
-  var semaine = params.get('semaine') || '1';
-
-  document.getElementById('tb-titre').textContent = titre;
-  document.getElementById('tb-semaine').textContent = semaine;
-
-  // Contenu selon slug
-  var exercices = {
-    'journal-decharge-s1': {
-      type: 'intro',
-      badge: 'Introspection · Écrit',
-      titre: 'Mon journal de décharge',
-      desc: 'Un espace d\'écriture libre pour vider ce qui pèse et ancrer ce qui nourrit. Chaque matin, 10 minutes.',
-      consigne: 'Ton cerveau au réveil est encore en ondes alpha — plus réceptif, moins défensif. <strong>C\'est le moment idéal pour libérer ce qui pèse.</strong> Remplis chaque jour dans l\'ordre des étapes.',
-      note: '"Tu n\'as pas besoin d\'être réparée. Tu as besoin d\'être entendue. Ce journal est cet espace d\'écoute."'
-    },
-    'seance-eft': {
-      type: 'video',
-      badge: 'Thérapie · Vidéo guidée',
-      titre: 'Séance EFT — libérer le stress chronique',
-      desc: 'Une séance de tapping guidée pour dissoudre les tensions stockées dans le corps.',
-      consigne: 'Installe-toi dans un endroit calme. <strong>Pas de perturbations pendant 20 minutes.</strong> Ce que tu ressens — larmes, bâillements, chaleur — est normal.',
-      note: '"L\'EFT ne demande pas que tu croies en quoi que ce soit. Il demande juste que tu sois présente."',
-      chapitres: [
-        {time:'0:00', title:'Introduction & mise en condition'},
-        {time:'3:20', title:'Séquence de tapping — points méridiens'},
-        {time:'9:45', title:'Affirmations de régulation émotionnelle'},
-        {time:'14:10', title:'Intégration & ancrage'},
-        {time:'17:00', title:'Retour en douceur & observation'}
-      ]
-    }
-  };
-
-  // Si type=video dans URL → forcer vue vidéo
-  if (currentType === 'video') {
-    switchView('video', document.getElementById('tab-video'));
-    // Trouver les infos vidéo selon le slug
-        var videoInfos = {
-      "s1v1": {titre: "Bienvenue dans la Semaine 1", duree: "5-8 min", sub: "Face cam"},
-      "s1v2": {titre: "Ce qui se passe dans ton cerveau", duree: "10-15 min", sub: "Neurosciences"},
-      "s1v3": {titre: "La cohérence cardiaque pas à pas", duree: "8-10 min", sub: "Tutoriel pratique"},
-      "s1v4": {titre: "Body scan & ancrage corporel", duree: "12-15 min", sub: "Méditation guidée"},
-      "s1v5": {titre: "Le nerf vague : ton bouton reset", duree: "10-12 min", sub: "Approfondissement"},
-      "seance-eft": {titre: "Séance EFT — libérer le stress chronique", duree: "18 min", sub: "Thérapie guidée"}
-    };
-    var vinfo = videoInfos[currentSlug] || {titre: titre, duree: '-- min', sub: 'Phase 1 · Semaine ' + semaine};
-    document.getElementById('video-title-over').textContent = vinfo.titre;
-    document.getElementById('video-sub').textContent = vinfo.sub;
-    document.getElementById('exo-badge').innerHTML = '<div class="type-dot" style="background:var(--orange)"></div>Vidéo thérapeutique';
-    document.getElementById('exo-title').textContent = vinfo.titre;
-    document.getElementById('exo-desc').textContent = vinfo.sub + ' · ' + vinfo.duree;
-    // Chapitres EFT si applicable
-    if (currentSlug === 'seance-eft') {
-      var chapHtml = '<div class="ch-label">Chapitres de la séance</div>';
-      var chaps = [
-        {time:'0:00',title:'Introduction & mise en condition'},
-        {time:'3:20',title:'Séquence de tapping — points méridiens'},
-        {time:'9:45',title:'Affirmations de régulation émotionnelle'},
-        {time:'14:10',title:'Intégration & ancrage'},
-        {time:'17:00',title:'Retour en douceur & observation'}
-      ];
-      chaps.forEach(function(c,i){ chapHtml += '<div class="ch-item' + (i===1?' active':'') + '"><div class="ch-time">' + c.time + '</div><div class="ch-title">' + c.title + '</div><div class="ch-check' + (i===0?' done':'') + '"></div></div>'; });
-      document.getElementById('chapitres-container').innerHTML = chapHtml;
-    }
-    return;
-  }
-
-  var exo = exercices[currentSlug] || exercices['journal-decharge-s1'];
-
-  document.getElementById('exo-badge').innerHTML = '<div class="type-dot" style="background:' + (exo.type==='video'?'var(--orange)':'var(--sauge)') + '"></div>' + exo.badge;
-  document.getElementById('exo-title').textContent = exo.titre;
-  document.getElementById('exo-desc').textContent = exo.desc;
-  document.getElementById('consigne-text').innerHTML = exo.consigne;
-  document.getElementById('tip-text').textContent = exo.note;
-
-  if (exo.type === 'video') {
-    switchView('video', document.getElementById('tab-video'));
-    document.getElementById('video-title-over').textContent = exo.titre;
-    document.getElementById('video-sub').textContent = 'Phase 1 · Semaine ' + semaine;
-    if (exo.chapitres) {
-      var html = '<div class="ch-label">Chapitres de la séance</div>';
-      exo.chapitres.forEach(function(c, i) {
-        html += '<div class="ch-item' + (i===1?' active':'') + '"><div class="ch-time">' + c.time + '</div><div class="ch-title">' + c.title + '</div><div class="ch-check' + (i===0?' done':'') + '"></div></div>';
-      });
-      document.getElementById('chapitres-container').innerHTML = html;
-    }
-  } else {
-    switchView('intro', document.getElementById('tab-intro'));
-  }
-}
-
-// ── NAVIGATION JOURS ──
 function switchJour(num, el) {
-  document.querySelectorAll('.jour-content').forEach(function(j){ j.classList.remove('on'); });
-  document.querySelectorAll('.jour-tab').forEach(function(t){ t.classList.remove('on'); });
-  var content = document.getElementById('jour-' + num);
-  if (content) content.classList.add('on');
+  document.querySelectorAll('.jour-content').forEach(j => j.classList.remove('on'));
+  document.querySelectorAll('.jour-tab').forEach(t => t.classList.remove('on'));
+  const c = document.getElementById('jour-' + num);
+  if (c) c.classList.add('on');
   if (el) el.classList.add('on');
   jourActif = num;
 }
 
-// ── VUE VIDEO / INTRO ──
-function togglePlay() {
-  var icon = document.getElementById('pp-icon');
-  icon.innerHTML = '<rect x="4" y="2" width="3" height="12" rx="1" fill="rgba(255,255,255,0.9)"/><rect x="9" y="2" width="3" height="12" rx="1" fill="rgba(255,255,255,0.9)"/>';
+// ── LOAD REPONSES ──
+async function loadReponses() {
+  try {
+    const { data, error } = await sb.from('reponses_introspection')
+      .select('*').eq('cliente_id', clienteId).eq('exercice_slug', slug).maybeSingle();
+    if (error) { console.warn('Load:', error); return; }
+    if (data && data.reponses) {
+      const r = data.reponses;
+      Object.keys(r).forEach(k => {
+        const el = document.getElementById(k);
+        if (el) el.value = r[k] || '';
+      });
+      // mark completed days
+      for (let i = 1; i <= 7; i++) {
+        if (r['decharge_j'+i] && r['decharge_j'+i].trim().length > 0) {
+          const tab = document.querySelectorAll('.jour-tab')[i-1];
+          if (tab) tab.classList.add('done');
+        }
+      }
+    }
+  } catch(e) { console.warn('Load err:', e); }
+}
+
+// ── COLLECT REPONSES ──
+function collectReponses() {
+  const r = {};
+  const keys = ['decharge','corps','emotion','ancrage1','ancrage2'];
+  for (let i = 1; i <= 7; i++) {
+    keys.forEach(k => {
+      const el = document.getElementById(k + '_j' + i);
+      if (el && el.value) r[k + '_j' + i] = el.value;
+    });
+  }
+  return r;
 }
 
 // ── SAUVEGARDER ──
-function sauvegarder() {
-  var btn = document.getElementById('btn-save');
-  var sb = supabase.createClient(SUPA_URL, SUPA_KEY);
-  var clienteId = localStorage.getItem('mdb_cliente_id');
-  if (!clienteId) return;
-
-  // Collecter les réponses du jour actif
-  var reponses = {};
-  var decharge = document.getElementById('decharge-' + jourActif);
-  var corps = document.getElementById('corps-' + jourActif);
-  var emotion = document.getElementById('emotion-' + jourActif);
-  var a1 = document.getElementById('ancrage1-' + jourActif);
-  var a2 = document.getElementById('ancrage2-' + jourActif);
-  var a3 = document.getElementById('ancrage3-' + jourActif);
-
-  if (decharge) reponses['decharge_j' + jourActif] = decharge.value;
-  if (corps) reponses['corps_j' + jourActif] = corps.value;
-  if (emotion) reponses['emotion_j' + jourActif] = emotion.value;
-  if (a1) reponses['ancrage1_j' + jourActif] = a1.value;
-  if (a2) reponses['ancrage2_j' + jourActif] = a2.value;
-  if (a3) reponses['ancrage3_j' + jourActif] = a3.value;
-
-  sb.from('reponses_introspection').upsert({
-    cliente_id: clienteId,
-    exercice_slug: currentSlug,
-    semaine: 1,
-    reponses: reponses,
-    updated_at: new Date().toISOString()
-  }).then(function() {
-    btn.textContent = '✦ Sauvegardé';
-    btn.classList.add('saved');
-    setTimeout(function(){ btn.textContent = 'Sauvegarder'; btn.classList.remove('saved'); }, 2500);
-    // Marquer l'onglet jour comme fait
-    var tabs = document.querySelectorAll('.jour-tab');
-    if (tabs[jourActif-1]) tabs[jourActif-1].classList.add('done');
-  }).catch(function(e){ console.warn('Sauvegarde:', e); });
+async function sauvegarder(silent) {
+  if (type !== 'introspection' && type !== 'journal') return true;
+  const reponses = collectReponses();
+  try {
+    const { error } = await sb.from('reponses_introspection').upsert({
+      cliente_id: clienteId,
+      exercice_slug: slug,
+      exercice_titre: titreParam,
+      semaine: semaine,
+      reponses: reponses,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'cliente_id,exercice_slug' });
+    if (error) { showToast('Erreur de sauvegarde', true); return false; }
+    if (!silent) showToast('Enregistré');
+    // mark done tabs
+    for (let i = 1; i <= 7; i++) {
+      if (reponses['decharge_j'+i] && reponses['decharge_j'+i].trim().length > 0) {
+        const tab = document.querySelectorAll('.jour-tab')[i-1];
+        if (tab) tab.classList.add('done');
+      }
+    }
+    return true;
+  } catch(e) { showToast('Erreur de sauvegarde', true); return false; }
 }
 
-// ── TÉLÉCHARGER PDF ──
-function telechargerPDF() {
-  alert('Ton journal sera bientôt téléchargeable en PDF. La fonctionnalité est en cours de préparation.');
+// ── MARQUER COMPLETÉ ──
+async function marquerComplete() {
+  try {
+    const { error } = await sb.from('exercices_completes').upsert({
+      cliente_id: clienteId,
+      activite_slug: slug,
+      activite_type: type,
+      semaine: semaine
+    }, { onConflict: 'cliente_id,activite_slug' });
+    if (error) console.warn('Complete:', error);
+  } catch(e) { console.warn('Complete err:', e); }
 }
 
 // ── MARQUER TERMINÉ ──
-function marquerTermine() {
-  sauvegarder();
-  var btn = document.getElementById('btn-done');
-  btn.innerHTML = '✦ Semaine terminée !';
-  btn.style.background = 'var(--sauge-mid)';
-  setTimeout(function(){ window.location.href = 'MDB_membre_A.html'; }, 1500);
+async function marquerTermine() {
+  if (type === 'introspection' || type === 'journal') {
+    const ok = await sauvegarder(true);
+    if (!ok) return;
+  }
+  await marquerComplete();
+  showToast('Terminé ✓');
+  setTimeout(() => { window.location.href = 'MDB_membre_A.html'; }, 900);
+}
+
+// ── PDF ──
+async function telechargerPDF() {
+  if (urlPdf) {
+    window.open(urlPdf, '_blank');
+  } else {
+    showToast('Bientôt disponible');
+  }
+}
+
+// ── TOAST ──
+function showToast(msg, err) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('err', !!err);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
 }
 </script>
 </body>
