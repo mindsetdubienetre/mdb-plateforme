@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { background: var(--ivoire); min-height: 100vh; padding-bottom: 40px; }
+  .top-bar { padding: 24px; display: flex; align-items: center; justify-content: space-between; max-width: 720px; margin: 0 auto; }
+  .step-dots { display: flex; gap: 8px; align-items: center; }
+  .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--taupe-light); transition: var(--transition); }
+  .step-dot.on { width: 32px; border-radius: var(--radius-full); background: var(--ambre); }
+  .step-dot.done { background: var(--or); }
+  .skip { font-size: 12px; color: var(--texte-tertiaire); }
+
+  .screen { max-width: 540px; margin: 0 auto; padding: 32px 24px; display: none; }
+  .screen.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .video-frame { background: var(--brun-noir); border-radius: var(--radius-lg); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; position: relative; overflow: hidden; cursor: pointer; }
+  .video-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,96,48,0.25), rgba(154,128,144,0.15)); }
+  .play-btn { width: 64px; height: 64px; border-radius: 50%; background: var(--or); display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; box-shadow: var(--shadow-glow-or); }
+
+  .nav-row { display: flex; gap: 12px; margin-top: 32px; }
+  .nav-row .btn { flex: 1; }
+  .back-link { position: fixed; top: 24px; left: 24px; font-size: 12px; color: var(--texte-tertiaire); padding: 8px 14px; background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100; }
+
+  .emoji-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .emoji-cell { aspect-ratio: 1; background: #fff; border-radius: var(--radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 28px; cursor: pointer; transition: var(--transition); border: 1px solid var(--ivoire-deep); }
+  .emoji-cell:hover { border-color: var(--ambre); }
+  .emoji-cell.sel { background: rgba(200,96,48,0.08); border-color: var(--ambre); }
+  .emoji-label { font-size: 9px; color: var(--texte-tertiaire); font-weight: 500; }
+
+  .slider-row { padding: 8px 0; }
+  .slider { width: 100%; height: 6px; background: var(--ivoire-deep); border-radius: var(--radius-full); position: relative; }
+  .slider-fill { height: 100%; background: linear-gradient(90deg, var(--ambre), var(--or)); border-radius: var(--radius-full); width: 60%; }
+  .slider-thumb { position: absolute; top: 50%; left: 60%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: var(--or); border: 3px solid #fff; border-radius: 50%; box-shadow: var(--shadow-md); }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--texte-tertiaire); margin-top: 12px; }
+
+  .charte-item { display: flex; gap: 14px; padding: 16px 0; border-bottom: 0.5px solid var(--ivoire-deep); }
+  .charte-item:last-child { border-bottom: none; }
+  .charte-icon { width: 36px; height: 36px; border-radius: var(--radius-md); background: rgba(201,168,76,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--or-deep); }
+  .charte-title { font-weight: 600; margin-bottom: 4px; color: var(--brun-noir); font-size: 14px; }
+  .charte-desc { font-size: 12.5px; color: var(--texte-secondaire); line-height: 1.5; }
+</style>
+</head>
+<body>
+  <a href="index.html" class="back-link">← retour aux maquettes</a>
+
+  <!-- TOP NAV -->
+  <div class="top-bar">
+    <div class="mdb-logo mdb-logo--row mdb-logo--sm" style="display: flex; align-items: center; gap: 10px;">
+      <div class="mdb-orb mdb-orb--sm"><div class="mdb-orb-core"></div></div>
+      <div class="mdb-logo-text" style="font-size: 14px;">
+        <span class="l1">Mindset </span><span class="l2">du bien-être.</span>
+      </div>
+    </div>
+    <div class="step-dots">
+      <div class="step-dot on" onclick="goTo(0)"></div>
+      <div class="step-dot" onclick="goTo(1)"></div>
+      <div class="step-dot" onclick="goTo(2)"></div>
+      <div class="step-dot" onclick="goTo(3)"></div>
+      <div class="step-dot" onclick="goTo(4)"></div>
+    </div>
+    <span class="skip">1 / 5</span>
+  </div>
+
+  <!-- ÉCRAN 1 — BIENVENUE -->
+  <div class="screen active" id="s1">
+    <div class="text-center" style="margin-bottom: 32px;">
+      <div class="mdb-orb mdb-orb--xl mdb-orb--pulse" style="margin: 0 auto 28px;">
+        <div class="mdb-orb-core"></div>
+      </div>
+      <div class="mdb-eyebrow" style="margin-bottom: 12px;">Bienvenue chez MDB</div>
+      <h1 class="mdb-h1" style="margin-bottom: 12px;">Tu es <em>arrivée</em>.</h1>
+      <p class="mdb-italic" style="font-size: 17px; max-width: 420px; margin: 0 auto;">
+        Ce que tu commences ici, ce n'est pas un programme. C'est une reconstruction.
+      </p>
+    </div>
+
+    <div class="card">
+      <p style="font-size: 14px; color: var(--texte-secondaire); line-height: 1.7;">
+        Avant d'entrer, prenons trois minutes ensemble. Pour que ton espace soit vraiment <strong>le tien</strong>.<br><br>
+        On va parler de toi, de ce que tu portes, et de comment tu veux qu'on t'accompagne.
+      </p>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-or btn-block btn-lg" onclick="goTo(1)">Commencer →</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 2 — INFOS -->
+  <div class="screen" id="s2">
+    <div class="text-center" style="margin-bottom: 32px;">
+      <div class="mdb-eyebrow" style="margin-bottom: 12px;">Étape 2</div>
+      <h1 class="mdb-h2" style="margin-bottom: 12px;">Faisons connaissance.</h1>
+      <p class="mdb-italic" style="font-size: 14px;">Pour qu'on t'appelle par ton prénom et qu'on puisse t'écrire si besoin.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Ton prénom</label>
+      <input class="field-input" type="text" placeholder="Sarah" />
+    </div>
+
+    <div class="field">
+      <label class="field-label">Ton numéro WhatsApp</label>
+      <input class="field-input" type="tel" placeholder="+33 6 12 34 56 78" />
+      <div style="font-size: 11px; color: var(--texte-tertiaire); margin-top: 6px;">Pour qu'on puisse échanger pendant ton parcours.</div>
+    </div>
+
+    <div class="field" style="margin-top: 24px;">
+      <label class="field-label">Qu'est-ce qui t'amène ici ? (plusieurs choix possibles)</label>
+      <div class="flex-col gap-8" style="margin-top: 8px;">
+        <div class="option sel" onclick="this.classList.toggle('sel')"><div class="option-dot"></div>Stress chronique</div>
+        <div class="option sel" onclick="this.classList.toggle('sel')"><div class="option-dot"></div>Anxiété</div>
+        <div class="option" onclick="this.classList.toggle('sel')"><div class="option-dot"></div>Surcharge mentale</div>
+        <div class="option" onclick="this.classList.toggle('sel')"><div class="option-dot"></div>Épuisement / burnout</div>
+        <div class="option" onclick="this.classList.toggle('sel')"><div class="option-dot"></div>Désalignement profond</div>
+        <div class="option" onclick="this.classList.toggle('sel')"><div class="option-dot"></div>Autre — j'en parlerai en privé</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(0)">← Retour</button>
+      <button class="btn btn-or" onclick="goTo(2)" style="flex: 2;">Continuer →</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 3 — CONSENTEMENT -->
+  <div class="screen" id="s3">
+    <div class="text-center" style="margin-bottom: 32px;">
+      <div class="mdb-eyebrow" style="margin-bottom: 12px; color: var(--or);">Étape 3 · Charte</div>
+      <h1 class="mdb-h2" style="margin-bottom: 12px;"><em>Notre engagement</em> mutuel.</h1>
+      <p class="mdb-italic" style="font-size: 14px;">Lis attentivement. Ces points fondent notre confiance.</p>
+    </div>
+
+    <div class="card-cream" style="margin-bottom: 20px;">
+      <div class="charte-item">
+        <div class="charte-icon">🔒</div>
+        <div>
+          <div class="charte-title">Confidentialité absolue</div>
+          <div class="charte-desc">Tes journaux, réponses et check-ins sont chiffrés. Je ne vois que ce que tu choisis de partager avec moi.</div>
+        </div>
+      </div>
+      <div class="charte-item">
+        <div class="charte-icon">🌿</div>
+        <div>
+          <div class="charte-title">Ton rythme, pas le mien</div>
+          <div class="charte-desc">Tu avances quand tu te sens prête. Pas de pression, pas de comparaison.</div>
+        </div>
+      </div>
+      <div class="charte-item">
+        <div class="charte-icon">⚠️</div>
+        <div>
+          <div class="charte-title">Ce programme ne remplace pas un suivi médical</div>
+          <div class="charte-desc">En cas de crise : 3114 (gratuit, 24h/24) ou le 15. Je ne pose pas de diagnostic — je t'accompagne.</div>
+        </div>
+      </div>
+      <div class="charte-item">
+        <div class="charte-icon">💬</div>
+        <div>
+          <div class="charte-title">Présence WhatsApp</div>
+          <div class="charte-desc">Je suis là plusieurs fois par semaine. Pas en urgence 24/7, mais avec constance et chaleur.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="checkbox-row" onclick="toggleCheck(this)">
+        <div class="checkbox on">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="checkbox-text">J'accepte les <a href="#" style="color: var(--ambre); font-weight: 500;">CGU</a> et la <a href="#" style="color: var(--ambre); font-weight: 500;">politique de confidentialité</a>.</div>
+      </div>
+      <div class="checkbox-row" onclick="toggleCheck(this)">
+        <div class="checkbox">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none"><path d="M2 6L5 9L10 3" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="checkbox-text">Je consens au traitement de mes données dans le cadre du programme MDB (RGPD).</div>
+      </div>
+      <div class="checkbox-row" onclick="toggleCheck(this)">
+        <div class="checkbox">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none"><path d="M2 6L5 9L10 3" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="checkbox-text">J'ai compris que ce programme ne se substitue pas à un suivi médical ou psychologique professionnel.</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(1)">← Retour</button>
+      <button class="btn btn-or" onclick="goTo(3)" style="flex: 2;">J'accepte →</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 4 — CHECK-IN INITIAL -->
+  <div class="screen" id="s4">
+    <div class="text-center" style="margin-bottom: 32px;">
+      <div class="mdb-eyebrow" style="margin-bottom: 12px;">Étape 4 · Premier check-in</div>
+      <h1 class="mdb-h2" style="margin-bottom: 12px;">Comment tu te sens, <em>là, maintenant</em> ?</h1>
+      <p class="mdb-italic" style="font-size: 14px;">Aucune mauvaise réponse. Juste ta vérité du moment.</p>
+    </div>
+
+    <div class="card">
+      <div style="font-size: 12px; color: var(--texte-secondaire); margin-bottom: 16px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;">Choisis ce qui te ressemble :</div>
+      <div class="emoji-grid">
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">😞<div class="emoji-label">Épuisée</div></div>
+        <div class="emoji-cell sel" onclick="this.classList.toggle('sel')">😰<div class="emoji-label">Anxieuse</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">😡<div class="emoji-label">En colère</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">😔<div class="emoji-label">Triste</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">😐<div class="emoji-label">Neutre</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">🌿<div class="emoji-label">Calme</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">☀️<div class="emoji-label">En paix</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">💪<div class="emoji-label">Confiante</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">✨<div class="emoji-label">Joyeuse</div></div>
+        <div class="emoji-cell" onclick="this.classList.toggle('sel')">🌫️<div class="emoji-label">Brouillée</div></div>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <div style="font-size: 12px; color: var(--texte-secondaire); margin-bottom: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;">Intensité de ce que tu ressens</div>
+        <div class="slider-row">
+          <div class="slider">
+            <div class="slider-fill"></div>
+            <div class="slider-thumb"></div>
+          </div>
+          <div class="slider-labels">
+            <span>1 — très bas</span>
+            <span style="font-weight: 600; color: var(--ambre);">6 / 10</span>
+            <span>10 — très haut</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top: 24px;">
+        <label class="field-label">Note libre (facultatif)</label>
+        <textarea class="field-input field-textarea" placeholder="Ce que tu veux ajouter, dans tes mots..."></textarea>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(2)">← Retour</button>
+      <button class="btn btn-or" onclick="goTo(4)" style="flex: 2;">Continuer →</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 5 — VIDÉO BIENVENUE -->
+  <div class="screen" id="s5">
+    <div class="text-center" style="margin-bottom: 32px;">
+      <div class="mdb-eyebrow" style="margin-bottom: 12px; color: var(--or);">Dernière étape</div>
+      <h1 class="mdb-h2" style="margin-bottom: 12px;">Un mot, <em>de moi à toi</em>.</h1>
+      <p class="mdb-italic" style="font-size: 14px;">Prends 90 secondes. C'est important.</p>
+    </div>
+
+    <div class="video-frame">
+      <div class="play-btn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#1A1410" style="margin-left: 3px;"><path d="M5 4L16 10L5 16V4Z"/></svg>
+      </div>
+    </div>
+
+    <div class="card-mauve" style="margin-bottom: 24px;">
+      <p style="font-size: 14px; color: var(--brun-noir); line-height: 1.7;">
+        <strong>Sarah, bienvenue.</strong><br><br>
+        Ton espace est prêt. Tout y est : tes vidéos, tes exercices, tes méditations, ton journal.
+        Tu vas avancer à ton rythme, semaine après semaine. Et je suis là — à chaque étape.
+      </p>
+      <p class="mdb-italic" style="margin-top: 16px; color: var(--texte-secondaire); font-size: 14px;">— Vanille</p>
+    </div>
+
+    <button class="btn btn-or btn-block btn-lg" onclick="window.location.href='03-dashboard.html'">Entrer dans mon espace ✨</button>
+  </div>
+
+  <script>
+    function goTo(i) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('s' + (i + 1)).classList.add('active');
+      const dots = document.querySelectorAll('.step-dot');
+      dots.forEach((d, idx) => {
+        d.classList.remove('on', 'done');
+        if (idx < i) d.classList.add('done');
+        else if (idx === i) d.classList.add('on');
+      });
+      document.querySelector('.skip').textContent = `${i + 1} / 5`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function toggleCheck(row) {
+      const box = row.querySelector('.checkbox');
+      const svg = box.querySelector('svg');
+      box.classList.toggle('on');
+      if (box.classList.contains('on')) {
+        if (!svg) {
+          box.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="#1A1410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        } else {
+          svg.style.display = 'block';
+        }
+      } else if (svg) {
+        svg.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

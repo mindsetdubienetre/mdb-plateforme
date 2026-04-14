@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Showroom des maquettes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { padding: 60px 0 100px; }
+  .hero { text-align: center; margin-bottom: 64px; }
+  .hero .mdb-logo { margin-bottom: 32px; }
+  .badge-version {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--mauve-bg);
+    color: var(--mauve);
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero h1 { margin-bottom: 16px; }
+  .hero p { color: var(--texte-secondaire); max-width: 560px; margin: 0 auto; font-size: 16px; line-height: 1.6; }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ambre);
+    margin-bottom: 12px;
+    letter-spacing: 0.04em;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--brun-noir);
+  }
+  .section { margin-bottom: 64px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .maq-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 0.5px solid var(--ivoire-deep);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .maq-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--ambre);
+  }
+  .maq-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 36px;
+    color: var(--ambre);
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
+  .maq-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .maq-desc {
+    font-size: 13px;
+    color: var(--texte-secondaire);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .maq-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .maq-tag.membre { background: rgba(200, 96, 48, 0.12); color: var(--ambre-deep); }
+  .maq-tag.admin { background: rgba(26, 20, 16, 0.08); color: var(--brun-noir); }
+  .maq-tag.public { background: rgba(154, 128, 144, 0.18); color: #6A5060; }
+
+  .palette-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .palette-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #fff;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--ivoire-deep);
+    font-size: 12px;
+  }
+  .palette-swatch {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    border: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .palette-name { font-weight: 600; color: var(--brun-noir); }
+  .palette-hex { color: var(--texte-tertiaire); font-family: 'Be Vietnam Pro', monospace; font-size: 11px; }
+
+  .feedback-box {
+    background: var(--mauve-bg);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-top: 64px;
+    text-align: center;
+  }
+  .feedback-box h3 { margin-bottom: 12px; color: var(--brun-noir); }
+  .feedback-box p { color: var(--texte-secondaire); font-size: 14px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="halo-mauve" style="top: -200px; right: -200px;"></div>
+  <div class="halo-or" style="bottom: -150px; left: -150px;"></div>
+
+  <div class="container-narrow">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="mdb-logo mdb-logo--lg">
+        <div class="mdb-orb mdb-orb--md mdb-orb--pulse">
+          <div class="mdb-orb-core"></div>
+        </div>
+        <div class="mdb-logo-text">
+          <span class="l1">Mindset </span><span class="l2">du bien-être.</span>
+        </div>
+      </div>
+
+      <div class="badge-version">Showroom · validation design</div>
+      <h1 class="mdb-h1">Les maquettes <em>de ta plateforme</em></h1>
+      <p>Toutes les pages clés en HTML statique, design system validé. Clique sur chaque carte pour explorer.</p>
+    </div>
+
+    <!-- PALETTE -->
+    <div class="section">
+      <div class="section-label">Identité validée</div>
+      <h2 class="section-title">Palette · avril 2026</h2>
+      <div class="palette-row">
+        <div class="palette-chip"><div class="palette-swatch" style="background:#F5F0E8"></div><div><div class="palette-name">Ivoire</div><div class="palette-hex">#F5F0E8</div></div></div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#1A1410"></div><div><div class="palette-name">Brun-noir</div><div class="palette-hex">#1A1410</div></div></div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#C86030"></div><div><div class="palette-name">Ambre</div><div class="palette-hex">#C86030</div></div></div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#C9A84C"></div><div><div class="palette-name">Or</div><div class="palette-hex">#C9A84C</div></div></div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#9A8090"></div><div><div class="palette-name">Mauve</div><div class="palette-hex">#9A8090</div></div></div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#B0A090"></div><div><div class="palette-name">Taupe</div><div class="palette-hex">#B0A090</div></div></div>
+      </div>
+    </div>
+
+    <!-- ESPACE MEMBRE -->
+    <div class="section">
+      <div class="section-label">Le cœur du programme</div>
+      <h2 class="section-title">Espace membre</h2>
+      <div class="grid">
+        <a href="01-login.html" class="maq-card">
+          <div class="maq-num">01</div>
+          <div class="maq-title">Connexion</div>
+          <div class="maq-desc">Email + code d'accès, ton chaleureux</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="02-onboarding.html" class="maq-card">
+          <div class="maq-num">02</div>
+          <div class="maq-title">Onboarding</div>
+          <div class="maq-desc">5 écrans : bienvenue, infos, consentement, check-in, vidéo</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="03-dashboard.html" class="maq-card">
+          <div class="maq-num">03</div>
+          <div class="maq-title">Dashboard</div>
+          <div class="maq-desc">Vue 12 semaines, 4 phases, progression globale</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="04-semaine.html" class="maq-card">
+          <div class="maq-num">04</div>
+          <div class="maq-title">Page semaine</div>
+          <div class="maq-desc">Vidéo + exercices + journal + thérapies</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="05-checkin.html" class="maq-card">
+          <div class="maq-num">05</div>
+          <div class="maq-title">Check-in émotionnel</div>
+          <div class="maq-desc">Roue d'émotions + intensité + note libre</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="06-respiration.html" class="maq-card">
+          <div class="maq-num">06</div>
+          <div class="maq-title">Respiration animée</div>
+          <div class="maq-desc">Cohérence cardiaque 5-5-5 avec orbe qui pulse</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="07-eft.html" class="maq-card">
+          <div class="maq-num">07</div>
+          <div class="maq-title">EFT / Tapping</div>
+          <div class="maq-desc">Protocole guidé + points illustrés</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="08-meditation.html" class="maq-card">
+          <div class="maq-num">08</div>
+          <div class="maq-title">Méditation audio</div>
+          <div class="maq-desc">Player audio + ambiance apaisante</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="09-tip-vanille.html" class="maq-card">
+          <div class="maq-num">09</div>
+          <div class="maq-title">Exercice + Tip Vanille</div>
+          <div class="maq-desc">Introspection + message personnalisé "voix de Vanille"</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+        <a href="10-celebration.html" class="maq-card">
+          <div class="maq-num">10</div>
+          <div class="maq-title">Célébration</div>
+          <div class="maq-desc">Fin de phase, animation, message Vanille</div>
+          <span class="maq-tag membre">Membre</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ESPACE ADMIN -->
+    <div class="section">
+      <div class="section-label">Ton cockpit</div>
+      <h2 class="section-title">Espace admin</h2>
+      <div class="grid">
+        <a href="11-admin-dashboard.html" class="maq-card">
+          <div class="maq-num">11</div>
+          <div class="maq-title">Dashboard admin</div>
+          <div class="maq-desc">Vue globale, alertes, métriques, liste clientes</div>
+          <span class="maq-tag admin">Admin</span>
+        </a>
+        <a href="12-fiche-cliente.html" class="maq-card">
+          <div class="maq-num">12</div>
+          <div class="maq-title">Fiche cliente 360°</div>
+          <div class="maq-desc">Progression, check-ins, réponses, WhatsApp 1-clic</div>
+          <span class="maq-tag admin">Admin</span>
+        </a>
+        <a href="13-crm.html" class="maq-card">
+          <div class="maq-num">13</div>
+          <div class="maq-title">CRM & tunnels emails</div>
+          <div class="maq-desc">Segments, contacts, 5 tunnels, éditeur d'emails</div>
+          <span class="maq-tag admin">Admin</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ESPACE PUBLIC -->
+    <div class="section">
+      <div class="section-label">Acquisition</div>
+      <h2 class="section-title">Espace public</h2>
+      <div class="grid">
+        <a href="14-freemium.html" class="maq-card">
+          <div class="maq-num">14</div>
+          <div class="maq-title">Landing freemium</div>
+          <div class="maq-desc">Capture email + accès gratuit + CTA programme</div>
+          <span class="maq-tag public">Public</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="feedback-box">
+      <h3 class="mdb-h3">Tu valides ?</h3>
+      <p>
+        Parcours chaque maquette, dis-moi ce qui te touche, ce qui manque, ce qu'on ajuste.<br>
+        Une fois validées, je branche le backend Supabase et on met en ligne.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Admin · Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { background: var(--ivoire); }
+  .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar { background: var(--brun-noir); color: var(--ivoire); padding: 28px 20px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .sidebar-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
+  .sidebar-logo .mdb-logo-text { font-size: 16px; color: var(--ivoire); }
+  .sidebar-section { margin-bottom: 28px; }
+  .sidebar-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--taupe); margin-bottom: 10px; padding-left: 12px; }
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    color: rgba(245,240,232,0.7);
+    font-size: 13.5px;
+    margin-bottom: 4px;
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .sidebar-link:hover { background: rgba(255,255,255,0.05); color: var(--ivoire); }
+  .sidebar-link.active { background: rgba(200,96,48,0.15); color: var(--ambre-light); font-weight: 500; }
+  .sidebar-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .sidebar-link .badge-num { margin-left: auto; background: var(--ambre); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: var(--radius-full); font-weight: 700; }
+
+  /* MAIN */
+  .main { padding: 32px 36px; max-width: 1280px; }
+  .top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+  .greeting-h { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; }
+  .greeting-h em { font-style: italic; color: var(--ambre); }
+  .greeting-sub { font-size: 13px; color: var(--texte-secondaire); margin-top: 4px; }
+  .top-actions { display: flex; gap: 8px; }
+
+  /* METRICS */
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .metric { background: #fff; border-radius: var(--radius-lg); padding: 20px; border: 1px solid var(--ivoire-deep); }
+  .metric-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--texte-tertiaire); font-weight: 600; }
+  .metric-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--brun-noir); line-height: 1.1; margin-top: 4px; }
+  .metric-trend { font-size: 11px; margin-top: 8px; display: flex; align-items: center; gap: 4px; }
+  .metric-trend.up { color: #4A6A4A; }
+  .metric-trend.down { color: var(--ambre-deep); }
+
+  /* ALERTES */
+  .alerts-section { margin-bottom: 28px; }
+  .section-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .section-h h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+  .section-h .filter-row { display: flex; gap: 8px; }
+  .filter-pill { padding: 6px 12px; background: #fff; border: 1px solid var(--ivoire-deep); border-radius: var(--radius-full); font-size: 12px; color: var(--texte-secondaire); cursor: pointer; transition: var(--transition); }
+  .filter-pill:hover { border-color: var(--ambre); }
+  .filter-pill.active { background: var(--brun-noir); color: var(--ivoire); border-color: var(--brun-noir); }
+
+  .alert-card { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--ivoire-deep); margin-bottom: 8px; border-left: 3px solid; }
+  .alert-card.urgence { border-left-color: var(--rouge-alerte); background: rgba(216,90,48,0.04); }
+  .alert-card.attention { border-left-color: var(--or); background: rgba(201,168,76,0.04); }
+  .alert-card.info { border-left-color: var(--mauve); }
+
+  .alert-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--ambre); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
+  .alert-content { flex: 1; }
+  .alert-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: var(--brun-noir); }
+  .alert-meta { font-size: 12px; color: var(--texte-secondaire); margin-top: 2px; }
+  .alert-time { font-size: 11px; color: var(--texte-tertiaire); }
+  .alert-actions { display: flex; gap: 8px; }
+
+  /* TABLE CLIENTES */
+  .clientes-card { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--ivoire-deep); overflow: hidden; }
+  .table-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--ivoire-deep); }
+  .table-search { padding: 8px 14px; background: var(--ivoire-soft); border: 1px solid var(--ivoire-deep); border-radius: var(--radius-full); font-size: 13px; min-width: 240px; outline: none; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texte-tertiaire); text-align: left; padding: 12px 20px; border-bottom: 1px solid var(--ivoire-deep); background: var(--ivoire-soft); }
+  td { padding: 14px 20px; border-bottom: 1px solid var(--ivoire-deep); font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--ivoire-soft); cursor: pointer; }
+
+  .cliente-cell { display: flex; align-items: center; gap: 12px; }
+  .cliente-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--ambre); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+  .cliente-name { font-weight: 500; }
+  .cliente-email { font-size: 11px; color: var(--texte-tertiaire); }
+
+  .status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+  .status-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; }
+  .status-active::before { background: #4A8A4A; }
+  .status-inactive::before { background: var(--taupe); }
+  .status-pause::before { background: var(--or); }
+  .status-urgence::before { background: var(--rouge-alerte); animation: pulse-dot 2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .progress-mini { display: flex; align-items: center; gap: 8px; }
+  .progress-mini .progress { width: 80px; height: 4px; }
+  .progress-mini-text { font-size: 11px; color: var(--texte-tertiaire); }
+
+  .row-actions { display: flex; gap: 6px; }
+  .row-action {
+    width: 30px; height: 30px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    color: var(--texte-secondaire);
+    background: var(--ivoire-soft);
+    transition: var(--transition);
+  }
+  .row-action:hover { background: var(--ambre); color: #fff; }
+  .row-action.wa:hover { background: #25D366; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .main { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+  <a href="index.html" style="position: fixed; top: 12px; right: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="mdb-orb mdb-orb--sm"><div class="mdb-orb-core"></div></div>
+        <div class="mdb-logo-text" style="white-space: nowrap; line-height: 1; font-size: 14px;">
+          <span class="l1" style="font-family: 'Times New Roman', serif; font-style: italic;">Mindset </span><span class="l2" style="font-family: 'Be Vietnam Pro', sans-serif; font-weight: 800;">du bien-être.</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Pilotage</div>
+        <div class="sidebar-link active">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12V20C21 20.55 20.55 21 20 21H15V14H9V21H4C3.45 21 3 20.55 3 20V12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          Tableau de bord
+        </div>
+        <div class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M5 21V19C5 16.79 6.79 15 9 15H15C17.21 15 19 16.79 19 19V21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Mes clientes
+          <span class="badge-num">12</span>
+        </div>
+        <div class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6V12C4 17.5 7.84 22.7 12 24C16.16 22.7 20 17.5 20 12V6L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          Alertes
+          <span class="badge-num" style="background: var(--rouge-alerte);">2</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Acquisition</div>
+        <div class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 7L12 13L21 7" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          CRM & Emails
+        </div>
+        <div class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z M12 6V12L16 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Tunnels
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Contenu</div>
+        <div class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none"><polygon points="5 3 19 12 5 21" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          Programme
+        </div>
+        <div class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z" stroke="currentColor" stroke-width="1.8"/></svg>
+          Voix de Vanille
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Système</div>
+        <div class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15A1.65 1.65 0 0 0 21 13.4V10.6A1.65 1.65 0 0 0 19.4 9L18.5 8.7A7 7 0 0 0 17.7 7.05L18.4 6.4A1.65 1.65 0 0 0 18.4 4.05L16.6 2.25A1.65 1.65 0 0 0 14.25 2.25L13.6 2.95A7 7 0 0 0 11.95 2.15L11.65 1.25A1.65 1.65 0 0 0 10.05 -0.35H7.25A1.65 1.65 0 0 0 5.65 1.25L5.35 2.15A7 7 0 0 0 3.7 2.95L3.05 2.25A1.65 1.65 0 0 0 0.7 2.25L-1.1 4.05A1.65 1.65 0 0 0 -1.1 6.4L-0.4 7.05A7 7 0 0 0 -1.2 8.7L-2.1 9A1.65 1.65 0 0 0 -3.7 10.6V13.4A1.65 1.65 0 0 0 -2.1 15L-1.2 15.3A7 7 0 0 0 -0.4 16.95" stroke="currentColor" stroke-width="1.5" transform="translate(4 4)"/></svg>
+          Paramètres
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="top-row">
+        <div>
+          <h1 class="greeting-h">Bonjour <em>Vanille</em></h1>
+          <div class="greeting-sub">Mardi 14 avril · 2 alertes en attente · 12 clientes actives</div>
+        </div>
+        <div class="top-actions">
+          <button class="btn btn-ghost">📊 Export</button>
+          <button class="btn btn-or">+ Nouvelle cliente</button>
+        </div>
+      </div>
+
+      <!-- METRICS -->
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label">Clientes actives</div>
+          <div class="metric-val">12</div>
+          <div class="metric-trend up">↑ +2 cette semaine</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Taux de complétion</div>
+          <div class="metric-val">78%</div>
+          <div class="metric-trend up">↑ +5% vs semaine dernière</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Inactives 3j+</div>
+          <div class="metric-val" style="color: var(--or-deep);">3</div>
+          <div class="metric-trend down">À relancer</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Leads freemium</div>
+          <div class="metric-val">47</div>
+          <div class="metric-trend up">↑ +12 cette semaine</div>
+        </div>
+      </div>
+
+      <!-- ALERTES -->
+      <div class="alerts-section">
+        <div class="section-h">
+          <h2>Alertes — <em style="color: var(--ambre); font-style: italic;">à voir maintenant</em></h2>
+        </div>
+
+        <div class="alert-card urgence">
+          <div class="alert-avatar" style="background: var(--rouge-alerte);">M</div>
+          <div class="alert-content">
+            <div class="alert-title">Marie a fait un check-in à 1/10 — détresse</div>
+            <div class="alert-meta">"Je n'en peux plus" · il y a 2h</div>
+          </div>
+          <div class="alert-time">14:32</div>
+          <div class="alert-actions">
+            <a href="https://wa.me/" class="btn btn-whatsapp btn-sm">WhatsApp</a>
+            <a href="12-fiche-cliente.html" class="btn btn-ambre btn-sm">Voir fiche</a>
+          </div>
+        </div>
+
+        <div class="alert-card urgence">
+          <div class="alert-avatar" style="background: var(--rouge-alerte);">L</div>
+          <div class="alert-content">
+            <div class="alert-title">Léa a écrit "j'ai plus envie de rien"</div>
+            <div class="alert-meta">Réponse à exercice semaine 5 · il y a 4h</div>
+          </div>
+          <div class="alert-time">12:18</div>
+          <div class="alert-actions">
+            <a href="https://wa.me/" class="btn btn-whatsapp btn-sm">WhatsApp</a>
+            <a href="12-fiche-cliente.html" class="btn btn-ambre btn-sm">Voir fiche</a>
+          </div>
+        </div>
+
+        <div class="alert-card attention">
+          <div class="alert-avatar" style="background: var(--or);">C</div>
+          <div class="alert-content">
+            <div class="alert-title">Claire est inactive depuis 5 jours</div>
+            <div class="alert-meta">Phase 2 · semaine 4 en cours · pas de check-in</div>
+          </div>
+          <div class="alert-time">hier</div>
+          <div class="alert-actions">
+            <a href="https://wa.me/" class="btn btn-whatsapp btn-sm">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLEAU CLIENTES -->
+      <div class="clientes-card">
+        <div class="table-header">
+          <h2 class="mdb-h3">Mes clientes · 12 actives</h2>
+          <input class="table-search" placeholder="Rechercher une cliente..." />
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Phase</th>
+              <th>Progression</th>
+              <th>Dernier check-in</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="window.location.href='12-fiche-cliente.html'">
+              <td>
+                <div class="cliente-cell">
+                  <div class="cliente-avatar">M</div>
+                  <div>
+                    <div class="cliente-name">Marie L.</div>
+                    <div class="cliente-email">marie.l@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="tag-phase tag-phase-2"><span class="tag-phase-dot"></span>Phase 2 · S5</span></td>
+              <td>
+                <div class="progress-mini">
+                  <div class="progress"><div class="progress-bar" style="width: 42%;"></div></div>
+                  <div class="progress-mini-text">42%</div>
+                </div>
+              </td>
+              <td><span style="color: var(--rouge-alerte); font-weight: 600;">1/10 — il y a 2h</span></td>
+              <td><span class="status-dot status-urgence">Urgence</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="row-action wa" title="WhatsApp"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+                  <a class="row-action" title="Email"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 5H21V19H3V5Z M3 5L12 13L21 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+                  <a class="row-action" title="Voir fiche">→</a>
+                </div>
+              </td>
+            </tr>
+            <tr onclick="window.location.href='12-fiche-cliente.html'">
+              <td>
+                <div class="cliente-cell">
+                  <div class="cliente-avatar" style="background: var(--mauve);">S</div>
+                  <div>
+                    <div class="cliente-name">Sarah D.</div>
+                    <div class="cliente-email">sarah.d@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="tag-phase tag-phase-1"><span class="tag-phase-dot"></span>Phase 1 · S2</span></td>
+              <td>
+                <div class="progress-mini">
+                  <div class="progress"><div class="progress-bar" style="width: 17%;"></div></div>
+                  <div class="progress-mini-text">17%</div>
+                </div>
+              </td>
+              <td>6/10 — il y a 1h</td>
+              <td><span class="status-dot status-active">Active</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="row-action wa" title="WhatsApp"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+                  <a class="row-action">→</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="cliente-cell">
+                  <div class="cliente-avatar" style="background: var(--or);">C</div>
+                  <div>
+                    <div class="cliente-name">Claire B.</div>
+                    <div class="cliente-email">claire.b@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="tag-phase tag-phase-2"><span class="tag-phase-dot"></span>Phase 2 · S4</span></td>
+              <td>
+                <div class="progress-mini">
+                  <div class="progress"><div class="progress-bar" style="width: 33%;"></div></div>
+                  <div class="progress-mini-text">33%</div>
+                </div>
+              </td>
+              <td style="color: var(--or-deep);">7/10 — il y a 5j</td>
+              <td><span class="status-dot status-pause">Inactive 5j</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="row-action wa"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+                  <a class="row-action">→</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="cliente-cell">
+                  <div class="cliente-avatar" style="background: var(--taupe);">A</div>
+                  <div>
+                    <div class="cliente-name">Amélie R.</div>
+                    <div class="cliente-email">amelie.r@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="tag-phase tag-phase-3"><span class="tag-phase-dot"></span>Phase 3 · S8</span></td>
+              <td>
+                <div class="progress-mini">
+                  <div class="progress"><div class="progress-bar" style="width: 67%;"></div></div>
+                  <div class="progress-mini-text">67%</div>
+                </div>
+              </td>
+              <td>8/10 — il y a 6h</td>
+              <td><span class="status-dot status-active">Active</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="row-action wa"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+                  <a class="row-action">→</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="cliente-cell">
+                  <div class="cliente-avatar" style="background: var(--ambre-deep);">L</div>
+                  <div>
+                    <div class="cliente-name">Léa M.</div>
+                    <div class="cliente-email">lea.m@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="tag-phase tag-phase-2"><span class="tag-phase-dot"></span>Phase 2 · S5</span></td>
+              <td>
+                <div class="progress-mini">
+                  <div class="progress"><div class="progress-bar" style="width: 41%;"></div></div>
+                  <div class="progress-mini-text">41%</div>
+                </div>
+              </td>
+              <td style="color: var(--rouge-alerte);">3/10 — il y a 4h</td>
+              <td><span class="status-dot status-urgence">Urgence</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="row-action wa"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+                  <a class="row-action">→</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

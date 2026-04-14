@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Admin · Fiche cliente</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { background: var(--ivoire); }
+  .topbar-admin { background: var(--brun-noir); color: var(--ivoire); padding: 14px 24px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 30; }
+  .back-link { color: var(--ivoire); display: flex; align-items: center; gap: 6px; font-size: 13px; opacity: 0.8; }
+  .breadcrumb { font-size: 12px; color: var(--taupe); }
+
+  .container-page { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+
+  /* HEADER FICHE */
+  .fiche-header { background: linear-gradient(135deg, var(--brun-noir), #2A211B); color: var(--ivoire); border-radius: var(--radius-2xl); padding: 32px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  .fiche-header::before { content: ''; position: absolute; top: -100px; right: -50px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(216,90,48,0.2), transparent 65%); }
+  .fiche-header-row { display: flex; align-items: flex-start; gap: 24px; position: relative; }
+  .fiche-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--rouge-alerte); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; flex-shrink: 0; box-shadow: 0 0 24px rgba(216,90,48,0.4); }
+  .fiche-info { flex: 1; }
+  .fiche-name { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1.1; margin-bottom: 6px; }
+  .fiche-name em { font-style: italic; color: var(--ambre-light); }
+  .fiche-email { font-size: 13px; color: var(--taupe-light); margin-bottom: 16px; }
+  .fiche-meta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .fiche-meta-chip { padding: 6px 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-full); font-size: 12px; color: var(--ivoire); }
+  .fiche-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+  /* ALERTE */
+  .urgence-bar { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: rgba(216,90,48,0.12); border: 1px solid rgba(216,90,48,0.3); border-radius: var(--radius-lg); margin-bottom: 24px; }
+  .urgence-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--rouge-alerte); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .urgence-text { flex: 1; }
+  .urgence-text strong { color: #8A2A10; display: block; font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; }
+  .urgence-text span { font-size: 12px; color: var(--texte-secondaire); }
+
+  /* GRID */
+  .fiche-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .fiche-grid { grid-template-columns: 1fr; } }
+
+  .panel { background: #fff; border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--ivoire-deep); margin-bottom: 16px; }
+  .panel-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .panel-h h3 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; }
+  .panel-h h3 em { font-style: italic; color: var(--ambre); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 1px; background: var(--ivoire-deep); }
+  .timeline-item { position: relative; padding-bottom: 18px; }
+  .timeline-item::before { content: ''; position: absolute; left: -19px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--ambre); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--ivoire-deep); }
+  .timeline-item.urgent::before { background: var(--rouge-alerte); }
+  .timeline-item.win::before { background: var(--or); }
+  .timeline-time { font-size: 11px; color: var(--texte-tertiaire); margin-bottom: 4px; }
+  .timeline-title { font-size: 13px; font-weight: 500; color: var(--brun-noir); margin-bottom: 2px; }
+  .timeline-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 13px; color: var(--texte-secondaire); padding: 8px 12px; background: var(--ivoire-soft); border-radius: var(--radius-sm); margin-top: 6px; }
+
+  /* CHECKINS GRAPH */
+  .checkin-chart { display: flex; align-items: flex-end; gap: 6px; height: 120px; padding: 16px 0; border-bottom: 1px solid var(--ivoire-deep); }
+  .chart-bar { flex: 1; background: linear-gradient(180deg, var(--ambre), var(--ambre-deep)); border-radius: 4px 4px 0 0; min-height: 8px; position: relative; transition: var(--transition); }
+  .chart-bar.urgent { background: linear-gradient(180deg, var(--rouge-alerte), #B0301A); }
+  .chart-bar.good { background: linear-gradient(180deg, var(--or), var(--or-deep)); }
+  .chart-bar:hover::after { content: attr(data-val); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--brun-noir); color: #fff; font-size: 10px; padding: 4px 8px; border-radius: 4px; white-space: nowrap; }
+  .chart-x { display: flex; gap: 6px; margin-top: 8px; }
+  .chart-x span { flex: 1; text-align: center; font-size: 9px; color: var(--texte-tertiaire); }
+
+  /* PROGRESSION */
+  .phase-progress-list { display: flex; flex-direction: column; gap: 12px; }
+  .phase-progress-item { display: flex; align-items: center; gap: 12px; }
+  .phase-progress-num { width: 32px; height: 32px; border-radius: 50%; background: var(--ivoire-soft); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+  .phase-progress-item.done .phase-progress-num { background: var(--or); color: var(--brun-noir); }
+  .phase-progress-item.current .phase-progress-num { background: var(--ambre); color: #fff; }
+  .phase-progress-info { flex: 1; }
+  .phase-progress-name { font-size: 13px; font-weight: 500; }
+  .phase-progress-meta { font-size: 11px; color: var(--texte-tertiaire); }
+
+  /* RÉPONSES EXERCICES */
+  .response-card { padding: 14px; background: var(--ivoire-soft); border-radius: var(--radius-md); margin-bottom: 10px; }
+  .response-q { font-size: 11px; color: var(--ambre); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; }
+  .response-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 13px; color: var(--brun-noir); line-height: 1.5; }
+  .response-meta { font-size: 11px; color: var(--texte-tertiaire); margin-top: 6px; }
+</style>
+</head>
+<body>
+  <a href="index.html" style="position: fixed; top: 12px; right: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
+
+  <div class="topbar-admin">
+    <a href="11-admin-dashboard.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Dashboard
+    </a>
+    <span class="breadcrumb">Admin / Mes clientes / <strong style="color: var(--ivoire);">Marie L.</strong></span>
+  </div>
+
+  <div class="container-page">
+    <!-- HEADER -->
+    <div class="fiche-header">
+      <div class="fiche-header-row">
+        <div class="fiche-avatar">M</div>
+        <div class="fiche-info">
+          <div class="fiche-name">Marie <em>Lefèvre</em></div>
+          <div class="fiche-email">marie.lefevre@email.com · +33 6 12 34 56 78</div>
+          <div class="fiche-meta-row">
+            <div class="fiche-meta-chip">📍 Phase 2 · Semaine 5</div>
+            <div class="fiche-meta-chip">📅 Inscrite le 15 mars 2026</div>
+            <div class="fiche-meta-chip" style="background: rgba(216,90,48,0.18); border-color: rgba(216,90,48,0.4);">🚨 Urgence active</div>
+          </div>
+        </div>
+        <div class="fiche-actions">
+          <a class="btn btn-whatsapp">💬 WhatsApp</a>
+          <button class="btn btn-or">📧 Email</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERTE -->
+    <div class="urgence-bar">
+      <div class="urgence-icon">!</div>
+      <div class="urgence-text">
+        <strong>Marie a fait un check-in à 1/10 il y a 2h</strong>
+        <span>Mots-clés détectés : "je n'en peux plus", "épuisée". Message ressources envoyé automatiquement. À contacter en priorité.</span>
+      </div>
+      <button class="btn btn-noir btn-sm">Marquer traitée</button>
+    </div>
+
+    <!-- GRID -->
+    <div class="fiche-grid">
+      <!-- COLONNE GAUCHE -->
+      <div>
+        <!-- CHECK-INS GRAPH -->
+        <div class="panel">
+          <div class="panel-h">
+            <h3>Évolution <em>émotionnelle</em></h3>
+            <div style="font-size: 12px; color: var(--texte-secondaire);">14 derniers jours</div>
+          </div>
+          <div class="checkin-chart">
+            <div class="chart-bar good" style="height: 80%;" data-val="8"></div>
+            <div class="chart-bar good" style="height: 70%;" data-val="7"></div>
+            <div class="chart-bar" style="height: 60%;" data-val="6"></div>
+            <div class="chart-bar" style="height: 50%;" data-val="5"></div>
+            <div class="chart-bar good" style="height: 70%;" data-val="7"></div>
+            <div class="chart-bar good" style="height: 80%;" data-val="8"></div>
+            <div class="chart-bar" style="height: 50%;" data-val="5"></div>
+            <div class="chart-bar" style="height: 40%;" data-val="4"></div>
+            <div class="chart-bar urgent" style="height: 30%;" data-val="3"></div>
+            <div class="chart-bar" style="height: 50%;" data-val="5"></div>
+            <div class="chart-bar urgent" style="height: 30%;" data-val="3"></div>
+            <div class="chart-bar urgent" style="height: 20%;" data-val="2"></div>
+            <div class="chart-bar urgent" style="height: 20%;" data-val="2"></div>
+            <div class="chart-bar urgent" style="height: 10%;" data-val="1"></div>
+          </div>
+          <div class="chart-x">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+            <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span style="color: var(--rouge-alerte); font-weight: 700;">Auj.</span>
+          </div>
+          <div style="font-size: 12px; color: var(--texte-secondaire); margin-top: 12px; padding: 10px; background: rgba(216,90,48,0.06); border-radius: var(--radius-sm);">
+            <strong style="color: var(--rouge-alerte);">⚠ Tendance baissière</strong> — score moyen passé de 7,3 à 2,5 en 7 jours. Coïncide avec entrée Phase 2.
+          </div>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="panel">
+          <div class="panel-h">
+            <h3>Activité <em>récente</em></h3>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item urgent">
+              <div class="timeline-time">Aujourd'hui · 14:32</div>
+              <div class="timeline-title">Check-in émotionnel</div>
+              <div class="timeline-quote">"Je n'en peux plus. C'est trop." — score 1/10</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Hier · 21:14</div>
+              <div class="timeline-title">A complété l'exercice "Lettre à soi-même" (Phase 2)</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Hier · 8:30</div>
+              <div class="timeline-title">A vu la vidéo "Croyances limitantes — partie 2"</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Avant-hier · 19:45</div>
+              <div class="timeline-title">A fait 2 cycles de respiration 5-5-5</div>
+            </div>
+            <div class="timeline-item win">
+              <div class="timeline-time">Il y a 5 jours</div>
+              <div class="timeline-title">🎉 A complété la Phase 1 — Fondations</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RÉPONSES -->
+        <div class="panel">
+          <div class="panel-h">
+            <h3>Ses <em>réponses partagées</em></h3>
+            <div style="font-size: 12px; color: var(--texte-secondaire);">3 réponses · semaine 5</div>
+          </div>
+          <div class="response-card">
+            <div class="response-q">Phase 2 · S5 · Croyances limitantes</div>
+            <div class="response-text">"Je crois au fond que je ne mérite pas d'aller bien. Quand j'avance, j'ai peur de tout perdre."</div>
+            <div class="response-meta">Partagé volontairement · il y a 2 jours</div>
+          </div>
+          <div class="response-card">
+            <div class="response-q">Phase 2 · S4 · Schémas répétitifs</div>
+            <div class="response-text">"Je m'effondre toujours quand quelqu'un me déçoit. C'est plus fort que moi."</div>
+            <div class="response-meta">Partagé volontairement · il y a 6 jours</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLONNE DROITE -->
+      <div>
+        <!-- PROGRESSION -->
+        <div class="panel">
+          <div class="panel-h">
+            <h3>Progression</h3>
+            <div style="font-size: 12px; color: var(--texte-secondaire);">42%</div>
+          </div>
+          <div class="progress" style="margin-bottom: 20px;">
+            <div class="progress-bar" style="width: 42%;"></div>
+          </div>
+          <div class="phase-progress-list">
+            <div class="phase-progress-item done">
+              <div class="phase-progress-num">1</div>
+              <div class="phase-progress-info">
+                <div class="phase-progress-name">Fondations</div>
+                <div class="phase-progress-meta">Complétée · 18 mars</div>
+              </div>
+            </div>
+            <div class="phase-progress-item current">
+              <div class="phase-progress-num">2</div>
+              <div class="phase-progress-info">
+                <div class="phase-progress-name">Reprogrammation</div>
+                <div class="phase-progress-meta">Semaine 5 / 6 · 83%</div>
+              </div>
+            </div>
+            <div class="phase-progress-item">
+              <div class="phase-progress-num">3</div>
+              <div class="phase-progress-info">
+                <div class="phase-progress-name">Activation</div>
+                <div class="phase-progress-meta">À venir</div>
+              </div>
+            </div>
+            <div class="phase-progress-item">
+              <div class="phase-progress-num">4</div>
+              <div class="phase-progress-info">
+                <div class="phase-progress-name">Intégration</div>
+                <div class="phase-progress-meta">À venir</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTEXTE -->
+        <div class="panel">
+          <div class="panel-h"><h3>Son <em>contexte</em></h3></div>
+          <div style="font-size: 12px; color: var(--texte-tertiaire); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px;">Dit à l'inscription</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;">
+            <span class="badge badge-mauve">Stress chronique</span>
+            <span class="badge badge-mauve">Anxiété</span>
+            <span class="badge badge-mauve">Surcharge mentale</span>
+          </div>
+          <div style="font-size: 12px; color: var(--texte-tertiaire); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px;">Note privée Vanille</div>
+          <textarea class="field-input field-textarea" style="background: var(--ivoire-soft); min-height: 100px;" placeholder="Note privée pour ton suivi...">Première séparation difficile. À surveiller pendant Phase 2 (souvent là que ça remue).</textarea>
+        </div>
+
+        <!-- ACTIONS RAPIDES -->
+        <div class="panel">
+          <div class="panel-h"><h3>Actions <em>rapides</em></h3></div>
+          <div class="flex-col gap-8">
+            <a class="btn btn-whatsapp btn-block">💬 Envoyer WhatsApp</a>
+            <button class="btn btn-or btn-block">📧 Envoyer email perso</button>
+            <button class="btn btn-ghost btn-block">🔓 Débloquer une semaine</button>
+            <button class="btn btn-ghost btn-block">📊 Voir toutes les réponses</button>
+            <button class="btn btn-ghost btn-block" style="color: var(--rouge-alerte);">⏸ Mettre en pause</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
