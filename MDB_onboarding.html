@@ -84,7 +84,8 @@ h1 em,h2 em{font-style:italic;color:var(--ambre);font-weight:600}
 .checkbox-text{font-size:13px;color:var(--brun-noir);line-height:1.5}
 .checkbox-text a{color:var(--ambre);font-weight:500}
 
-.emoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.emoji-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+@media (max-width:420px){.emoji-grid{grid-template-columns:repeat(3,1fr)}}
 .emoji-cell{aspect-ratio:1;background:#fff;border:1px solid var(--ivoire-deep);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:24px;cursor:pointer;transition:all .2s}
 .emoji-cell:hover{border-color:var(--ambre)}
 .emoji-cell.sel{background:rgba(200,96,48,.07);border-color:var(--ambre)}
@@ -252,12 +253,14 @@ h1 em,h2 em{font-style:italic;color:var(--ambre);font-weight:600}
       <div class="emoji-cell" data-l="Anxieuse">😰<div class="emoji-label">Anxieuse</div></div>
       <div class="emoji-cell" data-l="En colère">😡<div class="emoji-label">En colère</div></div>
       <div class="emoji-cell" data-l="Triste">😔<div class="emoji-label">Triste</div></div>
+      <div class="emoji-cell" data-l="Brouillée">🌫️<div class="emoji-label">Brouillée</div></div>
       <div class="emoji-cell" data-l="Neutre">😐<div class="emoji-label">Neutre</div></div>
       <div class="emoji-cell" data-l="Calme">🌿<div class="emoji-label">Calme</div></div>
       <div class="emoji-cell" data-l="En paix">☀️<div class="emoji-label">En paix</div></div>
+      <div class="emoji-cell" data-l="Reconnaissante">🙏<div class="emoji-label">Reconnaissante</div></div>
       <div class="emoji-cell" data-l="Confiante">💪<div class="emoji-label">Confiante</div></div>
       <div class="emoji-cell" data-l="Joyeuse">✨<div class="emoji-label">Joyeuse</div></div>
-      <div class="emoji-cell" data-l="Brouillée">🌫️<div class="emoji-label">Brouillée</div></div>
+      <div class="emoji-cell" data-l="Radieuse">🤩<div class="emoji-label">Radieuse</div></div>
     </div>
     <div class="slider-block">
       <div class="slider-label">Intensité de ce que tu ressens</div>

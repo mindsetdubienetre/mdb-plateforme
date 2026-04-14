@@ -39,7 +39,8 @@ h1 em{font-style:italic;color:var(--ambre);font-weight:600}
 .block{background:#fff;border:0.5px solid var(--ivoire-deep);border-radius:20px;padding:24px;margin-bottom:16px;box-shadow:0 4px 20px rgba(26,20,16,.04)}
 .q-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ambre);margin-bottom:16px}
 
-.emoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.emoji-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:420px){.emoji-grid{grid-template-columns:repeat(3,1fr)}}
 .emoji-cell{aspect-ratio:1;background:var(--ivoire-soft);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:all .2s;border:1.5px solid transparent;padding:8px}
 .emoji-cell:hover{background:#fff;border-color:var(--taupe-light)}
 .emoji-cell.sel{background:rgba(200,96,48,.08);border-color:var(--ambre);transform:scale(1.04)}
@@ -106,12 +107,14 @@ textarea:focus{border-color:var(--ambre);background:#fff;box-shadow:0 0 0 3px rg
       <div class="emoji-cell" data-l="Anxieuse"><span class="emoji-cell-icon">😰</span><span class="emoji-cell-label">Anxieuse</span></div>
       <div class="emoji-cell" data-l="En colère"><span class="emoji-cell-icon">😡</span><span class="emoji-cell-label">En colère</span></div>
       <div class="emoji-cell" data-l="Triste"><span class="emoji-cell-icon">😔</span><span class="emoji-cell-label">Triste</span></div>
+      <div class="emoji-cell" data-l="Brouillée"><span class="emoji-cell-icon">🌫️</span><span class="emoji-cell-label">Brouillée</span></div>
       <div class="emoji-cell" data-l="Neutre"><span class="emoji-cell-icon">😐</span><span class="emoji-cell-label">Neutre</span></div>
       <div class="emoji-cell" data-l="Calme"><span class="emoji-cell-icon">🌿</span><span class="emoji-cell-label">Calme</span></div>
       <div class="emoji-cell" data-l="En paix"><span class="emoji-cell-icon">☀️</span><span class="emoji-cell-label">En paix</span></div>
+      <div class="emoji-cell" data-l="Reconnaissante"><span class="emoji-cell-icon">🙏</span><span class="emoji-cell-label">Reconnaissante</span></div>
       <div class="emoji-cell" data-l="Confiante"><span class="emoji-cell-icon">💪</span><span class="emoji-cell-label">Confiante</span></div>
       <div class="emoji-cell" data-l="Joyeuse"><span class="emoji-cell-icon">✨</span><span class="emoji-cell-label">Joyeuse</span></div>
-      <div class="emoji-cell" data-l="Brouillée"><span class="emoji-cell-icon">🌫️</span><span class="emoji-cell-label">Brouillée</span></div>
+      <div class="emoji-cell" data-l="Radieuse"><span class="emoji-cell-icon">🤩</span><span class="emoji-cell-label">Radieuse</span></div>
     </div>
   </div>
 
