@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Semaine 3 · Libérer le stress stocké</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+body { background: var(--ivoire); min-height: 100vh; padding-bottom: 100px; position: relative; overflow-x: hidden; }
+body::before { content: ''; position: fixed; top: -150px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(200,96,48,0.09) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+
+.topbar { position: sticky; top: 0; z-index: 20; background: #fff; backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--ivoire-deep); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+.topbar-back { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--texte-secondaire); padding: 8px 14px; border-radius: 999px; background: var(--ivoire-soft); border: 0.5px solid var(--ivoire-deep); transition: all 0.2s; }
+.topbar-back:hover { border-color: var(--taupe); color: var(--brun-noir); }
+.topbar-wa { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #fff; background: #25D366; padding: 8px 14px; border-radius: 999px; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px; position: relative; z-index: 1; }
+
+.header { text-align: center; margin-bottom: 36px; padding: 28px 20px; background: #fff; border-radius: 20px; border: 0.5px solid var(--ivoire-deep); box-shadow: 0 1px 3px rgba(26,20,16,0.03); }
+.phase-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ambre); margin-bottom: 12px; }
+.week-num { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 60px; line-height: 1; color: var(--brun-noir); margin-bottom: 6px; }
+.week-num-label { font-size: 11px; color: var(--texte-tertiaire); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; }
+.week-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 600; color: var(--brun-noir); line-height: 1.2; margin-bottom: 12px; }
+.week-theme { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--texte-secondaire); line-height: 1.55; max-width: 480px; margin: 0 auto; }
+
+.progression { margin-bottom: 24px; padding: 16px 20px; background: #fff; border-radius: 14px; border: 0.5px solid var(--ivoire-deep); }
+.progression-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.progression-label { font-size: 12.5px; font-weight: 600; color: var(--brun-noir); }
+.progression-count { font-size: 13px; color: var(--ambre); font-weight: 700; }
+.progress-bar { height: 6px; background: var(--ivoire-deep); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; width: 25%; background: linear-gradient(90deg, var(--ambre), var(--or)); border-radius: 999px; }
+
+.cat-label { display: flex; align-items: center; gap: 10px; margin: 28px 0 14px; }
+.cat-label-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.cat-video { background: rgba(200,96,48,0.10); }
+.cat-eft { background: rgba(154,128,144,0.16); }
+.cat-intro { background: rgba(154,128,144,0.12); }
+.cat-medit { background: rgba(201,168,76,0.15); }
+.cat-pdf { background: rgba(176,160,144,0.20); }
+.cat-label-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--brun-noir); }
+.cat-label-count { font-size: 11px; color: var(--texte-tertiaire); background: var(--ivoire-deep); padding: 3px 9px; border-radius: 999px; letter-spacing: 0.06em; }
+
+.activity { display: flex; align-items: center; gap: 14px; background: #fff; border: 0.5px solid var(--ivoire-deep); border-radius: 16px; padding: 16px 18px; margin-bottom: 10px; text-decoration: none; color: inherit; transition: all 0.2s; cursor: pointer; }
+.activity:hover { transform: translateY(-1px); border-color: var(--taupe-light); box-shadow: 0 6px 18px rgba(26,20,16,0.05); }
+.activity.done { background: var(--ivoire); opacity: 0.75; }
+.activity.done .activity-title { text-decoration: line-through; color: var(--texte-tertiaire); }
+.activity-check { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--taupe-light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff; }
+.activity.done .activity-check { background: var(--or); border-color: var(--or); color: var(--brun-noir); }
+.activity-body { flex: 1; min-width: 0; }
+.activity-title { font-size: 14.5px; font-weight: 600; color: var(--brun-noir); line-height: 1.35; margin-bottom: 3px; }
+.activity-meta { font-size: 12px; color: var(--texte-tertiaire); display: flex; align-items: center; gap: 10px; }
+.activity-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--taupe); }
+.activity-arrow { color: var(--ambre); flex-shrink: 0; }
+
+/* Activité EFT — style "profond", plus premium */
+.activity.eft {
+  background: linear-gradient(135deg, rgba(154,128,144,0.06), rgba(154,128,144,0.02));
+  border: 0.5px solid rgba(154,128,144,0.30);
+}
+.activity.eft .activity-title { color: var(--brun-noir); }
+
+/* Activité Méditation — or doux */
+.activity.medit {
+  background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02));
+  border: 0.5px solid rgba(201,168,76,0.30);
+}
+
+.pdf-card { display: flex; align-items: center; gap: 14px; background: rgba(201,168,76,0.06); border: 0.5px solid rgba(201,168,76,0.25); border-radius: 14px; padding: 14px 18px; margin-bottom: 10px; text-decoration: none; color: inherit; transition: all 0.2s; }
+.pdf-card:hover { background: rgba(201,168,76,0.10); }
+.pdf-icon { width: 36px; height: 36px; border-radius: 9px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; border: 0.5px solid rgba(201,168,76,0.30); flex-shrink: 0; }
+.pdf-body { flex: 1; }
+.pdf-title { font-size: 13.5px; font-weight: 600; color: var(--brun-noir); margin-bottom: 2px; }
+.pdf-desc { font-size: 11.5px; color: var(--texte-secondaire); line-height: 1.4; }
+.pdf-download { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--or-deep); padding: 6px 12px; border-radius: 8px; background: rgba(201,168,76,0.15); flex-shrink: 0; }
+
+.callout { margin-top: 28px; padding: 20px 24px; background: rgba(154,128,144,0.10); border: 0.5px solid rgba(154,128,144,0.25); border-radius: 16px; text-align: center; }
+.callout-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #6A5060; margin-bottom: 8px; }
+.callout-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--brun-noir); line-height: 1.55; }
+
+.footer-week { margin-top: 36px; padding: 22px 24px; background: #fff; border-radius: 16px; border: 0.5px solid var(--ivoire-deep); text-align: center; }
+.footer-countdown-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ambre); margin-bottom: 6px; }
+.footer-countdown { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--brun-noir); margin-bottom: 8px; }
+.footer-countdown em { color: var(--ambre); font-style: italic; }
+.footer-note { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--texte-secondaire); }
+
+.celebration-cta {
+  display: block; margin-top: 18px;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, var(--or-light), var(--or));
+  border-radius: 16px;
+  text-decoration: none; color: var(--brun-noir);
+  text-align: center; transition: all 0.2s;
+  box-shadow: 0 6px 22px rgba(201,168,76,0.30);
+  position: relative; overflow: hidden;
+}
+.celebration-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 26px rgba(201,168,76,0.40); }
+.celebration-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+.celebration-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; line-height: 1.25; }
+.celebration-title em { font-style: italic; }
+
+@media (max-width: 500px) {
+  .week-num { font-size: 48px; }
+  .week-title { font-size: 24px; }
+  .week-theme { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="03-dashboard.html" class="topbar-back">← Mon parcours</a>
+  <a href="#" class="topbar-wa">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+    Vanille
+  </a>
+</div>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="phase-badge">Phase 1 · Fondations</div>
+    <div class="week-num">03</div>
+    <div class="week-num-label">Semaine</div>
+    <h1 class="week-title">Libérer le stress stocké</h1>
+    <p class="week-theme">Identifier les déclencheurs de stress. Première séance EFT. Apprendre à réguler les émotions au quotidien.</p>
+  </div>
+
+  <div class="progression">
+    <div class="progression-row">
+      <div class="progression-label">Ta progression cette semaine</div>
+      <div class="progression-count">2 / 8</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
+
+  <!-- VIDÉOS -->
+  <div class="cat-label">
+    <div class="cat-label-icon cat-video">🎥</div>
+    <div class="cat-label-text">Vidéos</div>
+    <div class="cat-label-count">3</div>
+  </div>
+
+  <a class="activity done">
+    <div class="activity-check">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="activity-body">
+      <div class="activity-title">Bienvenue dans la Semaine 3</div>
+      <div class="activity-meta">Face cam <span class="activity-meta-dot"></span> 5-7 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <a class="activity done">
+    <div class="activity-check">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="activity-body">
+      <div class="activity-title">Les déclencheurs de stress : comment les identifier</div>
+      <div class="activity-meta">Slides + voix <span class="activity-meta-dot"></span> 10-12 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <a class="activity">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">Introduction à l'EFT : pourquoi ça marche</div>
+      <div class="activity-meta">Slides + voix <span class="activity-meta-dot"></span> 8-10 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <!-- EFT -->
+  <div class="cat-label">
+    <div class="cat-label-icon cat-eft">🤲</div>
+    <div class="cat-label-text">Séance EFT</div>
+    <div class="cat-label-count">1</div>
+  </div>
+
+  <a class="activity eft">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">Séance EFT — Libérer le stress chronique</div>
+      <div class="activity-meta">18 min <span class="activity-meta-dot"></span> Setup + 4 rondes de tapping</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <!-- INTROSPECTIONS -->
+  <div class="cat-label">
+    <div class="cat-label-icon cat-intro">📝</div>
+    <div class="cat-label-text">Introspections</div>
+    <div class="cat-label-count">2</div>
+  </div>
+
+  <a class="activity">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">Journal de régulation émotionnelle</div>
+      <div class="activity-meta">3 émotions / jour <span class="activity-meta-dot"></span> localisation corporelle</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <a class="activity">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">Cartographie de mes déclencheurs</div>
+      <div class="activity-meta">5 questions <span class="activity-meta-dot"></span> schémas de réactivité</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <!-- MÉDITATION -->
+  <div class="cat-label">
+    <div class="cat-label-icon cat-medit">🧘</div>
+    <div class="cat-label-text">Méditation</div>
+    <div class="cat-label-count">1</div>
+  </div>
+
+  <a class="activity medit">
+    <div class="activity-check"></div>
+    <div class="activity-body">
+      <div class="activity-title">Méditation de décharge corporelle</div>
+      <div class="activity-meta">Audio guidé <span class="activity-meta-dot"></span> 12-15 min</div>
+    </div>
+    <div class="activity-arrow">→</div>
+  </a>
+
+  <!-- PDF -->
+  <div class="cat-label">
+    <div class="cat-label-icon cat-pdf">📄</div>
+    <div class="cat-label-text">Ressource à garder</div>
+    <div class="cat-label-count">1</div>
+  </div>
+
+  <a class="pdf-card">
+    <div class="pdf-icon">📄</div>
+    <div class="pdf-body">
+      <div class="pdf-title">Bilan de Phase 1 — Fondations</div>
+      <div class="pdf-desc">Récapitulatif des acquis · auto-évaluation · préparation Phase 2</div>
+    </div>
+    <div class="pdf-download">PDF</div>
+  </a>
+
+  <!-- CÉLÉBRATION FIN DE PHASE -->
+  <a href="10-celebration.html" class="celebration-cta">
+    <div class="celebration-label">Fin de Phase 1</div>
+    <div class="celebration-title">Célèbre <em>tout ce que tu as traversé</em></div>
+  </a>
+
+  <!-- CALLOUT -->
+  <div class="callout">
+    <div class="callout-eyebrow">Ton panier de la semaine</div>
+    <div class="callout-text">
+      Tout est disponible, tout de suite. Tu avances à ton rythme — selon ta vie, tes journées, ton énergie.<br>
+      Pas de pression. Si tu n'as pas tout fait en 7 jours, ce n'est pas grave.
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="footer-week">
+    <div class="footer-countdown-label">Prochaine étape</div>
+    <div class="footer-countdown">Phase 2 s'ouvre dans <em>4 jours</em></div>
+    <div class="footer-note">Reprogrammation — transformer tes croyances limitantes et blessures relationnelles.</div>
+  </div>
+
+</div>
+
+</body>
+</html>
