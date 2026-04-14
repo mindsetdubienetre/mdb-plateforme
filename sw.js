@@ -1,10 +1,12 @@
-const CACHE = 'mdb-v2';
+const CACHE = 'mdb-v3';
 const FILES = [
   '/index.html',
   '/MDB_membre_A.html',
+  '/MDB_semaine.html',
   '/MDB_exercice.html',
   '/MDB_onboarding.html',
   '/MDB_celebration.html',
+  '/MDB_checkin.html',
   '/MDB_admin_connected.html',
   '/therapies-respiration.html',
   '/therapies-eft.html',
