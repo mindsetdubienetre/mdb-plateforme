@@ -28,6 +28,25 @@
 
 ---
 
+## RÈGLE TRANSVERSALE — VIDÉOS D'INTRO THÉRAPIE
+
+Chaque type de thérapie (respiration, méditation, EFT, auto-hypnose, IFS…) possède **une vidéo d'introduction dédiée** qui explique pourquoi et comment cette thérapie marche. Elle est proposée :
+
+1. **Dans la semaine où la thérapie est découverte** (avant la première séance pratique)
+2. **Dans l'Espace Thérapie dédié** (accessible en dehors du parcours semaine, à tout moment)
+
+Vidéos d'intro dans le programme :
+
+| Thérapie | Slug | Semaine |
+|----------|------|---------|
+| 🫁 Respiration / Cohérence cardiaque | `s1v3` | S1 |
+| 🧘 Méditation | `s1v6` | S1 |
+| 🤲 EFT / Tapping | `s3v3` | S3 |
+| 🧠 Auto-hypnose | `s5v5` | S5 |
+| 🔀 IFS (parties intérieures) | `s9v2` | S9 |
+
+---
+
 # PHASE 1 — FONDATIONS (Semaines 1 à 3)
 
 **Ancrages scientifiques** : Stephen Porges (théorie polyvagale), Peter Levine (Somatic Experiencing), Bessel van der Kolk (le corps se souvient), Dan Siegel (fenêtre de tolérance), Jon Kabat-Zinn (MBSR)
@@ -42,7 +61,7 @@
 
 **Mots clés** : système nerveux autonome, sympathique/parasympathique, nerf vague, cohérence cardiaque, ancrage corporel
 
-### Vidéos (5)
+### Vidéos (6)
 
 | # | Slug | Titre | Format | Durée |
 |---|------|-------|--------|-------|
@@ -51,6 +70,7 @@
 | 3 | `s1v3` | La cohérence cardiaque pas à pas | Tutoriel face cam | 8-10 min |
 | 4 | `s1v4` | Body scan & ancrage corporel | Méditation guidée | 12-15 min |
 | 5 | `s1v5` | Le nerf vague : ton bouton reset | Slides + voix | 10-12 min |
+| 6 | `s1v6` | **Pourquoi la méditation reconstruit ton cerveau** *(intro thérapie)* | Slides + voix | 8-10 min |
 
 ### Exercice d'introspection (1)
 
@@ -204,7 +224,7 @@ Message personnalisé + récapitulatif de ce qu'elle a accompli :
 
 **Mots clés** : blessures émotionnelles, schémas relationnels, défusion cognitive, auto-compassion, lettre thérapeutique
 
-### Vidéos (4)
+### Vidéos (5)
 
 | # | Slug | Titre | Format | Durée |
 |---|------|-------|--------|-------|
@@ -212,6 +232,7 @@ Message personnalisé + récapitulatif de ce qu'elle a accompli :
 | 2 | `s5v2` | Les 5 blessures émotionnelles et leurs masques | Slides + voix | 12-15 min |
 | 3 | `s5v3` | La défusion cognitive : se détacher de ses pensées | Slides + voix | 10-12 min |
 | 4 | `s5v4` | L'auto-compassion en pratique | Tutoriel face cam | 8-10 min |
+| 5 | `s5v5` | **Introduction à l'auto-hypnose : pourquoi ça marche** *(intro thérapie)* | Slides + voix | 8-10 min |
 
 ### EFT (1)
 
