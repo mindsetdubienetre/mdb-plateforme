@@ -3,201 +3,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MDB — EFT / Tapping</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<title>MDB — Séance EFT · Libérer le stress chronique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/mdb.css">
 <style>
-  body { background: var(--ivoire); padding-bottom: 40px; }
-  .topbar { background: var(--brun-noir); color: var(--ivoire); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 30; }
-  .back-btn { color: var(--ivoire); display: flex; align-items: center; gap: 8px; font-size: 13px; opacity: 0.85; }
-  .container-page { max-width: 720px; margin: 0 auto; padding: 32px 20px; }
+body { background: var(--ivoire); min-height: 100vh; padding-bottom: 100px; position: relative; overflow-x: hidden; }
+body::before { content: ''; position: fixed; top: -180px; right: -100px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(154,128,144,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+body::after { content: ''; position: fixed; bottom: -200px; left: -120px; width: 460px; height: 460px; border-radius: 50%; background: radial-gradient(circle, rgba(200,96,48,0.09) 0%, transparent 65%); pointer-events: none; z-index: 0; }
 
-  .header { text-align: center; margin-bottom: 32px; }
-  .header-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mauve); margin-bottom: 12px; }
-  .header-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
-  .header-title em { font-style: italic; color: var(--ambre); }
-  .header-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--texte-secondaire); }
+.topbar { position: sticky; top: 0; z-index: 20; background: #fff; backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--ivoire-deep); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+.topbar-back { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--texte-secondaire); padding: 8px 14px; border-radius: 999px; background: var(--ivoire-soft); border: 0.5px solid var(--ivoire-deep); transition: all 0.2s; }
+.topbar-back:hover { border-color: var(--taupe); color: var(--brun-noir); }
+.topbar-wa { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #fff; background: #25D366; padding: 8px 14px; border-radius: 999px; }
 
-  /* AVANT/APRÈS */
-  .check-row { display: flex; gap: 12px; margin-bottom: 24px; }
-  .check-card { flex: 1; background: #fff; border-radius: var(--radius-lg); padding: 18px; border: 1px solid var(--ivoire-deep); text-align: center; }
-  .check-card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texte-tertiaire); margin-bottom: 8px; }
-  .check-card-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--ambre); line-height: 1; }
-  .check-card-unit { font-size: 11px; color: var(--texte-tertiaire); margin-top: 4px; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 24px 20px; position: relative; z-index: 1; }
 
-  /* SILHOUETTE + POINTS */
-  .body-stage {
-    background: linear-gradient(180deg, #fff 0%, var(--ivoire-soft) 100%);
-    border-radius: var(--radius-lg);
-    padding: 28px 20px;
-    margin-bottom: 16px;
-    position: relative;
-    border: 1px solid var(--ivoire-deep);
-  }
-  .body-svg { width: 100%; max-width: 280px; margin: 0 auto; display: block; }
-  .body-svg .silhouette { fill: var(--ivoire-deep); stroke: var(--taupe-light); stroke-width: 0.5; }
-  .body-svg .point { fill: var(--ambre); transition: var(--transition); cursor: pointer; }
-  .body-svg .point.active { fill: var(--or); animation: pulse-point 1s ease-in-out infinite; }
-  .body-svg .point-label { font-family: 'Be Vietnam Pro', sans-serif; font-size: 8px; fill: var(--brun-noir); font-weight: 600; }
-  @keyframes pulse-point {
-    0%, 100% { r: 6; opacity: 1; }
-    50% { r: 9; opacity: 0.7; }
-  }
+/* HEADER */
+.header { text-align: center; margin-bottom: 28px; }
+.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mauve); margin-bottom: 12px; display: inline-flex; align-items: center; gap: 8px; }
+.eyebrow-icon { width: 32px; height: 32px; border-radius: 50%; background: rgba(154,128,144,0.16); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.h-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 600; color: var(--brun-noir); line-height: 1.2; margin-bottom: 10px; }
+.h-title em { font-style: italic; color: var(--ambre); }
+.h-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--texte-secondaire); line-height: 1.55; max-width: 480px; margin: 0 auto; }
 
-  /* GUIDE PAS-À-PAS */
-  .step-card { background: #fff; border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px; border: 1px solid var(--ivoire-deep); }
-  .step-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-  .step-num {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: var(--ambre);
-    color: #fff;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 600;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    box-shadow: var(--shadow-glow-ambre);
-  }
-  .step-info { flex: 1; }
-  .step-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 2px; }
-  .step-zone { font-size: 12px; color: var(--ambre); font-weight: 500; }
+/* INTRO card */
+.intro-card {
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 20px;
+  padding: 26px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(26,20,16,0.03);
+}
+.intro-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.intro-stat { text-align: center; padding: 12px 8px; background: var(--ivoire); border-radius: 12px; }
+.intro-stat-num { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 28px; line-height: 1; color: var(--brun-noir); }
+.intro-stat-label { font-size: 10.5px; color: var(--texte-tertiaire); margin-top: 4px; letter-spacing: 0.04em; }
 
-  .phrase-block {
-    background: var(--mauve-bg);
-    border-radius: var(--radius-md);
-    padding: 18px 20px;
-    margin-top: 12px;
-  }
-  .phrase-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mauve); margin-bottom: 6px; font-weight: 700; }
-  .phrase {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 16px;
-    color: var(--brun-noir);
-    line-height: 1.5;
-  }
+.intro-steps { font-size: 13.5px; color: var(--texte-secondaire); line-height: 1.7; }
+.intro-steps-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: var(--brun-noir); margin-bottom: 10px; }
+.intro-step { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.intro-step-num { width: 24px; height: 24px; border-radius: 50%; background: rgba(154,128,144,0.18); color: #6A5060; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
-  .step-controls { display: flex; gap: 8px; margin-top: 16px; }
-  .step-controls .btn { flex: 1; }
+/* SUDS avant */
+.suds-card {
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 20px;
+  padding: 24px 22px;
+  margin-bottom: 20px;
+}
+.suds-label { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ambre); margin-bottom: 8px; }
+.suds-q { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--brun-noir); line-height: 1.35; margin-bottom: 18px; }
+.suds-scale { display: flex; gap: 6px; margin-bottom: 10px; }
+.suds-dot {
+  flex: 1; aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ivoire);
+  border: 0.5px solid var(--taupe-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600;
+  color: var(--texte-tertiaire);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.suds-dot:hover { background: #fff; border-color: var(--ambre); color: var(--brun-noir); }
+.suds-dot.sel { background: var(--ambre); border-color: var(--ambre); color: #fff; transform: scale(1.08); }
+.suds-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--texte-tertiaire); }
 
-  /* AUDIO PLAYER LIGHT */
-  .audio-strip { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(200,96,48,0.06); border-radius: var(--radius-md); margin-top: 16px; }
-  .audio-play { width: 36px; height: 36px; border-radius: 50%; background: var(--ambre); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .audio-text { flex: 1; font-size: 12px; color: var(--texte-secondaire); }
-  .audio-text strong { color: var(--brun-noir); display: block; font-size: 13px; }
+/* SILHOUETTE + points de tapping */
+.tapping-card {
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 20px;
+  padding: 24px 22px;
+  margin-bottom: 20px;
+}
+.tapping-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: var(--brun-noir); margin-bottom: 6px; }
+.tapping-sub { font-size: 12.5px; color: var(--texte-secondaire); margin-bottom: 20px; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 14px; }
+.silhouette-wrap {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 16px 0;
+}
+.silhouette {
+  width: 120px; flex-shrink: 0;
+  position: relative;
+}
+.silhouette svg { width: 100%; height: auto; display: block; }
+.tapping-points-list {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+}
+.tap-point {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12.5px; color: var(--texte-secondaire);
+}
+.tap-point-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(154,128,144,0.18); color: #6A5060;
+  font-size: 10.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
 
-  .legend { font-size: 11px; color: var(--texte-tertiaire); text-align: center; margin-top: 12px; }
+/* PLAYER / CTA */
+.player-card {
+  background: linear-gradient(135deg, rgba(154,128,144,0.10), rgba(154,128,144,0.04));
+  border: 0.5px solid rgba(154,128,144,0.30);
+  border-radius: 20px;
+  padding: 26px 22px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.player-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #6A5060; margin-bottom: 8px; }
+.player-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--brun-noir); line-height: 1.3; margin-bottom: 6px; }
+.player-duration { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--texte-secondaire); margin-bottom: 22px; }
+.play-button {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--mauve); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 6px 20px rgba(154,128,144,0.35);
+  border: none;
+}
+.play-button:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(154,128,144,0.45); }
+.play-button svg { margin-left: 4px; }
+.player-note { font-size: 12px; color: var(--texte-tertiaire); font-style: italic; }
+
+/* ROUNDS indicator */
+.rounds { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+.round-dot {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.round-dot-circle {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--ivoire-deep);
+  border: 0.5px solid var(--taupe-light);
+}
+.round-dot-label { font-size: 10px; color: var(--texte-tertiaire); letter-spacing: 0.06em; }
+
+/* SHARE toggle */
+.share-row {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: rgba(201,168,76,0.08);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px;
+}
+.share-text { flex: 1; }
+.share-title { font-size: 13px; font-weight: 600; color: var(--brun-noir); margin-bottom: 2px; }
+.share-desc { font-size: 11.5px; color: var(--texte-secondaire); line-height: 1.4; }
+.toggle {
+  width: 44px; height: 24px; background: var(--taupe-light);
+  border-radius: 999px; position: relative;
+  cursor: pointer; transition: all 0.2s;
+  flex-shrink: 0;
+}
+.toggle::after {
+  content: ''; position: absolute; left: 2px; top: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(26,20,16,0.2);
+}
+.toggle.on { background: var(--or); }
+.toggle.on::after { left: 22px; }
+
+@media (max-width: 500px) {
+  .h-title { font-size: 24px; }
+  .silhouette-wrap { flex-direction: column; align-items: center; }
+  .silhouette { width: 100%; max-width: 150px; }
+}
 </style>
 </head>
 <body>
-  <div class="topbar">
-    <a href="javascript:history.back()" class="back-btn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Retour
-    </a>
-    <div style="font-size: 12px; color: var(--taupe);">EFT · Tapping</div>
+
+<div class="topbar">
+  <a href="04-semaine-s3.html" class="topbar-back">← Semaine 3</a>
+  <a href="#" class="topbar-wa">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+    Vanille
+  </a>
+</div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="eyebrow">
+      <span class="eyebrow-icon">🤲</span>
+      Séance EFT · Tapping
+    </div>
+    <h1 class="h-title">Libérer le <em>stress chronique</em></h1>
+    <p class="h-sub">Une séance guidée pour décharger la tension accumulée dans ton corps, point par point.</p>
   </div>
 
-  <a href="index.html" style="position: fixed; top: 12px; right: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
-
-  <div class="container-page">
-    <div class="header">
-      <div class="header-eyebrow">Phase 2 · Reprogrammation</div>
-      <h1 class="header-title">EFT — <em>libérer ce qui pèse</em></h1>
-      <p class="header-sub">Protocole guidé. 9 points à tapoter, suis le rythme.</p>
-    </div>
-
-    <!-- AVANT / APRÈS -->
-    <div class="check-row">
-      <div class="check-card">
-        <div class="check-card-label">Intensité avant</div>
-        <div class="check-card-val">7</div>
-        <div class="check-card-unit">/ 10</div>
+  <!-- INTRO -->
+  <div class="intro-card">
+    <div class="intro-row">
+      <div class="intro-stat">
+        <div class="intro-stat-num">18</div>
+        <div class="intro-stat-label">minutes</div>
       </div>
-      <div class="check-card" style="background: var(--mauve-bg); border: none;">
-        <div class="check-card-label">Intensité après</div>
-        <div class="check-card-val" style="color: var(--mauve);">—</div>
-        <div class="check-card-unit">à mesurer à la fin</div>
+      <div class="intro-stat">
+        <div class="intro-stat-num">9</div>
+        <div class="intro-stat-label">points</div>
+      </div>
+      <div class="intro-stat">
+        <div class="intro-stat-num">4</div>
+        <div class="intro-stat-label">rondes</div>
       </div>
     </div>
 
-    <!-- SILHOUETTE -->
-    <div class="body-stage">
-      <svg class="body-svg" viewBox="0 0 200 320">
-        <!-- Silhouette simplifiée -->
-        <path class="silhouette" d="M100 30 C115 30 125 42 125 58 C125 70 120 80 115 86 L120 100 L135 110 L155 130 L160 175 L150 220 L145 280 L135 315 L120 315 L118 240 L100 210 L82 240 L80 315 L65 315 L55 280 L50 220 L40 175 L45 130 L65 110 L80 100 L85 86 C80 80 75 70 75 58 C75 42 85 30 100 30 Z"/>
-
-        <!-- Points EFT -->
-        <circle class="point" cx="100" cy="42" r="6" data-point="couronne"/>
-        <text class="point-label" x="118" y="44">1 · Couronne</text>
-
-        <circle class="point" cx="92" cy="58" r="6" data-point="sourcil"/>
-        <text class="point-label" x="20" y="60" text-anchor="end">2 · Sourcil</text>
-
-        <circle class="point" cx="115" cy="60" r="6" data-point="oeil"/>
-        <text class="point-label" x="138" y="62">3 · Coin œil</text>
-
-        <circle class="point" cx="115" cy="68" r="6" data-point="sousoeil"/>
-        <text class="point-label" x="138" y="70">4 · Sous l'œil</text>
-
-        <circle class="point active" cx="100" cy="73" r="6" data-point="souznez"/>
-        <text class="point-label" x="120" y="75" style="font-weight:700;fill:var(--ambre)">5 · Sous le nez ●</text>
-
-        <circle class="point" cx="100" cy="84" r="6" data-point="menton"/>
-        <text class="point-label" x="20" y="86" text-anchor="end">6 · Menton</text>
-
-        <circle class="point" cx="118" cy="98" r="6" data-point="clavicule"/>
-        <text class="point-label" x="140" y="100">7 · Clavicule</text>
-
-        <circle class="point" cx="65" cy="135" r="6" data-point="souszbras"/>
-        <text class="point-label" x="55" y="137" text-anchor="end">8 · Sous le bras</text>
-
-        <circle class="point" cx="100" cy="150" r="6" data-point="plexus"/>
-        <text class="point-label" x="120" y="152">9 · Plexus</text>
-      </svg>
-      <div class="legend">Tapote chaque point environ 7 fois pendant que tu prononces la phrase.</div>
-    </div>
-
-    <!-- GUIDE PAS-À-PAS -->
-    <div class="step-card">
-      <div class="step-row">
-        <div class="step-num">5</div>
-        <div class="step-info">
-          <div class="step-name">Sous le nez</div>
-          <div class="step-zone">Point #5 · entre nez et lèvre supérieure</div>
-        </div>
-      </div>
-
-      <div class="phrase-block">
-        <div class="phrase-label">Répète à voix haute</div>
-        <div class="phrase">"Même si je porte cette tension dans mon corps, je me choisis quand même."</div>
-      </div>
-
-      <div class="audio-strip">
-        <div class="audio-play">
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" style="margin-left:2px"><path d="M5 4L16 10L5 16V4Z"/></svg>
-        </div>
-        <div class="audio-text">
-          <strong>Audio guidé par Vanille</strong>
-          0:42 / 6:30
-        </div>
-      </div>
-
-      <div class="step-controls">
-        <button class="btn btn-ghost">← Précédent</button>
-        <button class="btn btn-or" style="flex: 2;">Point suivant →</button>
-      </div>
-    </div>
-
-    <!-- NOTE SENSATIONS -->
-    <div class="step-card">
-      <div class="step-name" style="font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 4px;">Comment ça résonne dans ton corps ?</div>
-      <div style="font-size: 12px; color: var(--texte-secondaire); margin-bottom: 14px;">Note ce qui se passe — chaleur, picotements, larmes, calme, ce qui vient.</div>
-      <textarea class="field-input field-textarea" placeholder="Ce que je ressens en ce moment..."></textarea>
-    </div>
-
-    <button class="btn btn-or btn-block btn-lg" onclick="window.location.href='03-dashboard.html'" style="margin-top: 16px;">J'ai terminé · enregistrer</button>
+    <div class="intro-steps-title">Ce qui t'attend</div>
+    <div class="intro-step"><div class="intro-step-num">1</div>Mesurer l'intensité de ta tension avant (0-10)</div>
+    <div class="intro-step"><div class="intro-step-num">2</div>Installer la phrase d'acceptation (setup)</div>
+    <div class="intro-step"><div class="intro-step-num">3</div>Tapping en 4 rondes : décharger · nommer · libérer · remplir</div>
+    <div class="intro-step"><div class="intro-step-num">4</div>Mesurer l'intensité après — voir ce qui a bougé</div>
   </div>
+
+  <!-- SUDS AVANT -->
+  <div class="suds-card">
+    <div class="suds-label">Avant de commencer</div>
+    <div class="suds-q">Sur une échelle de 0 à 10, quelle est l'intensité de ton stress en ce moment ?</div>
+    <div class="suds-scale">
+      <div class="suds-dot">0</div>
+      <div class="suds-dot">1</div>
+      <div class="suds-dot">2</div>
+      <div class="suds-dot">3</div>
+      <div class="suds-dot">4</div>
+      <div class="suds-dot">5</div>
+      <div class="suds-dot">6</div>
+      <div class="suds-dot sel">7</div>
+      <div class="suds-dot">8</div>
+      <div class="suds-dot">9</div>
+      <div class="suds-dot">10</div>
+    </div>
+    <div class="suds-legend"><span>Calme</span><span>Intense</span></div>
+  </div>
+
+  <!-- POINTS DE TAPPING -->
+  <div class="tapping-card">
+    <div class="tapping-title">Les 9 points de tapping</div>
+    <div class="tapping-sub">Tu tapoteras légèrement avec deux doigts sur chaque point, dans l'ordre.</div>
+    <div class="silhouette-wrap">
+      <div class="silhouette">
+        <svg viewBox="0 0 100 180" xmlns="http://www.w3.org/2000/svg">
+          <!-- Silhouette simplifiée -->
+          <circle cx="50" cy="28" r="16" fill="none" stroke="#B0A090" stroke-width="1" opacity="0.6"/>
+          <path d="M 35 44 Q 30 55 32 80 Q 28 100 30 130 L 30 175" stroke="#B0A090" stroke-width="1" fill="none" opacity="0.6"/>
+          <path d="M 65 44 Q 70 55 68 80 Q 72 100 70 130 L 70 175" stroke="#B0A090" stroke-width="1" fill="none" opacity="0.6"/>
+          <path d="M 32 55 L 18 80 L 16 110" stroke="#B0A090" stroke-width="1" fill="none" opacity="0.6"/>
+          <path d="M 68 55 L 82 80 L 84 110" stroke="#B0A090" stroke-width="1" fill="none" opacity="0.6"/>
+          <!-- 9 points -->
+          <circle cx="42" cy="20" r="3.5" fill="#9A8090"/>
+          <text x="48" y="22" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">1</text>
+          <circle cx="44" cy="28" r="3.5" fill="#9A8090"/>
+          <text x="33" y="30" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">2</text>
+          <circle cx="58" cy="28" r="3.5" fill="#9A8090"/>
+          <text x="64" y="30" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">3</text>
+          <circle cx="50" cy="35" r="3.5" fill="#9A8090"/>
+          <text x="56" y="37" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">4</text>
+          <circle cx="50" cy="40" r="3.5" fill="#9A8090"/>
+          <text x="56" y="42" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">5</text>
+          <circle cx="50" cy="46" r="3.5" fill="#9A8090"/>
+          <text x="56" y="48" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">6</text>
+          <circle cx="44" cy="60" r="3.5" fill="#9A8090"/>
+          <text x="33" y="62" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">7</text>
+          <circle cx="30" cy="64" r="3.5" fill="#9A8090"/>
+          <text x="19" y="66" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">8</text>
+          <circle cx="50" cy="22" r="3.5" fill="#9A8090"/>
+          <text x="42" y="14" font-size="7" fill="#6A5060" font-family="Be Vietnam Pro">9</text>
+        </svg>
+      </div>
+      <div class="tapping-points-list">
+        <div class="tap-point"><div class="tap-point-num">1</div>Sommet du crâne</div>
+        <div class="tap-point"><div class="tap-point-num">2</div>Début du sourcil</div>
+        <div class="tap-point"><div class="tap-point-num">3</div>Coin de l'œil</div>
+        <div class="tap-point"><div class="tap-point-num">4</div>Sous l'œil</div>
+        <div class="tap-point"><div class="tap-point-num">5</div>Sous le nez</div>
+        <div class="tap-point"><div class="tap-point-num">6</div>Creux du menton</div>
+        <div class="tap-point"><div class="tap-point-num">7</div>Clavicule</div>
+        <div class="tap-point"><div class="tap-point-num">8</div>Sous le bras</div>
+        <div class="tap-point"><div class="tap-point-num">9</div>Point karaté (main)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAYER / CTA principal -->
+  <div class="player-card">
+    <div class="player-label">Séance guidée</div>
+    <div class="player-title">Libérer le stress chronique</div>
+    <div class="player-duration">18 minutes · voix de Vanille</div>
+    <button class="play-button">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <div class="rounds">
+      <div class="round-dot"><div class="round-dot-circle"></div><div class="round-dot-label">Setup</div></div>
+      <div class="round-dot"><div class="round-dot-circle"></div><div class="round-dot-label">Ronde 1</div></div>
+      <div class="round-dot"><div class="round-dot-circle"></div><div class="round-dot-label">Ronde 2</div></div>
+      <div class="round-dot"><div class="round-dot-circle"></div><div class="round-dot-label">Ronde 3</div></div>
+      <div class="round-dot"><div class="round-dot-circle"></div><div class="round-dot-label">Ronde 4</div></div>
+    </div>
+    <div class="player-note">Installe-toi au calme. Respire. Pas de téléphone.</div>
+
+    <div class="share-row">
+      <div class="share-text">
+        <div class="share-title">Partager cette expérience avec Vanille</div>
+        <div class="share-desc">Je verrai tes scores avant/après. C'est privé sinon.</div>
+      </div>
+      <div class="toggle" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+
+</div>
+
 </body>
 </html>
