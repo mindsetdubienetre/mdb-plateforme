@@ -286,11 +286,7 @@ h1 em,h2 em{font-style:italic;color:var(--ambre);font-weight:600}
     <h2>Un mot, <em>de moi à toi</em>.</h2>
     <p class="sub-italic">Prends 90 secondes. C'est important.</p>
   </div>
-  <div class="video-frame">
-    <div class="play-btn">
-      <svg width="22" height="22" viewBox="0 0 20 20" fill="#1A1410" style="margin-left:3px"><path d="M5 4L16 10L5 16V4Z"/></svg>
-    </div>
-  </div>
+  <div class="video-frame" id="welcome-video"></div>
   <div class="card-mauve">
     <p><strong id="final-name">Bienvenue</strong>.<br><br>
     Ton espace est prêt. Tout y est : tes vidéos, tes exercices, tes méditations, ton journal.
@@ -302,11 +298,37 @@ h1 em,h2 em{font-style:italic;color:var(--ambre);font-weight:600}
 </div>
 
 <script>
+// ═══════════════════════════════════════════════════════════
+// VIDÉO DE BIENVENUE DE VANILLE (3 minutes, face cam)
+// ═══════════════════════════════════════════════════════════
+// Quand tu as ta vidéo : colle ici l'URL YouTube (unlisted) ou Vimeo
+// Exemples :
+//   YouTube : 'https://www.youtube.com/embed/TON_ID_VIDEO'
+//   Vimeo   : 'https://player.vimeo.com/video/TON_ID_VIDEO'
+// Tant que c'est vide, on affiche un placeholder "vidéo à venir".
+const VANILLE_WELCOME_VIDEO_URL = '';
+
 const SUPABASE_URL = 'https://hzirvgssahyoxxopowjr.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXJ2Z3NzYWh5b3h4b3Bvd2pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTEzMjMsImV4cCI6MjA5MDA2NzMyM30.9BOdDoAxKS_mn4CZ9E8YN3eZmkV388U0lZW_st1Jep0';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const clienteId = localStorage.getItem('mdb_cliente_id');
 if (!clienteId) { window.location.href = 'index.html'; }
+
+// Rendu de la vidéo de bienvenue (écran 5)
+(function renderWelcomeVideo() {
+  const el = document.getElementById('welcome-video');
+  if (!el) return;
+  if (VANILLE_WELCOME_VIDEO_URL) {
+    el.innerHTML = '<iframe src="' + VANILLE_WELCOME_VIDEO_URL
+      + '" style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:16px" '
+      + 'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Message de Vanille"></iframe>';
+  } else {
+    el.innerHTML = '<div style="position:relative;z-index:1;text-align:center;color:#fff;padding:24px">'
+      + '<div style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:15px;opacity:.85;margin-bottom:6px">Message vidéo de Vanille</div>'
+      + '<div style="font-size:12px;opacity:.6">Disponible dans quelques instants</div>'
+      + '</div>';
+  }
+})();
 
 const state = {
   current: 0,
