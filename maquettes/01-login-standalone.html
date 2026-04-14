@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Connexion (maquette autonome)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivoire: #F5F0E8;
+  --ivoire-soft: #FAF6F0;
+  --ivoire-deep: #EDE6DA;
+  --brun-noir: #1A1410;
+  --ambre: #C86030;
+  --ambre-light: #D87A48;
+  --ambre-deep: #A04820;
+  --or: #C9A84C;
+  --or-light: #D4B86A;
+  --or-deep: #A88830;
+  --mauve: #9A8090;
+  --mauve-bg: #E8DFE4;
+  --taupe: #B0A090;
+  --taupe-light: #C8BEB0;
+  --taupe-deep: #8A7A68;
+  --texte: #1A1410;
+  --texte-secondaire: #5A4A40;
+  --texte-tertiaire: #8A7A68;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  background: var(--ivoire);
+  color: var(--texte);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+/* HALOS d'ambiance */
+body::before {
+  content: '';
+  position: fixed;
+  top: -120px; right: -100px;
+  width: 520px; height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,96,48,0.13) 0%, transparent 65%);
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -120px; left: -100px;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154,128,144,0.16) 0%, transparent 65%);
+  pointer-events: none;
+}
+/* CARD */
+.login-card {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: 28px;
+  padding: 48px 36px 36px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow:
+    0 1px 2px rgba(26,20,16,0.04),
+    0 12px 40px rgba(26,20,16,0.06),
+    0 24px 80px rgba(154,128,144,0.10);
+  border: 0.5px solid var(--ivoire-deep);
+}
+/* LOGO */
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.orb {
+  position: relative;
+  width: 48px; height: 48px;
+  margin-bottom: 18px;
+}
+.orb::before {
+  content: '';
+  position: absolute;
+  inset: -45%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154,128,144,0.38) 0%, rgba(154,128,144,0.10) 45%, transparent 70%);
+}
+.orb::after {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0.05) 50%, transparent 72%);
+}
+.orb-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #E08858, #D06030 55%, #B04018 100%);
+  box-shadow:
+    0 0 20px rgba(200,96,48,0.35),
+    0 0 48px rgba(154,128,144,0.12),
+    inset -2px -3px 6px rgba(140,40,10,0.25);
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+.logo-text {
+  white-space: nowrap;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--brun-noir);
+}
+.logo-text .l1 {
+  font-family: 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+.logo-text .l2 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 800;
+}
+/* HEADER */
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ambre);
+  text-align: center;
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--brun-noir);
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+h1 em {
+  font-style: italic;
+  color: var(--ambre);
+  font-weight: 600;
+}
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  text-align: center;
+  color: var(--texte-secondaire);
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+/* TABS */
+.tabs {
+  display: flex;
+  background: var(--ivoire-deep);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+  margin-bottom: 24px;
+}
+.tab {
+  flex: 1;
+  padding: 11px 8px;
+  border-radius: 11px;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  color: var(--texte-tertiaire);
+  transition: all 0.25s ease;
+  letter-spacing: 0.01em;
+}
+.tab.on {
+  background: #fff;
+  color: var(--brun-noir);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(26,20,16,0.06);
+}
+/* FORM */
+.form-block { display: none; }
+.form-block.on { display: block; }
+.field { margin-bottom: 14px; }
+.field-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--brun-noir);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+.field-input {
+  width: 100%;
+  background: var(--ivoire-soft);
+  border: 1px solid var(--taupe-light);
+  border-radius: 11px;
+  padding: 13px 15px;
+  font-size: 14px;
+  color: var(--brun-noir);
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s;
+}
+.field-input::placeholder { color: var(--texte-tertiaire); }
+.field-input:focus {
+  border-color: var(--ambre);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(200,96,48,0.10);
+}
+.field-input.code {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.field-hint {
+  font-size: 11.5px;
+  color: var(--texte-tertiaire);
+  margin-top: 7px;
+}
+/* CTA — fond OR */
+.btn-cta {
+  width: 100%;
+  background: var(--or);
+  color: var(--brun-noir);
+  border: none;
+  padding: 15px 18px;
+  border-radius: 13px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(201,168,76,0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-cta:hover {
+  background: var(--or-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201,168,76,0.40);
+}
+.btn-cta svg { transition: transform 0.2s; }
+.btn-cta:hover svg { transform: translateX(3px); }
+/* FOOTER */
+.footer {
+  text-align: center;
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--texte-secondaire);
+  line-height: 1.7;
+}
+.footer a {
+  color: var(--ambre);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200,96,48,0.30);
+}
+.secure {
+  display: block;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--taupe-deep);
+  letter-spacing: 0.04em;
+}
+</style>
+</head>
+<body>
+
+<div class="login-card">
+
+  <!-- LOGO -->
+  <div class="logo">
+    <div class="orb">
+      <div class="orb-core"></div>
+    </div>
+    <div class="logo-text">
+      <span class="l1">Mindset</span><span class="l2"> du bien-être.</span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="eyebrow">Ton espace personnel</div>
+  <h1>Bienvenue, <em>belle âme</em></h1>
+  <p class="subtitle">Ton espace de transformation t'attend.</p>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab on" onclick="switchTab('email', this)">Connexion</div>
+    <div class="tab" onclick="switchTab('code', this)">Code d'accès</div>
+  </div>
+
+  <!-- FORM EMAIL -->
+  <div class="form-block on" id="form-email">
+    <div class="field">
+      <label class="field-label">Email</label>
+      <input class="field-input" type="email" placeholder="ton@email.com">
+    </div>
+    <div class="field">
+      <label class="field-label">Mot de passe</label>
+      <input class="field-input" type="password" placeholder="••••••••">
+    </div>
+    <button class="btn-cta">
+      Accéder à mon espace
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- FORM CODE -->
+  <div class="form-block" id="form-code">
+    <div class="field">
+      <label class="field-label">Ton code MDB</label>
+      <input class="field-input code" type="text" placeholder="MDB-2026-XXXX" maxlength="14">
+      <div class="field-hint">Reçu par email après ton inscription.</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Email</label>
+      <input class="field-input" type="email" placeholder="ton@email.com">
+    </div>
+    <button class="btn-cta">
+      Entrer dans mon espace
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Pas encore inscrite ? <a>Découvrir MDB</a>
+    <span class="secure">Espace privé · données chiffrées · RGPD</span>
+  </div>
+
+</div>
+
+<script>
+function switchTab(type, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.form-block').forEach(b => b.classList.remove('on'));
+  document.getElementById('form-' + type).classList.add('on');
+}
+</script>
+
+</body>
+</html>

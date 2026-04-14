@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Test de polices titres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,600&family=Prata&family=Italiana&family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivoire: #F5F0E8;
+  --ivoire-soft: #FAF6F0;
+  --ivoire-deep: #EDE6DA;
+  --brun-noir: #1A1410;
+  --ambre: #C86030;
+  --or: #C9A84C;
+  --mauve: #9A8090;
+  --taupe: #B0A090;
+  --taupe-deep: #8A7A68;
+  --texte-secondaire: #5A4A40;
+  --texte-tertiaire: #8A7A68;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  background: var(--ivoire);
+  color: var(--brun-noir);
+  padding: 40px 20px 80px;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+}
+.page-header {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--brun-noir);
+}
+.page-header p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--texte-secondaire);
+}
+
+/* GRID des options */
+.grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+/* CARTE de démo */
+.card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 40px 32px 32px;
+  border: 0.5px solid var(--ivoire-deep);
+  box-shadow: 0 8px 32px rgba(26,20,16,0.06), 0 1px 3px rgba(26,20,16,0.04);
+  position: relative;
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 48px rgba(26,20,16,0.10), 0 2px 6px rgba(26,20,16,0.05);
+}
+
+/* Badge option */
+.opt-num {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--brun-noir);
+  color: var(--ivoire);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+.opt-free {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(201,168,76,0.18);
+  color: #8A7A20;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+/* Orbe mini */
+.orb-mini {
+  width: 36px; height: 36px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+.orb-mini::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154,128,144,0.35) 0%, transparent 70%);
+}
+.orb-mini::after {
+  content: '';
+  position: absolute;
+  inset: -25%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.20) 0%, transparent 72%);
+}
+.orb-mini span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #E08858, #D06030 55%, #B04018 100%);
+  box-shadow: 0 0 16px rgba(200,96,48,0.32);
+}
+
+/* Logo texte */
+.logo-text {
+  text-align: center;
+  white-space: nowrap;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--brun-noir);
+  margin-bottom: 24px;
+}
+.logo-text .l1 { font-family: 'Times New Roman', serif; font-style: italic; }
+.logo-text .l2 { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 800; }
+
+/* Eyebrow */
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ambre);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* TITRE DE TEST — c'est ça qu'on compare */
+.title-test {
+  font-size: 34px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--brun-noir);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.title-test em {
+  font-style: italic;
+  color: var(--ambre);
+}
+
+/* Sous-titre */
+.subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  text-align: center;
+  color: var(--texte-secondaire);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* Mini CTA */
+.cta {
+  width: 100%;
+  background: var(--or);
+  color: var(--brun-noir);
+  border: none;
+  padding: 13px;
+  border-radius: 11px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(201,168,76,0.30);
+}
+
+/* Info font */
+.font-info {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ivoire-deep);
+  text-align: center;
+}
+.font-name {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brun-noir);
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+.font-vibe {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--texte-secondaire);
+  line-height: 1.5;
+}
+
+/* ===== LES FAMILLES TESTÉES ===== */
+.title-playfair { font-family: 'Playfair Display', serif; }
+.title-fraunces { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 144, "SOFT" 50; letter-spacing: -0.01em; }
+.title-bodoni   { font-family: 'Bodoni Moda', serif; letter-spacing: -0.005em; }
+.title-prata    { font-family: 'Prata', serif; font-weight: 400; letter-spacing: 0.005em; }
+.title-italiana { font-family: 'Italiana', serif; font-weight: 400; font-size: 42px; letter-spacing: 0.01em; }
+.title-cormorant{ font-family: 'Cormorant', serif; font-weight: 500; letter-spacing: 0.005em; }
+
+/* Footer */
+.footer {
+  max-width: 900px;
+  margin: 48px auto 0;
+  padding: 28px 24px;
+  text-align: center;
+  background: #fff;
+  border-radius: 20px;
+  border: 0.5px solid var(--ivoire-deep);
+}
+.footer p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--texte-secondaire);
+  line-height: 1.6;
+}
+.footer strong {
+  font-style: normal;
+  color: var(--brun-noir);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Test des polices titres</h1>
+  <p>Ton option "rich girl luxe éditorial" — choisis celle qui résonne.</p>
+</div>
+
+<div class="grid">
+
+  <!-- OPTION 1 — PLAYFAIR DISPLAY (actuel) -->
+  <div class="card">
+    <div class="opt-num">OPTION 1 · actuelle</div>
+    <div class="opt-free">gratuit</div>
+    <div class="orb-mini"><span></span></div>
+    <div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+    <div class="eyebrow">Ton espace personnel</div>
+    <h2 class="title-test title-playfair">Bienvenue, <em>belle âme</em></h2>
+    <p class="subtitle">Ton espace de transformation t'attend.</p>
+    <button class="cta">Accéder à mon espace</button>
+    <div class="font-info">
+      <div class="font-name">Playfair Display</div>
+      <div class="font-vibe">Éditorial classique. Intemporelle, premium sans ostentation. Très utilisée dans la presse haut de gamme.</div>
+    </div>
+  </div>
+
+  <!-- OPTION 2 — FRAUNCES -->
+  <div class="card">
+    <div class="opt-num">OPTION 2</div>
+    <div class="opt-free">gratuit</div>
+    <div class="orb-mini"><span></span></div>
+    <div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+    <div class="eyebrow">Ton espace personnel</div>
+    <h2 class="title-test title-fraunces">Bienvenue, <em>belle âme</em></h2>
+    <p class="subtitle">Ton espace de transformation t'attend.</p>
+    <button class="cta">Accéder à mon espace</button>
+    <div class="font-info">
+      <div class="font-name">Fraunces</div>
+      <div class="font-vibe">Moderne, chaude, sophistiquée. La police "rich girl warmth" du moment — Glossier, Aesop adjacent.</div>
+    </div>
+  </div>
+
+  <!-- OPTION 3 — BODONI MODA -->
+  <div class="card">
+    <div class="opt-num">OPTION 3</div>
+    <div class="opt-free">gratuit</div>
+    <div class="orb-mini"><span></span></div>
+    <div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+    <div class="eyebrow">Ton espace personnel</div>
+    <h2 class="title-test title-bodoni">Bienvenue, <em>belle âme</em></h2>
+    <p class="subtitle">Ton espace de transformation t'attend.</p>
+    <button class="cta">Accéder à mon espace</button>
+    <div class="font-info">
+      <div class="font-name">Bodoni Moda</div>
+      <div class="font-vibe">Pur Vogue. Contrastes forts, féminin, high-fashion. Dior, Chanel, Harper's Bazaar vibes.</div>
+    </div>
+  </div>
+
+  <!-- OPTION 4 — PRATA (Advercase-adjacent) -->
+  <div class="card">
+    <div class="opt-num">OPTION 4 · proche Advercase</div>
+    <div class="opt-free">gratuit</div>
+    <div class="orb-mini"><span></span></div>
+    <div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+    <div class="eyebrow">Ton espace personnel</div>
+    <h2 class="title-test title-prata">Bienvenue, <em>belle âme</em></h2>
+    <p class="subtitle">Ton espace de transformation t'attend.</p>
+    <button class="cta">Accéder à mon espace</button>
+    <div class="font-info">
+      <div class="font-name">Prata</div>
+      <div class="font-vibe">Le plus proche de la vibe Advercase en gratuit. Épurée, élégante, lettres larges. Très "luxury slow brand".</div>
+    </div>
+  </div>
+
+  <!-- OPTION 5 — ITALIANA -->
+  <div class="card">
+    <div class="opt-num">OPTION 5</div>
+    <div class="opt-free">gratuit</div>
+    <div class="orb-mini"><span></span></div>
+    <div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+    <div class="eyebrow">Ton espace personnel</div>
+    <h2 class="title-test title-italiana">Bienvenue, <em>belle âme</em></h2>
+    <p class="subtitle">Ton espace de transformation t'attend.</p>
+    <button class="cta">Accéder à mon espace</button>
+    <div class="font-info">
+      <div class="font-name">Italiana</div>
+      <div class="font-vibe">Ultra-fine, Dior couture, éthérée. Très "rich girl silent luxury" — presque un fil, lettre élancée.</div>
+    </div>
+  </div>
+
+  <!-- OPTION 6 — CORMORANT -->
+  <div class="card">
+    <div class="opt-num">OPTION 6</div>
+    <div class="opt-free">gratuit</div>
+    <div class="orb-mini"><span></span></div>
+    <div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+    <div class="eyebrow">Ton espace personnel</div>
+    <h2 class="title-test title-cormorant">Bienvenue, <em>belle âme</em></h2>
+    <p class="subtitle">Ton espace de transformation t'attend.</p>
+    <button class="cta">Accéder à mon espace</button>
+    <div class="font-info">
+      <div class="font-name">Cormorant</div>
+      <div class="font-vibe">Variante plus élégante que Cormorant Garamond. Romantique, graphique, "quiet luxury".</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>
+    Regarde chaque option dans son contexte.<br>
+    Dis-moi le <strong>numéro de celle qui te parle</strong> — ou plusieurs si tu hésites, je te ferai un zoom sur chacune.
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Célébration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mdb.css">
+<style>
+  body { background: var(--brun-noir); color: var(--ivoire); min-height: 100vh; overflow: hidden; position: relative; }
+  .container-page { max-width: 540px; margin: 0 auto; padding: 60px 24px 40px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 10; }
+
+  /* PARTICULES OR */
+  .sparkle {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: var(--or);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 8px rgba(201,168,76,0.8);
+    animation: float 8s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    50% { transform: translateY(-200px) scale(1.5); opacity: 0.6; }
+  }
+
+  /* HALOS */
+  .bg-halo-1 {
+    position: absolute;
+    top: 10%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,96,48,0.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .bg-halo-2 {
+    position: absolute;
+    bottom: -20%; left: -10%;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(154,128,144,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* ORBE GIANT */
+  .celebration-orb {
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 38%, #E08858, #D06030, #B04018);
+    box-shadow: 0 0 80px rgba(200,96,48,0.5), 0 0 160px rgba(154,128,144,0.3);
+    margin-bottom: 40px;
+    animation: orb-celebrate 4s ease-in-out infinite;
+    position: relative;
+  }
+  .celebration-orb::after {
+    content: '';
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    animation: ring 4s ease-out infinite;
+  }
+  @keyframes orb-celebrate {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  @keyframes ring {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.6); }
+  }
+
+  .badge-phase {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--or-light);
+    margin-bottom: 24px;
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .title em { font-style: italic; color: var(--ambre-light); }
+
+  .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--taupe-light);
+    margin-bottom: 40px;
+    max-width: 420px;
+  }
+
+  /* MESSAGE VANILLE */
+  .vanille-msg {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: 32px;
+    text-align: left;
+    max-width: 460px;
+    width: 100%;
+    backdrop-filter: blur(8px);
+  }
+  .vanille-msg-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .vanille-msg-orb { width: 32px; height: 32px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #E08858, #D06030, #B04018); flex-shrink: 0; }
+  .vanille-msg-meta { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--or); font-weight: 600; }
+  .vanille-msg-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ivoire);
+  }
+  .vanille-msg-sign {
+    margin-top: 16px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--taupe);
+    text-align: right;
+  }
+
+  /* STATS */
+  .stats-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 460px;
+    justify-content: center;
+  }
+  .stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    text-align: center;
+    flex: 1;
+  }
+  .stat-val { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--or); line-height: 1; }
+  .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--taupe); margin-top: 6px; }
+
+  .actions { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 360px; }
+</style>
+</head>
+<body>
+  <div class="bg-halo-1"></div>
+  <div class="bg-halo-2"></div>
+
+  <a href="index.html" style="position: fixed; top: 12px; right: 12px; font-size: 11px; color: var(--ivoire); padding: 6px 12px; background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border-radius: var(--radius-full); z-index: 100;">← maquettes</a>
+
+  <!-- Particules sparkle -->
+  <div class="sparkle" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+  <div class="sparkle" style="top: 30%; right: 20%; animation-delay: 1s;"></div>
+  <div class="sparkle" style="top: 60%; left: 10%; animation-delay: 2s;"></div>
+  <div class="sparkle" style="top: 70%; right: 15%; animation-delay: 3s;"></div>
+  <div class="sparkle" style="top: 25%; left: 50%; animation-delay: 1.5s;"></div>
+  <div class="sparkle" style="top: 80%; right: 40%; animation-delay: 2.5s;"></div>
+  <div class="sparkle" style="top: 45%; right: 8%; animation-delay: 0.5s;"></div>
+  <div class="sparkle" style="top: 50%; left: 8%; animation-delay: 3.5s;"></div>
+
+  <div class="container-page">
+    <div class="celebration-orb"></div>
+
+    <div class="badge-phase">✦ Phase 1 — Fondations · complétée</div>
+
+    <h1 class="title">Tu as <em>posé</em><br>tes fondations.</h1>
+    <p class="subtitle">3 semaines de présence à toi-même. C'est immense.</p>
+
+    <div class="vanille-msg">
+      <div class="vanille-msg-header">
+        <div class="vanille-msg-orb"></div>
+        <div class="vanille-msg-meta">Vanille — pour toi</div>
+      </div>
+      <p class="vanille-msg-text">
+        "Sarah, regarde ce que tu viens de faire.<br><br>
+        Tu as appris à habiter ton corps. À reconnaître ce qui te traverse. À respirer quand tout serre.<br><br>
+        Ce que tu commences maintenant — la phase de reprogrammation — c'est là que tout devient concret. Tu vas voir des schémas se déplacer. Pas d'un coup. Doucement. Mais profondément."
+      </p>
+      <p class="vanille-msg-sign">— V.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-val">3</div>
+        <div class="stat-label">Semaines</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">14</div>
+        <div class="stat-label">Exercices</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">21</div>
+        <div class="stat-label">Check-ins</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-or btn-block btn-lg" onclick="window.location.href='03-dashboard.html'">Entrer dans la Phase 2 ✨</button>
+      <button class="btn btn-ghost-dark btn-block">Partager ma fierté</button>
+    </div>
+  </div>
+</body>
+</html>
