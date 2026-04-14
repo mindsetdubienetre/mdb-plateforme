@@ -21,30 +21,25 @@ body::after {
   pointer-events: none; z-index: 0;
 }
 
-/* TOPBAR brun-noir */
+/* TOPBAR clair */
 .topbar {
-  background: var(--brun-noir);
-  color: var(--ivoire);
+  background: #fff;
+  color: var(--brun-noir);
   padding: 16px 20px;
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 30;
+  border-bottom: 0.5px solid var(--ivoire-deep);
+  backdrop-filter: blur(12px);
 }
-.topbar-logo { display: flex; align-items: center; gap: 10px; }
-.topbar-orb {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: radial-gradient(circle at 38% 38%, #E08858, #D06030 55%, #B04018);
-  box-shadow: 0 0 14px rgba(200,96,48,0.35);
-  flex-shrink: 0;
-}
-.topbar-text { font-size: 14px; white-space: nowrap; }
-.topbar-text .l1 { font-family: 'Times New Roman', serif; font-style: italic; }
+.topbar-text { font-size: 15px; line-height: 1; white-space: nowrap; color: var(--brun-noir); }
+.topbar-text .l1 { font-family: 'Times New Roman', serif; font-style: italic; font-weight: 400; }
 .topbar-text .l2 { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 800; }
 .topbar-profile {
   width: 34px; height: 34px; border-radius: 50%;
-  background: var(--ambre); color: var(--brun-noir);
+  background: var(--ambre); color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 13px;
-  border: 1.5px solid rgba(245,240,232,0.2);
+  font-weight: 700; font-size: 12px;
+  letter-spacing: 0.04em;
 }
 
 .wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px; position: relative; z-index: 1; }
@@ -306,18 +301,18 @@ body::after {
 @media (max-width: 540px) {
   .salut-title { font-size: 26px; }
   .hero-title { font-size: 22px; }
-  .phases { grid-template-columns: 1fr; }
+  .phase-card { padding: 14px 12px 12px; }
+  .phase-num { font-size: 28px; }
+  .phase-name { font-size: 14px; }
+  .week-row-title { font-size: 14.5px; }
 }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="topbar-logo">
-    <div class="topbar-orb"></div>
-    <div class="topbar-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
-  </div>
-  <div class="topbar-profile">VN</div>
+  <div class="topbar-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div>
+  <div class="topbar-profile">S</div>
 </div>
 
 <div class="wrap">
@@ -325,7 +320,7 @@ body::after {
   <!-- SALUT -->
   <div class="salut">
     <div class="salut-eyebrow">Bon retour</div>
-    <h1 class="salut-title">Belle âme, <em>tu es là</em>.</h1>
+    <h1 class="salut-title">Sophie, <em>tu es là</em>.</h1>
     <p class="salut-sub">Tu es à la Semaine 1 · Jour 3 · Phase 1 · Fondations.</p>
   </div>
 
