@@ -4,8 +4,8 @@
   "description": "Ton espace de transformation intérieure",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#2d4a3e",
-  "theme_color": "#2d4a3e",
+  "background_color": "#F5F0E8",
+  "theme_color": "#F5F0E8",
   "orientation": "portrait-primary",
   "icons": [
     {"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}

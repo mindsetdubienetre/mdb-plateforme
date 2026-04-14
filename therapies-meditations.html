@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Espace Méditations</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/mdb.css">
+<style>
+body { background: var(--ivoire); min-height: 100vh; padding-bottom: 100px; position: relative; overflow-x: hidden; }
+body::before { content: ''; position: fixed; top: -180px; right: -120px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+body::after { content: ''; position: fixed; bottom: -180px; left: -120px; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(154,128,144,0.10) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+
+.topbar { position: sticky; top: 0; z-index: 20; background: #fff; backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--ivoire-deep); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+.topbar-back { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--texte-secondaire); padding: 8px 14px; border-radius: 999px; background: var(--ivoire-soft); border: 0.5px solid var(--ivoire-deep); transition: all 0.2s; }
+.topbar-back:hover { border-color: var(--taupe); color: var(--brun-noir); }
+.topbar-wa { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #fff; background: #25D366; padding: 8px 14px; border-radius: 999px; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px; position: relative; z-index: 1; }
+
+.header { text-align: center; margin-bottom: 36px; }
+.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--or-deep); margin-bottom: 12px; }
+.h-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 600; color: var(--brun-noir); line-height: 1.1; margin-bottom: 12px; }
+.h-title em { font-style: italic; color: var(--ambre); }
+.h-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: var(--texte-secondaire); line-height: 1.55; max-width: 520px; margin: 0 auto; }
+
+.what-card {
+  background: linear-gradient(135deg, rgba(201,168,76,0.10), rgba(201,168,76,0.03));
+  border: 0.5px solid rgba(201,168,76,0.28);
+  border-radius: 20px;
+  padding: 24px 22px;
+  margin-bottom: 24px;
+}
+.what-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or-deep); margin-bottom: 8px; }
+.what-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 17px;
+  color: var(--brun-noir); line-height: 1.6;
+}
+.what-text strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 600;
+  color: var(--or-deep);
+}
+
+.intro-card {
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-left: 3px solid var(--or);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 32px;
+  display: flex; align-items: center; gap: 16px;
+  text-decoration: none; color: inherit;
+  transition: all 0.2s;
+}
+.intro-card:hover { border-color: var(--or); box-shadow: 0 6px 20px rgba(201,168,76,0.15); }
+.intro-card-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.20), rgba(201,168,76,0.08));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.intro-card-body { flex: 1; }
+.intro-card-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--or-deep); margin-bottom: 4px; }
+.intro-card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--brun-noir); line-height: 1.3; margin-bottom: 3px; }
+.intro-card-meta { font-size: 11.5px; color: var(--texte-tertiaire); }
+.intro-card-arrow { color: var(--or-deep); flex-shrink: 0; }
+
+.section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--brun-noir); margin-bottom: 6px; display: flex; align-items: baseline; justify-content: space-between; }
+.section-title-count { font-family: 'Be Vietnam Pro', sans-serif; font-size: 12px; font-weight: 500; color: var(--texte-tertiaire); letter-spacing: 0.04em; }
+.section-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--texte-secondaire); margin-bottom: 18px; }
+
+/* Phase separator */
+.phase-sep { display: flex; align-items: center; gap: 12px; margin: 24px 0 12px; }
+.phase-sep-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(176,160,144,0.35), transparent); }
+.phase-sep-label { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+.phase-sep.p1 .phase-sep-label { color: var(--ambre-deep); }
+.phase-sep.p2 .phase-sep-label { color: #6A5060; }
+.phase-sep.p3 .phase-sep-label { color: var(--or-deep); }
+.phase-sep.p4 .phase-sep-label { color: var(--taupe-deep); }
+
+.medit {
+  display: flex; align-items: center; gap: 14px;
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  text-decoration: none; color: inherit;
+  transition: all 0.2s;
+  position: relative;
+}
+.medit:hover:not(.locked) {
+  transform: translateY(-1px); border-color: var(--or);
+  box-shadow: 0 6px 18px rgba(201,168,76,0.12);
+}
+.medit.locked { background: var(--ivoire); opacity: 0.55; cursor: not-allowed; }
+.medit.current { border-color: var(--or); box-shadow: 0 4px 14px rgba(201,168,76,0.15); }
+
+.medit-week {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.22), rgba(201,168,76,0.08));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.medit-week-label { font-size: 8px; font-weight: 700; letter-spacing: 0.14em; color: var(--or-deep); text-transform: uppercase; }
+.medit-week-num { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 20px; line-height: 1; color: var(--brun-noir); }
+.medit.locked .medit-week { background: var(--ivoire-deep); }
+
+.medit-body { flex: 1; min-width: 0; }
+.medit-title { font-family: 'Playfair Display', serif; font-size: 15.5px; font-weight: 600; color: var(--brun-noir); line-height: 1.3; margin-bottom: 3px; }
+.medit-desc { font-size: 12px; color: var(--texte-secondaire); line-height: 1.45; margin-bottom: 4px; }
+.medit-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--texte-tertiaire); }
+.medit-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--taupe); }
+.medit-arrow { color: var(--or-deep); flex-shrink: 0; }
+.medit.locked .medit-arrow { color: var(--taupe-light); }
+
+.medit-lock { position: absolute; top: 10px; right: 14px; font-size: 11px; color: var(--texte-tertiaire); }
+.medit-current-badge { position: absolute; top: -8px; right: 14px; background: var(--or); color: var(--brun-noir); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; }
+
+/* Favori toggle */
+.medit-fav {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--ivoire); color: var(--taupe);
+  display: flex; align-items: center; justify-content: center;
+  margin-left: 4px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+}
+.medit-fav:hover { background: var(--ivoire-deep); color: var(--ambre); }
+.medit-fav.on { background: var(--or); color: var(--brun-noir); }
+
+/* Quick button */
+.quick-button {
+  display: block; margin-top: 22px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, var(--or-light), var(--or));
+  border-radius: 14px;
+  text-decoration: none; color: var(--brun-noir);
+  text-align: center; transition: all 0.2s;
+  box-shadow: 0 6px 22px rgba(201,168,76,0.30);
+}
+.quick-button:hover { transform: translateY(-1px); box-shadow: 0 8px 26px rgba(201,168,76,0.40); }
+.quick-button-label { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px; }
+.quick-button-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; }
+
+.note {
+  margin-top: 30px;
+  padding: 18px 22px;
+  background: rgba(201,168,76,0.10);
+  border: 0.5px solid rgba(201,168,76,0.22);
+  border-radius: 14px;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 14.5px;
+  color: var(--brun-noir); line-height: 1.55;
+}
+.note strong { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; color: var(--or-deep); }
+
+@media (max-width: 500px) {
+  .h-title { font-size: 30px; }
+  .section-title { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="MDB_membre_A.html" class="topbar-back">← Mon parcours</a>
+  <a href="#" class="topbar-wa">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+    Vanille
+  </a>
+</div>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="eyebrow">Espace thérapie · 🧘</div>
+    <h1 class="h-title"><em>Méditations</em></h1>
+    <p class="h-sub">Crée de l'espace dans ta tête. Apaise ton système nerveux. Reconstruis ton cerveau, séance après séance.</p>
+  </div>
+
+  <div class="what-card">
+    <div class="what-eyebrow">En une phrase</div>
+    <div class="what-text">
+      La méditation n'est pas un état à atteindre. <strong>C'est une pratique.</strong> À chaque fois que tu t'assois, tu renforces un nouveau circuit — celui du calme, de la présence, de la paix intérieure.
+    </div>
+  </div>
+
+  <a class="intro-card">
+    <div class="intro-card-icon">🎥</div>
+    <div class="intro-card-body">
+      <div class="intro-card-eyebrow">Pour comprendre</div>
+      <div class="intro-card-title">Pourquoi la méditation reconstruit ton cerveau</div>
+      <div class="intro-card-meta">Vidéo · 8-10 min · Vanille</div>
+    </div>
+    <div class="intro-card-arrow">→</div>
+  </a>
+
+  <div class="section-title">
+    Mes méditations
+    <span class="section-title-count">10 séances</span>
+  </div>
+  <div class="section-sub">Chacune t'emmène dans un état spécifique. Tu peux y revenir autant de fois que tu veux.</div>
+
+  <!-- PHASE 1 -->
+  <div class="phase-sep p1"><div class="phase-sep-line"></div><span class="phase-sep-label">Phase 1 · Fondations</span><div class="phase-sep-line"></div></div>
+
+  <a class="medit current">
+    <div class="medit-current-badge">En cours</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">1</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Body scan & ancrage corporel</div>
+      <div class="medit-desc">Revenir dans ton corps, centimètre par centimètre.</div>
+      <div class="medit-meta">12-15 min<span class="medit-meta-dot"></span>débutant</div>
+    </div>
+    <button class="medit-fav" onclick="this.classList.toggle('on')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </button>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">3</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Décharge corporelle</div>
+      <div class="medit-desc">Libérer les tensions accumulées dans ton corps.</div>
+      <div class="medit-meta">12-15 min<span class="medit-meta-dot"></span>s'ouvre en S3</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <!-- PHASE 2 -->
+  <div class="phase-sep p2"><div class="phase-sep-line"></div><span class="phase-sep-label">Phase 2 · Reprogrammation</span><div class="phase-sep-line"></div></div>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">4</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Méditation theta</div>
+      <div class="medit-desc">Accéder aux couches profondes du subconscient.</div>
+      <div class="medit-meta">15-18 min<span class="medit-meta-dot"></span>avancé</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">6</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Libération et renouveau</div>
+      <div class="medit-desc">Lâcher ce qui n'est plus, accueillir ce qui vient.</div>
+      <div class="medit-meta">15 min</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <!-- PHASE 3 -->
+  <div class="phase-sep p3"><div class="phase-sep-line"></div><span class="phase-sep-label">Phase 3 · Activation</span><div class="phase-sep-line"></div></div>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">7</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Futur mémorisé</div>
+      <div class="medit-desc">Visualiser avec intensité qui tu deviens.</div>
+      <div class="medit-meta">18-20 min<span class="medit-meta-dot"></span>la plus puissante</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">8</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Alignement cœur-cerveau-corps</div>
+      <div class="medit-desc">Trois centres en cohérence, une seule direction.</div>
+      <div class="medit-meta">15 min</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">9</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Incarnation : je suis déjà elle</div>
+      <div class="medit-desc">Ressentir, dès maintenant, qui tu es devenue.</div>
+      <div class="medit-meta">15-18 min</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <!-- PHASE 4 -->
+  <div class="phase-sep p4"><div class="phase-sep-line"></div><span class="phase-sep-label">Phase 4 · Intégration</span><div class="phase-sep-line"></div></div>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">10</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Ancrage des états positifs</div>
+      <div class="medit-desc">Protocole Hanson — 30 secondes pour imprimer le bon.</div>
+      <div class="medit-meta">15 min</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">11</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Se donner la permission</div>
+      <div class="medit-desc">T'autoriser ce que tu n'osais pas. Ici et maintenant.</div>
+      <div class="medit-meta">12-15 min</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <a class="medit locked">
+    <div class="medit-lock">🔒</div>
+    <div class="medit-week"><div class="medit-week-label">S</div><div class="medit-week-num">12</div></div>
+    <div class="medit-body">
+      <div class="medit-title">Gratitude et clôture</div>
+      <div class="medit-desc">Honorer ton parcours. Ramener ce qui compte.</div>
+      <div class="medit-meta">15-18 min</div>
+    </div>
+    <div class="medit-arrow">→</div>
+  </a>
+
+  <a href="MDB_exercice.html?type=meditation&slug=meditation-s1&titre=M%C3%A9ditation&semaine=1" class="quick-button">
+    <div class="quick-button-label">En ce moment</div>
+    <div class="quick-button-title">Lancer ma méditation du jour</div>
+  </a>
+
+  <div class="note">
+    Mets en <strong>favori</strong> celles qui te portent le plus. Tu pourras y revenir <strong>à tout moment</strong>, même après la fin du programme.
+  </div>
+
+</div>
+
+</body>
+</html>

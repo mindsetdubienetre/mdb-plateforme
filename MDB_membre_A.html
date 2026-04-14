@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MDB — Mon espace</title>
+<meta name="theme-color" content="#F5F0E8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <style>
@@ -340,6 +345,57 @@ body::after {
 .phase-sep.p3 .phase-sep-label { color: var(--or-deep); }
 .phase-sep.p4 .phase-sep-label { color: var(--taupe-deep); }
 
+/* Outils thérapeutiques */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.tool-card {
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.tool-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--taupe-light);
+  box-shadow: 0 8px 24px rgba(26,20,16,0.06);
+}
+.tool-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.tool-icon.respiration { background: rgba(200,96,48,0.12); }
+.tool-icon.eft { background: rgba(154,128,144,0.15); }
+.tool-icon.meditation { background: rgba(201,168,76,0.15); }
+.tool-icon.hypnose { background: rgba(176,160,144,0.18); }
+.tool-icon.journal { background: rgba(200,96,48,0.10); }
+.tool-icon.pdfs { background: rgba(154,128,144,0.12); }
+.tool-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--brun-noir);
+  line-height: 1.25;
+}
+.tool-sub {
+  font-size: 11.5px;
+  color: var(--texte-tertiaire);
+  line-height: 1.35;
+}
+
 /* Note bas */
 .bottom-note {
   margin-top: 32px;
@@ -430,6 +486,55 @@ body::after {
     <span class="section-title-meta">12 semaines · reconstruction</span>
   </div>
   <div class="phases" id="phases-grid"></div>
+
+  <div class="section-title">
+    Mes outils quotidiens
+    <span class="section-title-meta">à utiliser à tout moment</span>
+  </div>
+  <div class="tools-grid">
+    <a class="tool-card" href="therapies-respiration.html">
+      <div class="tool-icon respiration">🌬️</div>
+      <div>
+        <div class="tool-title">Respirations</div>
+        <div class="tool-sub">Cohérence cardiaque · 4-7-8</div>
+      </div>
+    </a>
+    <a class="tool-card" href="therapies-eft.html">
+      <div class="tool-icon eft">✋</div>
+      <div>
+        <div class="tool-title">EFT</div>
+        <div class="tool-sub">Tapping — libérer</div>
+      </div>
+    </a>
+    <a class="tool-card" href="therapies-meditations.html">
+      <div class="tool-icon meditation">🌿</div>
+      <div>
+        <div class="tool-title">Méditations</div>
+        <div class="tool-sub">Audio guidés</div>
+      </div>
+    </a>
+    <a class="tool-card" href="therapies-hypnose.html">
+      <div class="tool-icon hypnose">✨</div>
+      <div>
+        <div class="tool-title">Auto-hypnose</div>
+        <div class="tool-sub">Reprogrammer</div>
+      </div>
+    </a>
+    <a class="tool-card" href="MDB_exercice.html?type=introspection&amp;slug=journal-decharge-s1&amp;titre=Journal%20de%20d%C3%A9charge&amp;semaine=1">
+      <div class="tool-icon journal">📝</div>
+      <div>
+        <div class="tool-title">Journal</div>
+        <div class="tool-sub">Déposer ce que tu portes</div>
+      </div>
+    </a>
+    <a class="tool-card" id="pdfs-card" onclick="ouvrirPdfs()">
+      <div class="tool-icon pdfs">📄</div>
+      <div>
+        <div class="tool-title">Mes PDFs</div>
+        <div class="tool-sub"><span id="pdfs-count">—</span> ressources</div>
+      </div>
+    </a>
+  </div>
 
   <div class="section-title">
     Mon parcours · 12 semaines
@@ -656,8 +761,33 @@ function continuerSemaine() {
   ouvrirSemaine(wk);
 }
 
+function ouvrirPdfs() {
+  const pdfs = currentState.activites.filter(a => a.type === 'pdf');
+  if (!pdfs.length) { alert('Tes PDFs seront disponibles au fil du programme.'); return; }
+  // Pour l'instant on ouvre le premier PDF accessible (semaine débloquée)
+  const wkMax = currentState.cliente.semaine_debloquee || 1;
+  const accessible = pdfs.filter(p => p.semaine <= wkMax);
+  if (!accessible.length) { alert('Aucun PDF débloqué pour l\u2019instant.'); return; }
+  const first = accessible[0];
+  window.location.href = 'MDB_exercice.html?type=pdf&slug=' + encodeURIComponent(first.slug)
+    + '&titre=' + encodeURIComponent(first.titre) + '&semaine=' + first.semaine;
+}
+
+// Compte des PDFs accessibles (affiché sur la carte)
+function updatePdfsCount() {
+  const wkMax = currentState.cliente.semaine_debloquee || 1;
+  const n = currentState.activites.filter(a => a.type === 'pdf' && a.semaine <= wkMax).length;
+  const el = document.getElementById('pdfs-count');
+  if (el) el.textContent = n;
+}
+
+// Service worker (PWA)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
 // Go
-init();
+init().then(() => updatePdfsCount());
 </script>
 
 </body>

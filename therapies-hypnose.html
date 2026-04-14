@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Espace Auto-hypnose</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/mdb.css">
+<style>
+:root {
+  --plum: #4A3048;
+  --plum-deep: #3A2438;
+  --plum-light: #6A5060;
+}
+
+body { background: var(--ivoire); min-height: 100vh; padding-bottom: 100px; position: relative; overflow-x: hidden; }
+body::before { content: ''; position: fixed; top: -180px; right: -120px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(74,48,72,0.16) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+body::after { content: ''; position: fixed; bottom: -180px; left: -120px; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(154,128,144,0.15) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+
+.topbar { position: sticky; top: 0; z-index: 20; background: #fff; backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--ivoire-deep); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+.topbar-back { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--texte-secondaire); padding: 8px 14px; border-radius: 999px; background: var(--ivoire-soft); border: 0.5px solid var(--ivoire-deep); transition: all 0.2s; }
+.topbar-back:hover { border-color: var(--taupe); color: var(--brun-noir); }
+.topbar-wa { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #fff; background: #25D366; padding: 8px 14px; border-radius: 999px; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px; position: relative; z-index: 1; }
+
+.header { text-align: center; margin-bottom: 36px; }
+.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--plum); margin-bottom: 12px; }
+.h-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 600; color: var(--brun-noir); line-height: 1.1; margin-bottom: 12px; }
+.h-title em { font-style: italic; color: var(--plum); }
+.h-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: var(--texte-secondaire); line-height: 1.55; max-width: 520px; margin: 0 auto; }
+
+.what-card {
+  background: linear-gradient(135deg, rgba(74,48,72,0.08), rgba(74,48,72,0.02));
+  border: 0.5px solid rgba(74,48,72,0.22);
+  border-radius: 20px;
+  padding: 24px 22px;
+  margin-bottom: 24px;
+}
+.what-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--plum); margin-bottom: 8px; }
+.what-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 17px;
+  color: var(--brun-noir); line-height: 1.6;
+}
+.what-text strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 600;
+  color: var(--plum);
+}
+
+.intro-card {
+  background: #fff;
+  border: 0.5px solid var(--ivoire-deep);
+  border-left: 3px solid var(--plum);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 32px;
+  display: flex; align-items: center; gap: 16px;
+  text-decoration: none; color: inherit;
+  transition: all 0.2s;
+}
+.intro-card:hover { border-color: var(--plum); box-shadow: 0 6px 20px rgba(74,48,72,0.15); }
+.intro-card-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(74,48,72,0.15), rgba(74,48,72,0.05));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.intro-card-body { flex: 1; }
+.intro-card-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--plum); margin-bottom: 4px; }
+.intro-card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--brun-noir); line-height: 1.3; margin-bottom: 3px; }
+.intro-card-meta { font-size: 11.5px; color: var(--texte-tertiaire); }
+.intro-card-arrow { color: var(--plum); flex-shrink: 0; }
+
+/* Conditions d'écoute — important pour hypnose */
+.conditions-card {
+  background: #fff;
+  border: 0.5px dashed var(--plum);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 32px;
+}
+.conditions-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--plum); margin-bottom: 10px; }
+.conditions-list { list-style: none; padding: 0; }
+.conditions-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--brun-noir);
+  line-height: 1.5; margin-bottom: 8px;
+}
+.conditions-list li::before {
+  content: '✦'; color: var(--plum);
+  font-size: 11px; line-height: 1.5;
+  flex-shrink: 0;
+}
+.conditions-list li:last-child { margin-bottom: 0; }
+.conditions-list li strong { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; color: var(--plum); }
+
+.section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--brun-noir); margin-bottom: 6px; display: flex; align-items: baseline; justify-content: space-between; }
+.section-title-count { font-family: 'Be Vietnam Pro', sans-serif; font-size: 12px; font-weight: 500; color: var(--texte-tertiaire); letter-spacing: 0.04em; }
+.section-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--texte-secondaire); margin-bottom: 18px; }
+
+.phase-sep { display: flex; align-items: center; gap: 12px; margin: 24px 0 12px; }
+.phase-sep-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(176,160,144,0.35), transparent); }
+.phase-sep-label { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+.phase-sep.p2 .phase-sep-label { color: #6A5060; }
+.phase-sep.p3 .phase-sep-label { color: var(--or-deep); }
+.phase-sep.p4 .phase-sep-label { color: var(--taupe-deep); }
+
+.hypnose {
+  display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg, rgba(74,48,72,0.04), rgba(154,128,144,0.02));
+  border: 0.5px solid var(--ivoire-deep);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  text-decoration: none; color: inherit;
+  transition: all 0.2s;
+  position: relative;
+}
+.hypnose:hover:not(.locked) {
+  transform: translateY(-1px); border-color: var(--plum);
+  box-shadow: 0 6px 18px rgba(74,48,72,0.12);
+}
+.hypnose.locked { background: var(--ivoire); opacity: 0.55; cursor: not-allowed; }
+
+.hypnose-week {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(74,48,72,0.18), rgba(74,48,72,0.06));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hypnose-week-label { font-size: 8px; font-weight: 700; letter-spacing: 0.14em; color: var(--plum); text-transform: uppercase; }
+.hypnose-week-num { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 20px; line-height: 1; color: var(--brun-noir); }
+.hypnose.locked .hypnose-week { background: var(--ivoire-deep); }
+
+.hypnose-body { flex: 1; min-width: 0; }
+.hypnose-title { font-family: 'Playfair Display', serif; font-size: 15.5px; font-weight: 600; color: var(--brun-noir); line-height: 1.3; margin-bottom: 3px; }
+.hypnose-desc { font-size: 12px; color: var(--texte-secondaire); line-height: 1.45; margin-bottom: 4px; }
+.hypnose-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--texte-tertiaire); }
+.hypnose-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--taupe); }
+.hypnose-arrow { color: var(--plum); flex-shrink: 0; }
+.hypnose.locked .hypnose-arrow { color: var(--taupe-light); }
+
+.hypnose-lock { position: absolute; top: 10px; right: 14px; font-size: 11px; color: var(--texte-tertiaire); }
+
+.note {
+  margin-top: 30px;
+  padding: 18px 22px;
+  background: rgba(74,48,72,0.07);
+  border: 0.5px solid rgba(74,48,72,0.20);
+  border-radius: 14px;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 14.5px;
+  color: var(--brun-noir); line-height: 1.55;
+}
+.note strong { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; color: var(--plum); }
+
+@media (max-width: 500px) {
+  .h-title { font-size: 30px; }
+  .section-title { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="MDB_membre_A.html" class="topbar-back">← Mon parcours</a>
+  <a href="#" class="topbar-wa">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+    Vanille
+  </a>
+</div>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="eyebrow">Espace thérapie · 🧠</div>
+    <h1 class="h-title"><em>Auto-hypnose</em></h1>
+    <p class="h-sub">Descendre sous la surface du mental. Parler directement à ton subconscient. C'est là que la reprogrammation se fait vraiment.</p>
+  </div>
+
+  <div class="what-card">
+    <div class="what-eyebrow">En une phrase</div>
+    <div class="what-text">
+      L'auto-hypnose, c'est un <strong>état modifié de conscience</strong> qu'on traverse 2 à 3 fois par jour sans s'en rendre compte. Ici, on l'utilise <strong>consciemment</strong> pour parler à ton cerveau en contournant le mental critique. 95% de tes comportements sont pilotés par ton subconscient. C'est lui qu'on recâble.
+    </div>
+  </div>
+
+  <a class="intro-card">
+    <div class="intro-card-icon">🎥</div>
+    <div class="intro-card-body">
+      <div class="intro-card-eyebrow">Pour comprendre</div>
+      <div class="intro-card-title">Introduction à l'auto-hypnose : pourquoi ça marche</div>
+      <div class="intro-card-meta">Vidéo · 8-10 min · Vanille</div>
+    </div>
+    <div class="intro-card-arrow">→</div>
+  </a>
+
+  <!-- CONDITIONS D'ÉCOUTE -->
+  <div class="conditions-card">
+    <div class="conditions-eyebrow">Avant chaque séance</div>
+    <ul class="conditions-list">
+      <li><strong>Installe-toi</strong> au calme, allongée ou assise confortablement</li>
+      <li><strong>Écoute au casque</strong> si tu peux — l'immersion est plus profonde</li>
+      <li><strong>Ne conduis jamais</strong> pendant ou juste après une séance</li>
+      <li><strong>Prévois du temps après</strong> — laisse-toi revenir en douceur</li>
+    </ul>
+  </div>
+
+  <div class="section-title">
+    Mes séances
+    <span class="section-title-count">5 séances guidées</span>
+  </div>
+  <div class="section-sub">Chaque auto-hypnose cible un moment précis de ta transformation. Tu peux les refaire autant que tu veux.</div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-sep p2"><div class="phase-sep-line"></div><span class="phase-sep-label">Phase 2 · Reprogrammation</span><div class="phase-sep-line"></div></div>
+
+  <a class="hypnose locked">
+    <div class="hypnose-lock">🔒</div>
+    <div class="hypnose-week"><div class="hypnose-week-label">S</div><div class="hypnose-week-num">5</div></div>
+    <div class="hypnose-body">
+      <div class="hypnose-title">Libérer le passé</div>
+      <div class="hypnose-desc">Faire la paix avec ce qui t'a blessée. Ton corps relâche.</div>
+      <div class="hypnose-meta">18-20 min<span class="hypnose-meta-dot"></span>s'ouvre en S5</div>
+    </div>
+    <div class="hypnose-arrow">→</div>
+  </a>
+
+  <a class="hypnose locked">
+    <div class="hypnose-lock">🔒</div>
+    <div class="hypnose-week"><div class="hypnose-week-label">S</div><div class="hypnose-week-num">6</div></div>
+    <div class="hypnose-body">
+      <div class="hypnose-title">Reprogrammation profonde</div>
+      <div class="hypnose-desc">Installer tes nouvelles croyances, au niveau cellulaire.</div>
+      <div class="hypnose-meta">20-25 min<span class="hypnose-meta-dot"></span>la plus longue</div>
+    </div>
+    <div class="hypnose-arrow">→</div>
+  </a>
+
+  <!-- PHASE 3 -->
+  <div class="phase-sep p3"><div class="phase-sep-line"></div><span class="phase-sep-label">Phase 3 · Activation</span><div class="phase-sep-line"></div></div>
+
+  <a class="hypnose locked">
+    <div class="hypnose-lock">🔒</div>
+    <div class="hypnose-week"><div class="hypnose-week-label">S</div><div class="hypnose-week-num">7</div></div>
+    <div class="hypnose-body">
+      <div class="hypnose-title">Rencontrer ma nouvelle version</div>
+      <div class="hypnose-desc">Une entrevue intérieure avec celle que tu deviens.</div>
+      <div class="hypnose-meta">20 min</div>
+    </div>
+    <div class="hypnose-arrow">→</div>
+  </a>
+
+  <a class="hypnose locked">
+    <div class="hypnose-lock">🔒</div>
+    <div class="hypnose-week"><div class="hypnose-week-label">S</div><div class="hypnose-week-num">9</div></div>
+    <div class="hypnose-body">
+      <div class="hypnose-title">Retrouver et guérir l'enfant intérieur</div>
+      <div class="hypnose-desc">Aller chercher la petite fille, la prendre dans tes bras.</div>
+      <div class="hypnose-meta">22-25 min<span class="hypnose-meta-dot"></span>profonde</div>
+    </div>
+    <div class="hypnose-arrow">→</div>
+  </a>
+
+  <!-- PHASE 4 -->
+  <div class="phase-sep p4"><div class="phase-sep-line"></div><span class="phase-sep-label">Phase 4 · Intégration</span><div class="phase-sep-line"></div></div>
+
+  <a class="hypnose locked">
+    <div class="hypnose-lock">🔒</div>
+    <div class="hypnose-week"><div class="hypnose-week-label">S</div><div class="hypnose-week-num">11</div></div>
+    <div class="hypnose-body">
+      <div class="hypnose-title">Projection à 6 mois</div>
+      <div class="hypnose-desc">Visualiser où tu seras dans 6 mois — et y croire.</div>
+      <div class="hypnose-meta">20-22 min</div>
+    </div>
+    <div class="hypnose-arrow">→</div>
+  </a>
+
+  <div class="note">
+    L'auto-hypnose <strong>n'est pas dangereuse</strong>. Tu ne peux pas "rester coincée". C'est un état naturel — tu y rentres, tu en sors. Ton cerveau fait juste l'inventaire.
+  </div>
+
+</div>
+
+</body>
+</html>

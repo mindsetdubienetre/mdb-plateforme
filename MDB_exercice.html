@@ -77,6 +77,18 @@ textarea::placeholder,input[type=text]::placeholder{color:var(--texte-tertiaire)
 .btn-ghost:hover{border-color:var(--taupe-deep);color:var(--brun-noir)}
 
 /* TOAST */
+.success-card{background:#fff;border:0.5px solid var(--ivoire-deep);border-radius:20px;padding:40px 28px;text-align:center;margin-bottom:20px;box-shadow:0 8px 32px rgba(26,20,16,0.06);position:relative;overflow:hidden}
+.success-card::before{content:'';position:absolute;inset:-40px;background:radial-gradient(circle at 50% 30%,rgba(201,168,76,0.22) 0%,transparent 60%);pointer-events:none}
+.success-icon{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:var(--or);color:var(--brun-noir);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;box-shadow:0 6px 20px rgba(201,168,76,0.4);position:relative;z-index:1}
+.success-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--brun-noir);margin-bottom:6px;position:relative;z-index:1}
+.success-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--texte-secondaire);position:relative;z-index:1}
+.next-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:32px}
+.next-card{display:block;background:#fff;border:0.5px solid var(--ivoire-deep);border-radius:14px;padding:18px 18px;text-decoration:none;color:inherit;transition:all .2s;cursor:pointer}
+.next-card:hover{transform:translateY(-2px);border-color:var(--ambre);box-shadow:0 6px 18px rgba(26,20,16,0.06)}
+.next-icon{width:36px;height:36px;border-radius:10px;background:var(--ivoire-soft);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px}
+.next-title{font-family:'Playfair Display',serif;font-size:14.5px;font-weight:600;color:var(--brun-noir);line-height:1.25;margin-bottom:3px}
+.next-sub{font-size:11.5px;color:var(--texte-tertiaire);line-height:1.35}
+
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--brun-noir);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(26,20,16,0.25);opacity:0;transition:all .3s;z-index:50;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.err{background:var(--ambre-deep)}
@@ -142,6 +154,37 @@ textarea::placeholder,input[type=text]::placeholder{color:var(--texte-tertiaire)
       <button class="btn-or" onclick="marquerTermine()">Marquer comme terminé
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS VIEW — affiché après "Marquer comme terminé" -->
+  <div id="view-success" style="display:none">
+    <div class="success-card">
+      <div class="success-icon">✓</div>
+      <div class="success-title" id="success-title">C'est fait.</div>
+      <div class="success-sub">Prends un instant pour intégrer.</div>
+    </div>
+    <div class="next-grid">
+      <a class="next-card" href="MDB_membre_A.html">
+        <div class="next-icon">🏠</div>
+        <div class="next-title">Retour à mon tableau de bord</div>
+        <div class="next-sub">Revoir mon parcours</div>
+      </a>
+      <a class="next-card" id="next-activite" style="display:none">
+        <div class="next-icon">→</div>
+        <div class="next-title" id="next-activite-titre">Exercice suivant</div>
+        <div class="next-sub" id="next-activite-sub">Continuer ma semaine</div>
+      </a>
+      <a class="next-card" href="therapies-respiration.html">
+        <div class="next-icon">🌬️</div>
+        <div class="next-title">Une respiration guidée</div>
+        <div class="next-sub">Cohérence cardiaque · 4-7-8</div>
+      </a>
+      <a class="next-card" id="next-pdf" style="display:none">
+        <div class="next-icon">📄</div>
+        <div class="next-title">Accéder à un PDF</div>
+        <div class="next-sub" id="next-pdf-titre">Ressources de la semaine</div>
+      </a>
     </div>
   </div>
 </div>
@@ -337,8 +380,60 @@ async function marquerTermine() {
     if (!ok) return;
   }
   await marquerComplete();
-  showToast('Terminé ✓');
-  setTimeout(() => { window.location.href = 'MDB_membre_A.html'; }, 900);
+  await afficherSucces();
+}
+
+// ── SUCCÈS : montre les prochaines actions ──
+async function afficherSucces() {
+  // Hide all content views
+  document.getElementById('view-media').style.display = 'none';
+  document.getElementById('view-pdf').style.display = 'none';
+  document.getElementById('view-intro').style.display = 'none';
+  document.getElementById('view-success').style.display = 'block';
+
+  // Personnaliser le titre selon le type
+  const titre = document.getElementById('success-title');
+  if (type === 'video' || type === 'meditation' || type === 'hypnose' || type === 'eft') {
+    titre.textContent = 'Tu l\u2019as fait.';
+  } else if (type === 'introspection' || type === 'journal') {
+    titre.textContent = 'Déposé, en sécurité.';
+  } else if (type === 'pdf') {
+    titre.textContent = 'Gardé précieusement.';
+  }
+
+  // Chercher l'activité suivante de la même semaine
+  try {
+    const [{ data: activites }, { data: completes }] = await Promise.all([
+      sb.from('activites').select('slug, type, titre, description').eq('semaine', semaine).order('ordre'),
+      sb.from('exercices_completes').select('activite_slug').eq('cliente_id', clienteId).eq('semaine', semaine)
+    ]);
+    const completedSlugs = new Set((completes || []).map(c => c.activite_slug));
+    const restantes = (activites || []).filter(a => !completedSlugs.has(a.slug) && a.slug !== slug);
+    if (restantes.length > 0) {
+      const next = restantes[0];
+      const a = document.getElementById('next-activite');
+      a.style.display = 'block';
+      a.href = 'MDB_exercice.html?type=' + encodeURIComponent(next.type)
+        + '&slug=' + encodeURIComponent(next.slug)
+        + '&titre=' + encodeURIComponent(next.titre)
+        + '&semaine=' + semaine;
+      document.getElementById('next-activite-titre').textContent = next.titre;
+      document.getElementById('next-activite-sub').textContent = next.description || 'Continuer ma semaine';
+    }
+
+    // Premier PDF accessible
+    const pdfs = (activites || []).filter(a => a.type === 'pdf' && a.slug !== slug);
+    if (pdfs.length > 0) {
+      const pdf = pdfs[0];
+      const a = document.getElementById('next-pdf');
+      a.style.display = 'block';
+      a.href = 'MDB_exercice.html?type=pdf&slug=' + encodeURIComponent(pdf.slug)
+        + '&titre=' + encodeURIComponent(pdf.titre) + '&semaine=' + semaine;
+      document.getElementById('next-pdf-titre').textContent = pdf.titre;
+    }
+  } catch(e) { console.warn('next:', e); }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ── PDF ──
