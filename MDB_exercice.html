@@ -89,6 +89,20 @@ textarea::placeholder,input[type=text]::placeholder{color:var(--texte-tertiaire)
 .next-title{font-family:'Playfair Display',serif;font-size:14.5px;font-weight:600;color:var(--brun-noir);line-height:1.25;margin-bottom:3px}
 .next-sub{font-size:11.5px;color:var(--texte-tertiaire);line-height:1.35}
 
+/* Partage avec Vanille (sous les vidéos/méditations/EFT/hypnose) */
+.share-card{background:rgba(154,128,144,0.08);border:0.5px solid rgba(154,128,144,0.25);border-radius:16px;padding:20px 22px;margin-top:20px;position:relative}
+.share-card::before{content:'';position:absolute;top:-6px;left:24px;width:12px;height:12px;background:rgba(154,128,144,0.08);border-left:0.5px solid rgba(154,128,144,0.25);border-top:0.5px solid rgba(154,128,144,0.25);transform:rotate(45deg)}
+.share-eyebrow{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--brun-noir);margin-bottom:4px}
+.share-eyebrow::before{content:'💬 ';font-size:14px}
+.share-hint{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--texte-secondaire);margin-bottom:14px;line-height:1.5}
+.share-card textarea{width:100%;background:#fff;border:1px solid rgba(154,128,144,0.3);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--brun-noir);font-family:'Be Vietnam Pro',sans-serif;resize:vertical;outline:none;min-height:80px;line-height:1.55;transition:all .2s}
+.share-card textarea:focus{border-color:var(--mauve);background:#fff;box-shadow:0 0 0 3px rgba(154,128,144,0.12)}
+.share-actions{display:flex;justify-content:flex-end;margin-top:10px}
+.btn-ghost-sm{background:transparent;border:1px solid var(--mauve);color:var(--mauve);padding:9px 16px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-ghost-sm:hover:not(:disabled){background:var(--mauve);color:#fff}
+.btn-ghost-sm:disabled{opacity:.5;cursor:not-allowed}
+.share-sent{font-size:12.5px;color:var(--or-deep);margin-top:8px;font-style:italic;font-family:'Cormorant Garamond',serif}
+
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--brun-noir);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(26,20,16,0.25);opacity:0;transition:all .3s;z-index:50;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.err{background:var(--ambre-deep)}
@@ -129,6 +143,16 @@ textarea::placeholder,input[type=text]::placeholder{color:var(--texte-tertiaire)
       <button class="btn-or" onclick="marquerTermine()">Marquer comme terminé
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
+    </div>
+
+    <!-- Partage avec Vanille -->
+    <div class="share-card">
+      <div class="share-eyebrow">Tu veux me partager quelque chose ?</div>
+      <div class="share-hint">Ce que tu as ressenti, ce qui est remonté, une question… Je lis.</div>
+      <textarea id="share-media-input" placeholder="Dans tes mots, ce qui t'est venu pendant ou après..."></textarea>
+      <div class="share-actions">
+        <button class="btn-ghost-sm" id="share-media-btn" onclick="partagerAvecVanille('share-media-input','share-media-btn')">Envoyer à Vanille</button>
+      </div>
     </div>
   </div>
 
@@ -442,6 +466,41 @@ async function telechargerPDF() {
     window.open(urlPdf, '_blank');
   } else {
     showToast('Bientôt disponible');
+  }
+}
+
+// ── PARTAGE AVEC VANILLE ──
+async function partagerAvecVanille(inputId, btnId) {
+  const input = document.getElementById(inputId);
+  const btn = document.getElementById(btnId);
+  const txt = (input.value || '').trim();
+  if (!txt) { showToast('Écris-moi ce que tu veux partager.'); return; }
+  btn.disabled = true;
+  const ancienTexte = btn.textContent;
+  btn.textContent = 'Envoi...';
+  try {
+    const contenu = '[' + (titre || 'Exercice') + ' · Semaine ' + semaine + '] ' + txt;
+    const { error } = await sb.from('messages_chat').insert({
+      cliente_id: clienteId,
+      contenu: contenu,
+      expediteur_type: 'cliente'
+    });
+    if (error) throw error;
+    input.value = '';
+    btn.textContent = '✓ Envoyé à Vanille';
+    // Ajoute un petit message discret qui confirme
+    const sent = document.createElement('div');
+    sent.className = 'share-sent';
+    sent.textContent = 'Vanille lira ton message dès qu\u2019elle se connecte.';
+    if (!btn.parentElement.parentElement.querySelector('.share-sent')) {
+      btn.parentElement.parentElement.appendChild(sent);
+    }
+    setTimeout(() => { btn.disabled = false; btn.textContent = ancienTexte; }, 2500);
+  } catch(e) {
+    console.error('partage:', e);
+    btn.disabled = false;
+    btn.textContent = ancienTexte;
+    showToast('Un souci, réessaie.', true);
   }
 }
 
