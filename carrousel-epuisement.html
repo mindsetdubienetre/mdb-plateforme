@@ -153,6 +153,22 @@
   @media (max-width:1200px){
     .slide{ transform:scale(.7); transform-origin:top center; margin-bottom:-420px; }
   }
+
+  @media print{
+    @page{ size:1080px 1350px; margin:0; }
+    body{ background:var(--ivoire); padding:0; gap:0; }
+    .note, .slide-label{ display:none !important; }
+    .slide{
+      width:1080px;
+      height:1350px;
+      page-break-after:always;
+      break-after:page;
+      box-shadow:none;
+      transform:none !important;
+      margin:0 !important;
+    }
+    .slide:last-of-type{ page-break-after:auto; }
+  }
 </style>
 </head>
 <body>
