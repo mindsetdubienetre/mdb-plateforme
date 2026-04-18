@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Carrousel — Ton épuisement ne vient pas de ta journée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivoire:#F1ECE2;
+    --navy:#1E2A78;
+    --navy-soft:#2A3590;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#2a2a2a;
+    font-family:'Playfair Display',serif;
+    color:var(--navy);
+    padding:40px 20px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:40px;
+  }
+
+  .slide{
+    width:1080px;
+    height:1350px;
+    background:var(--ivoire);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:120px 110px;
+    color:var(--navy);
+  }
+
+  .slide-label{
+    position:absolute;
+    top:-32px;
+    left:0;
+    color:#fff;
+    font-family:sans-serif;
+    font-size:14px;
+    opacity:.6;
+  }
+
+  /* Typographies */
+  .hand{
+    font-family:'Caveat',cursive;
+    font-weight:500;
+    color:var(--navy);
+    line-height:1.1;
+  }
+  .serif{ font-family:'Playfair Display',serif; font-weight:500; }
+  .serif-bold{ font-family:'Playfair Display',serif; font-weight:900; }
+  .serif-italic{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; }
+
+  /* Positions manuscrites */
+  .hand-tl{ position:absolute; top:140px; left:150px; font-size:48px; transform:rotate(-4deg); }
+  .hand-tl-2{ position:absolute; top:200px; left:230px; font-size:46px; transform:rotate(-2deg); }
+  .hand-br{ position:absolute; bottom:150px; right:140px; font-size:44px; transform:rotate(-3deg); text-align:right; max-width:400px; }
+  .hand-bc{ position:absolute; bottom:150px; left:50%; transform:translateX(-50%) rotate(-2deg); font-size:44px; text-align:center; max-width:700px; }
+  .hand-bl{ position:absolute; bottom:150px; left:150px; font-size:44px; transform:rotate(-3deg); }
+  .hand-tr{ position:absolute; top:140px; right:150px; font-size:44px; transform:rotate(3deg); text-align:right; }
+  .hand-top{ position:absolute; top:160px; left:50%; transform:translateX(-50%) rotate(-2deg); font-size:46px; text-align:center; max-width:820px; }
+
+  /* Main text block */
+  .main{
+    text-align:left;
+    line-height:1.08;
+    width:100%;
+  }
+  .main.center{ text-align:center; }
+  .xl{ font-size:108px; }
+  .lg{ font-size:96px; }
+  .md{ font-size:72px; }
+  .sm{ font-size:56px; }
+
+  /* Décorations manuscrites */
+  .underlined{
+    position:relative;
+    display:inline-block;
+  }
+  .underlined::after{
+    content:"";
+    position:absolute;
+    left:-4%;
+    right:-4%;
+    bottom:-10px;
+    height:18px;
+    background:
+      radial-gradient(ellipse at center, transparent 40%, transparent 40%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 20' preserveAspectRatio='none'><path d='M 4 12 Q 50 6 100 11 T 200 10 T 300 11 T 396 9' fill='none' stroke='%231E2A78' stroke-width='3.5' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
+  }
+
+  .circled{
+    position:relative;
+    display:inline-block;
+    padding:0 8px;
+  }
+  .circled svg{
+    position:absolute;
+    inset:-22% -8% -22% -8%;
+    width:116%;
+    height:144%;
+    pointer-events:none;
+    overflow:visible;
+  }
+
+  .small-block{ font-size:44px; line-height:1.25; margin-top:28px; }
+  .small-block .serif-bold{ font-weight:900; }
+
+  /* Layout blocks */
+  .stack{ display:flex; flex-direction:column; gap:6px; }
+  .stack.gap-lg{ gap:18px; }
+
+  /* Slide 1 */
+  .s1 .main{ text-align:center; }
+  .s1 .line1{ font-size:92px; letter-spacing:-.5px; }
+  .s1 .line2{ font-size:110px; letter-spacing:-1px; }
+  .s1 .line3{ font-size:92px; letter-spacing:-.5px; }
+
+  /* Slide 4 huge */
+  .s4 .huge{ font-size:180px; line-height:.95; letter-spacing:-2px; }
+
+  /* Slide 8 MDB */
+  .mdb-letters{ font-size:140px; letter-spacing:.35em; font-weight:900; font-family:'Playfair Display',serif; }
+  .mdb-sub{ font-size:60px; font-style:italic; font-family:'Playfair Display',serif; margin-top:6px; }
+  .mdb-tag{ font-size:42px; margin-top:40px; font-family:'Playfair Display',serif; letter-spacing:.15em; text-transform:lowercase; }
+
+  /* Download note */
+  .note{
+    color:#fff;
+    font-family:sans-serif;
+    max-width:900px;
+    text-align:center;
+    opacity:.75;
+    font-size:14px;
+    line-height:1.6;
+  }
+
+  @media (max-width:1200px){
+    .slide{ transform:scale(.7); transform-origin:top center; margin-bottom:-420px; }
+  }
+</style>
+</head>
+<body>
+
+<p class="note">Carrousel MDB — Instagram 1080×1350. Ouvre chaque slide en capture d'écran ou imprime en PDF à 100%. Bleu marine sur ivoire, fidèle à la référence.</p>
+
+<!-- ============ SLIDE 1 — COVER ============ -->
+<section class="slide s1">
+  <span class="slide-label">01 — cover</span>
+  <span class="hand hand-tl">tu savais pas —</span>
+  <span class="hand hand-tl-2">personne te l'a dit</span>
+
+  <div class="main">
+    <div class="line1 serif">ton épuisement</div>
+    <div class="line2 serif-bold">ne vient pas</div>
+    <div class="line3 serif">de ta journée.</div>
+  </div>
+
+  <span class="hand hand-br">swipe pour<br>comprendre <em style="font-style:normal">x</em></span>
+</section>
+
+<!-- ============ SLIDE 2 — CONSTAT ============ -->
+<section class="slide">
+  <span class="slide-label">02 — constat</span>
+  <span class="hand hand-tl">chaque matin —</span>
+
+  <div class="main center stack gap-lg">
+    <div class="md serif">tu te réveilles</div>
+    <div class="md serif-bold">
+      <span class="underlined">déjà fatiguée</span>
+    </div>
+    <div class="md serif" style="margin-top:36px">tu gères. tu souris.</div>
+    <div class="md serif">et le soir</div>
+    <div class="md serif">tu t'effondres.</div>
+  </div>
+
+  <span class="hand hand-bc">sans que personne le voie.</span>
+</section>
+
+<!-- ============ SLIDE 3 — EXPLICATION ============ -->
+<section class="slide">
+  <span class="slide-label">03 — explication</span>
+  <span class="hand hand-tl">sauf que —</span>
+
+  <div class="main center stack gap-lg">
+    <div class="md serif">ton système nerveux</div>
+    <div class="md serif">est resté bloqué en</div>
+    <div class="lg serif-bold" style="margin-top:14px">
+      <span class="circled">mode alerte
+        <svg viewBox="0 0 200 80" preserveAspectRatio="none">
+          <ellipse cx="100" cy="40" rx="94" ry="34" fill="none" stroke="#1E2A78" stroke-width="3" stroke-linecap="round" transform="rotate(-2 100 40)"/>
+        </svg>
+      </span>
+    </div>
+    <div class="small-block serif" style="margin-top:42px">
+      il a oublié<br>
+      où se trouve<br>
+      <span class="serif-bold" style="font-size:60px">la pédale de frein.</span>
+    </div>
+  </div>
+
+  <span class="hand hand-bc">depuis peut-être des années.</span>
+</section>
+
+<!-- ============ SLIDE 4 — TRANSITION ============ -->
+<section class="slide s4">
+  <span class="slide-label">04 — transition</span>
+  <span class="hand hand-top">maintenant imagine —</span>
+
+  <div class="main center stack" style="gap:20px">
+    <div class="huge serif">quand il</div>
+    <div class="huge serif-bold">
+      <span class="circled">réapprend
+        <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+          <ellipse cx="150" cy="50" rx="142" ry="42" fill="none" stroke="#1E2A78" stroke-width="3.5" stroke-linecap="round" transform="rotate(-1.5 150 50)"/>
+          <ellipse cx="150" cy="50" rx="138" ry="40" fill="none" stroke="#1E2A78" stroke-width="2" stroke-linecap="round" opacity=".55" transform="rotate(1 150 50)"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <span class="hand hand-bc">tout change.</span>
+</section>
+
+<!-- ============ SLIDE 5 — RÉSULTAT 1 ============ -->
+<section class="slide">
+  <span class="slide-label">05 — résultat 01</span>
+  <span class="hand hand-tl">résultat 01 —</span>
+
+  <div class="main center stack gap-lg">
+    <div class="lg serif">le sommeil</div>
+    <div class="lg serif-bold" style="margin-top:6px">
+      <span class="underlined">change.</span>
+    </div>
+    <div class="small-block serif" style="margin-top:60px;font-size:46px;line-height:1.35">
+      ton corps lâche<br>
+      des couches de tension<br>
+      que tu ne savais même pas<br>
+      que tu portais.
+    </div>
+  </div>
+
+  <span class="hand hand-bc">le matin ne commence plus par un poids. <em style="font-style:normal">x</em></span>
+</section>
+
+<!-- ============ SLIDE 6 — RÉSULTAT 2 ============ -->
+<section class="slide">
+  <span class="slide-label">06 — résultat 02</span>
+  <span class="hand hand-tl">résultat 02 —</span>
+
+  <div class="main center stack gap-lg">
+    <div class="md serif">un imprévu arrive.</div>
+    <div class="md serif" style="margin-top:28px">tu te surprends</div>
+    <div class="md serif">à réagir</div>
+    <div class="lg serif-bold" style="margin-top:24px">
+      <span class="circled">calmement.
+        <svg viewBox="0 0 260 90" preserveAspectRatio="none">
+          <ellipse cx="130" cy="45" rx="122" ry="38" fill="none" stroke="#1E2A78" stroke-width="3" stroke-linecap="round" transform="rotate(-2 130 45)"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <span class="hand hand-bc" style="max-width:780px">sans te forcer.<br>comme si ton corps avait appris tout seul.</span>
+</section>
+
+<!-- ============ SLIDE 7 — RÉSULTAT 3 ============ -->
+<section class="slide">
+  <span class="slide-label">07 — résultat 03</span>
+  <span class="hand hand-tl">résultat 03 —</span>
+
+  <div class="main center stack gap-lg">
+    <div class="md serif">tu arrêtes de te battre</div>
+    <div class="md serif">contre toi-même.</div>
+    <div class="md serif" style="margin-top:26px">tu te retrouves.</div>
+
+    <div class="small-block serif" style="margin-top:52px;font-size:52px;line-height:1.35">
+      pas la version<br>
+      <span class="serif-bold" style="font-size:62px">
+        <span class="underlined">performante</span>
+      </span><br>
+      <span style="display:inline-block;margin-top:18px">la version</span><br>
+      <span class="serif-bold" style="font-size:62px">
+        <span class="circled">entière.
+          <svg viewBox="0 0 220 90" preserveAspectRatio="none">
+            <ellipse cx="110" cy="45" rx="102" ry="36" fill="none" stroke="#1E2A78" stroke-width="3" stroke-linecap="round" transform="rotate(-2 110 45)"/>
+          </svg>
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <span class="hand hand-bc">find the power in that. <em style="font-style:normal">x</em></span>
+</section>
+
+<!-- ============ SLIDE 8 — CTA ============ -->
+<section class="slide">
+  <span class="slide-label">08 — CTA</span>
+  <span class="hand hand-top" style="font-size:44px;max-width:900px">si tu lis ça et que tu te dis "c'est moi" —</span>
+
+  <div class="main center stack" style="gap:0">
+    <div class="mdb-letters">M D B</div>
+    <div class="mdb-sub">Mindset du bien-être.</div>
+
+    <div class="small-block serif" style="margin-top:70px;font-size:48px;line-height:1.4">
+      12 semaines<br>
+      neurosciences · corps
+    </div>
+
+    <div class="serif-bold" style="margin-top:60px;font-size:64px">
+      <span class="circled">commente MDB
+        <svg viewBox="0 0 340 90" preserveAspectRatio="none">
+          <ellipse cx="170" cy="45" rx="162" ry="38" fill="none" stroke="#1E2A78" stroke-width="3" stroke-linecap="round" transform="rotate(-1.5 170 45)"/>
+        </svg>
+      </span>
+    </div>
+    <div class="serif" style="margin-top:26px;font-size:40px">ou écris-le moi en DM.</div>
+  </div>
+
+  <span class="hand hand-bc">on en parle. <em style="font-style:normal">x</em></span>
+</section>
+
+<p class="note">Pour exporter : ouvre dans Chrome → F12 → mode device 1080×1350 → capture chaque slide. Ou imprime en PDF (format A4 portrait à 100%).</p>
+
+</body>
+</html>
