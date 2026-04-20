@@ -286,5 +286,37 @@ body::after { content: ''; position: fixed; bottom: -10%; left: -20%; width: 70%
 
 </div>
 
+<script>
+(function() {
+  var cards = document.querySelectorAll('.medit, .hypnose, .hypno, .seance, .practice, .breath, .intro-card');
+  cards.forEach(function(card) {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href && href !== '#') return;
+      e.preventDefault();
+      var slug = this.getAttribute('data-slug');
+      var type = this.getAttribute('data-type') || 'video';
+      var semaine = this.getAttribute('data-semaine') || '1';
+      var titreEl = this.querySelector('.intro-card-title, .medit-title, .hypnose-title, .hypno-title, .seance-title, .practice-title, .breath-title');
+      var titre = (titreEl ? titreEl.textContent : 'Séance').trim();
+      if (this.classList.contains('locked')) {
+        var weekEl = this.querySelector('[class*="week-num"]');
+        var week = weekEl ? weekEl.textContent.trim() : semaine;
+        alert('Cette séance s\'ouvre en Semaine ' + week + '.\n\nTu y auras accès quand tu auras avancé dans ton parcours. Patience — tu y arrives.');
+        return;
+      }
+      if (slug) {
+        window.location.href = 'MDB_exercice.html?type=' + encodeURIComponent(type)
+          + '&slug=' + encodeURIComponent(slug)
+          + '&titre=' + encodeURIComponent(titre)
+          + '&semaine=' + encodeURIComponent(semaine);
+      } else {
+        alert('Cette séance arrive bientôt — Vanille est en train de la préparer.');
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
