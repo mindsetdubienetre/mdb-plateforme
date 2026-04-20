@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDB — Test gradients</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivoire:#F5F0E8;--ivoire-soft:#FAF6F0;--ivoire-deep:#EDE6DA;
+  --brun-noir:#1A1410;
+  --ambre:#C86030;--ambre-light:#D87A48;--ambre-deep:#A04820;
+  --or:#C9A84C;--or-light:#D4B86A;--or-deep:#A88830;
+  --mauve:#9A8090;--mauve-light:#B8A0B0;--mauve-bg:#E8DFE4;
+  --taupe:#B0A090;--taupe-light:#C8BEB0;--taupe-deep:#8A7A68;
+  --texte-secondaire:#5A4A40;--texte-tertiaire:#8A7A68;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Be Vietnam Pro',sans-serif;color:var(--brun-noir);background:var(--ivoire-deep);min-height:100vh;padding-bottom:60px}
+.page-header{max-width:1200px;margin:0 auto;padding:40px 24px 24px;text-align:center}
+.page-header h1{font-family:'Playfair Display',serif;font-size:36px;font-weight:600;margin-bottom:8px}
+.page-header h1 em{font-style:italic;color:var(--ambre)}
+.page-header p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--texte-secondaire)}
+.grid{max-width:1200px;margin:0 auto;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px}
+.demo{border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(26,20,16,.12);position:relative}
+.demo-label{position:absolute;top:18px;left:18px;z-index:5;display:flex;flex-direction:column;gap:2px}
+.demo-label .tag{background:rgba(255,255,255,.88);backdrop-filter:blur(10px);padding:6px 14px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brun-noir);box-shadow:0 2px 10px rgba(26,20,16,.08);width:fit-content}
+.demo-label .name{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--brun-noir);background:rgba(255,255,255,.75);padding:3px 12px;border-radius:999px;width:fit-content;backdrop-filter:blur(10px)}
+.stage{min-height:560px;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+
+/* ═══ GRADIENT 1 — AURORE (sunset ambre/or/mauve) ═══ */
+.aurore{
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 35%, rgba(216,122,72,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 15% 85%, rgba(154,128,144,0.38) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 55% at 88% 88%, rgba(201,168,76,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(176,160,144,0.30) 0%, transparent 60%),
+    linear-gradient(165deg, #FAF6F0 0%, #F5F0E8 50%, #EDE6DA 100%);
+}
+
+/* ═══ GRADIENT 2 — TENDRESSE (rose/mauve doux) ═══ */
+.tendresse{
+  background:
+    radial-gradient(ellipse 55% 65% at 55% 55%, rgba(184,160,176,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 55% at 40% 45%, rgba(200,96,48,0.22) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 90%, rgba(216,122,72,0.18) 0%, transparent 60%),
+    linear-gradient(175deg, #FAF6F0 0%, #F5F0E8 100%);
+}
+
+/* ═══ GRADIENT 3 — ENSŌ (cercle zen ambre sur ivoire) ═══ */
+.enso{background:var(--ivoire)}
+.enso::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle 220px at 50% 50%, transparent 60%, rgba(200,96,48,0.55) 63%, rgba(200,96,48,0.30) 68%, transparent 75%),
+    radial-gradient(circle 250px at 52% 48%, transparent 66%, rgba(176,66,20,0.18) 70%, transparent 78%);
+  filter:blur(6px);
+  pointer-events:none;
+}
+.enso::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 3% at 35% 45%, transparent 30%, rgba(255,248,238,0.95) 45%, transparent 65%),
+    radial-gradient(ellipse 3% 60% at 72% 55%, transparent 30%, rgba(255,248,238,0.85) 45%, transparent 65%);
+  filter:blur(8px);
+  pointer-events:none;
+}
+
+/* ═══ GRADIENT 4 — SOIE (forme fluide ambre/mauve) ═══ */
+.soie{
+  background:
+    linear-gradient(140deg, rgba(200,96,48,0.22) 0%, transparent 30%),
+    linear-gradient(210deg, rgba(154,128,144,0.28) 0%, transparent 35%),
+    radial-gradient(ellipse 80% 50% at 20% 30%, rgba(216,122,72,0.30) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 80% 70%, rgba(154,128,144,0.35) 0%, transparent 55%),
+    var(--ivoire-soft);
+}
+.soie::before{
+  content:'';position:absolute;top:-10%;right:-20%;width:70%;height:80%;
+  background:radial-gradient(ellipse 50% 70% at 40% 50%, rgba(200,96,48,0.25) 0%, transparent 60%);
+  border-radius:50% 30% 60% 40%;
+  filter:blur(30px);
+  pointer-events:none;
+}
+.soie::after{
+  content:'';position:absolute;bottom:-10%;left:-20%;width:70%;height:80%;
+  background:radial-gradient(ellipse 60% 60% at 60% 40%, rgba(154,128,144,0.30) 0%, transparent 60%);
+  border-radius:40% 60% 30% 50%;
+  filter:blur(30px);
+  pointer-events:none;
+}
+
+/* ═══ LOGIN CARD (reprise fidèle de index.html) ═══ */
+.login-card{
+  position:relative;z-index:2;
+  background:#fff;border-radius:28px;
+  padding:40px 30px 30px;width:100%;max-width:380px;
+  box-shadow:0 1px 2px rgba(26,20,16,.04),0 12px 40px rgba(26,20,16,.08),0 24px 80px rgba(154,128,144,.12);
+  border:0.5px solid var(--ivoire-deep);
+}
+.logo{display:flex;flex-direction:column;align-items:center;margin-bottom:24px}
+.orb{position:relative;width:42px;height:42px;margin-bottom:14px}
+.orb::before{content:'';position:absolute;inset:-45%;border-radius:50%;background:radial-gradient(circle,rgba(154,128,144,0.38) 0%,transparent 70%)}
+.orb::after{content:'';position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.22) 0%,transparent 72%)}
+.orb-core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 38% 38%,#E08858,#D06030 55%,#B04018);box-shadow:0 0 20px rgba(200,96,48,.35),inset -2px -3px 6px rgba(140,40,10,.25);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.logo-text{font-size:19px;line-height:1;color:var(--brun-noir);white-space:nowrap}
+.logo-text .l1{font-family:'Times New Roman',serif;font-style:italic;font-weight:400}
+.logo-text .l2{font-family:'Be Vietnam Pro',sans-serif;font-weight:800}
+.eyebrow{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ambre);text-align:center;margin-bottom:10px}
+h2.card-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;text-align:center;line-height:1.15;margin-bottom:6px}
+h2.card-title em{font-style:italic;color:var(--ambre)}
+.card-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;text-align:center;color:var(--texte-secondaire);margin-bottom:22px}
+.tabs{display:flex;background:var(--ivoire-deep);border-radius:12px;padding:3px;gap:2px;margin-bottom:20px}
+.tab{flex:1;padding:9px 6px;border-radius:10px;font-size:12px;font-weight:500;text-align:center;color:var(--texte-tertiaire)}
+.tab.on{background:#fff;color:var(--brun-noir);font-weight:600;box-shadow:0 1px 3px rgba(26,20,16,.06)}
+.field{margin-bottom:12px}
+.field-label{font-size:10px;font-weight:700;color:var(--brun-noir);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;display:block}
+.field-input{width:100%;background:var(--ivoire-soft);border:1px solid var(--taupe-light);border-radius:10px;padding:11px 13px;font-size:13px;color:var(--brun-noir);font-family:inherit;outline:none}
+.btn-cta{width:100%;background:var(--or);color:var(--brun-noir);border:none;padding:13px 16px;border-radius:12px;font-size:13px;font-weight:700;letter-spacing:.02em;cursor:pointer;font-family:inherit;margin-top:6px;box-shadow:0 4px 14px rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.footer{text-align:center;margin-top:18px;font-size:12px;color:var(--texte-secondaire)}
+.footer a{color:var(--ambre);font-weight:600}
+.secure{display:block;margin-top:8px;font-size:10px;color:var(--taupe-deep);letter-spacing:.04em}
+
+/* Notes sous chaque démo */
+.note-bar{padding:16px 22px;background:#fff;border-top:0.5px solid var(--ivoire-deep)}
+.note-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;margin-bottom:4px}
+.note-desc{font-size:12px;color:var(--texte-secondaire);line-height:1.45}
+.note-use{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--or-deep);background:rgba(201,168,76,.12);padding:3px 8px;border-radius:999px}
+.back-link{display:inline-block;margin:20px auto 0;color:var(--texte-secondaire);text-decoration:none;font-size:12px;border-bottom:1px solid var(--taupe-light)}
+.back-link:hover{color:var(--brun-noir)}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>4 <em>gradients</em> pour MDB</h1>
+  <p>Même login, 4 ambiances différentes. Laquelle te parle ?</p>
+</div>
+
+<div class="grid">
+
+  <div class="demo">
+    <div class="demo-label"><span class="tag">Gradient 1</span><span class="name">Aurore</span></div>
+    <div class="stage aurore">
+      <div class="login-card">
+        <div class="logo"><div class="orb"><div class="orb-core"></div></div><div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div></div>
+        <div class="eyebrow">Ton espace personnel</div>
+        <h2 class="card-title">Bienvenue, <em>belle âme</em></h2>
+        <p class="card-sub">Ton espace de transformation t'attend.</p>
+        <div class="tabs"><div class="tab on">Connexion</div><div class="tab">Code d'accès</div></div>
+        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" placeholder="ton@email.com"></div>
+        <div class="field"><label class="field-label">Mot de passe</label><input class="field-input" type="password" placeholder="••••••••"></div>
+        <button class="btn-cta">Accéder à mon espace →</button>
+        <div class="footer">Pas encore inscrite ? <a>Découvrir MDB</a><span class="secure">Espace privé · données chiffrées · RGPD</span></div>
+      </div>
+    </div>
+    <div class="note-bar">
+      <div class="note-title">Aurore</div>
+      <div class="note-desc">Ambre chaud au centre, or en bas à droite, mauve en bas à gauche. Comme un lever de soleil sur un paysage minimal.</div>
+      <div class="note-use">Login · Célébration · Hero</div>
+    </div>
+  </div>
+
+  <div class="demo">
+    <div class="demo-label"><span class="tag">Gradient 2</span><span class="name">Tendresse</span></div>
+    <div class="stage tendresse">
+      <div class="login-card">
+        <div class="logo"><div class="orb"><div class="orb-core"></div></div><div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div></div>
+        <div class="eyebrow">Ton espace personnel</div>
+        <h2 class="card-title">Bienvenue, <em>belle âme</em></h2>
+        <p class="card-sub">Ton espace de transformation t'attend.</p>
+        <div class="tabs"><div class="tab on">Connexion</div><div class="tab">Code d'accès</div></div>
+        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" placeholder="ton@email.com"></div>
+        <div class="field"><label class="field-label">Mot de passe</label><input class="field-input" type="password" placeholder="••••••••"></div>
+        <button class="btn-cta">Accéder à mon espace →</button>
+        <div class="footer">Pas encore inscrite ? <a>Découvrir MDB</a><span class="secure">Espace privé · données chiffrées · RGPD</span></div>
+      </div>
+    </div>
+    <div class="note-bar">
+      <div class="note-title">Tendresse</div>
+      <div class="note-desc">Mauve rosé au centre, touche d'ambre en fondu. Doux, féminin, émotionnel. Parfait pour les moments intimes.</div>
+      <div class="note-use">Onboarding · Check-in · Message Vanille</div>
+    </div>
+  </div>
+
+  <div class="demo">
+    <div class="demo-label"><span class="tag">Gradient 3</span><span class="name">Ensō</span></div>
+    <div class="stage enso">
+      <div class="login-card">
+        <div class="logo"><div class="orb"><div class="orb-core"></div></div><div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div></div>
+        <div class="eyebrow">Ton espace personnel</div>
+        <h2 class="card-title">Bienvenue, <em>belle âme</em></h2>
+        <p class="card-sub">Ton espace de transformation t'attend.</p>
+        <div class="tabs"><div class="tab on">Connexion</div><div class="tab">Code d'accès</div></div>
+        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" placeholder="ton@email.com"></div>
+        <div class="field"><label class="field-label">Mot de passe</label><input class="field-input" type="password" placeholder="••••••••"></div>
+        <button class="btn-cta">Accéder à mon espace →</button>
+        <div class="footer">Pas encore inscrite ? <a>Découvrir MDB</a><span class="secure">Espace privé · données chiffrées · RGPD</span></div>
+      </div>
+    </div>
+    <div class="note-bar">
+      <div class="note-title">Ensō</div>
+      <div class="note-desc">Cercle zen tracé en ambre autour de la carte. Symbole de complétude, du chemin qui se referme sur soi-même.</div>
+      <div class="note-use">Landing · Transition de phase · Clôture S12</div>
+    </div>
+  </div>
+
+  <div class="demo">
+    <div class="demo-label"><span class="tag">Gradient 4</span><span class="name">Soie</span></div>
+    <div class="stage soie">
+      <div class="login-card">
+        <div class="logo"><div class="orb"><div class="orb-core"></div></div><div class="logo-text"><span class="l1">Mindset</span><span class="l2"> du bien-être.</span></div></div>
+        <div class="eyebrow">Ton espace personnel</div>
+        <h2 class="card-title">Bienvenue, <em>belle âme</em></h2>
+        <p class="card-sub">Ton espace de transformation t'attend.</p>
+        <div class="tabs"><div class="tab on">Connexion</div><div class="tab">Code d'accès</div></div>
+        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" placeholder="ton@email.com"></div>
+        <div class="field"><label class="field-label">Mot de passe</label><input class="field-input" type="password" placeholder="••••••••"></div>
+        <button class="btn-cta">Accéder à mon espace →</button>
+        <div class="footer">Pas encore inscrite ? <a>Découvrir MDB</a><span class="secure">Espace privé · données chiffrées · RGPD</span></div>
+      </div>
+    </div>
+    <div class="note-bar">
+      <div class="note-title">Soie</div>
+      <div class="note-desc">Nappes fluides ambre et mauve qui se déploient comme de la soie. Organique, vivant, élégant.</div>
+      <div class="note-use">Dashboard · Pages thérapies · Hero</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center"><a class="back-link" href="MDB_membre_A.html">← retour au tableau de bord</a></div>
+
+</body>
+</html>
