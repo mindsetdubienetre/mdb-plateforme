@@ -1,4 +1,5 @@
 node_modules/
 output/*
 !output/preview_*/
+!output/previews_mp4/
 package-lock.json
