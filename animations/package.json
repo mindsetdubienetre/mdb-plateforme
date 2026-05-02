@@ -1,0 +1,12 @@
+{
+  "name": "mdb-facecam-animations",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node renderer/render.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.11.1"
+  }
+}

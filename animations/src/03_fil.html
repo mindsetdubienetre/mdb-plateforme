@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>03 — Le fil</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivoire: #F5F0E8;
+    --brun-noir: #1A1410;
+    --ambre: #C86030;
+    --or: #C9A84C;
+    --or-light: #D4B86A;
+    --mauve: #9A8090;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 1080px;
+    height: 1920px;
+    background: transparent;
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .stage {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Bandeau ivoire en bas, sous le visage. Très soft. */
+  .voile {
+    position: absolute;
+    top: 1050px;
+    left: 0;
+    width: 1080px;
+    height: 870px;
+    background: linear-gradient(180deg,
+      rgba(245, 240, 232, 0) 0%,
+      rgba(245, 240, 232, 0.65) 18%,
+      rgba(245, 240, 232, 0.85) 50%,
+      rgba(245, 240, 232, 0.85) 100%);
+    opacity: 0;
+  }
+
+  /* Filet or fin en haut du voile */
+  .voile-line {
+    position: absolute;
+    top: 1230px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--or) 50%, transparent 100%);
+    opacity: 0.6;
+  }
+
+  /* Le fil — div vertical fin */
+  .fil {
+    position: absolute;
+    top: 1240px;
+    left: 50%;
+    margin-left: -1.5px;
+    width: 3px;
+    height: 0;
+    background: linear-gradient(180deg,
+      rgba(201, 168, 76, 0) 0%,
+      var(--or) 8%,
+      var(--or-light) 50%,
+      var(--or) 92%,
+      rgba(201, 168, 76, 0) 100%);
+    box-shadow: 0 0 8px rgba(201, 168, 76, 0.6),
+                0 0 14px rgba(201, 168, 76, 0.3);
+    z-index: 2;
+    border-radius: 2px;
+  }
+
+  /* Citation Cormorant italic */
+  .citation {
+    position: absolute;
+    top: 1300px;
+    left: 90px;
+    width: 900px;
+    color: var(--brun-noir);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    text-align: center;
+    z-index: 3;
+  }
+  .citation .quote-mark {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 84px;
+    color: var(--or);
+    line-height: 0;
+    vertical-align: -8px;
+    display: inline-block;
+    opacity: 0;
+  }
+  .citation .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(12px);
+    white-space: pre;
+  }
+  .citation .em {
+    color: var(--ambre);
+    font-weight: 600;
+  }
+
+  /* "Un fil." en sous-titre, gros, dominant */
+  .un-fil {
+    position: absolute;
+    top: 1620px;
+    left: 0;
+    width: 1080px;
+    text-align: center;
+    color: var(--brun-noir);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 128px;
+    letter-spacing: -2px;
+    opacity: 0;
+    z-index: 3;
+  }
+  .un-fil .point {
+    color: var(--ambre);
+  }
+
+  /* Filet or sous le bloc final */
+  .filet {
+    position: absolute;
+    top: 1810px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--or) 50%, transparent 100%);
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="voile" id="voile"></div>
+  <div class="voile-line" id="voileLine"></div>
+
+  <div class="fil" id="fil"></div>
+
+  <div class="citation" id="citation">
+    <span class="quote-mark" id="qOpen">«</span><span class="word" data-i="0"> J'ai</span><span class="word" data-i="1"> l'impression</span><span class="word" data-i="2"> que</span><span class="word" data-i="3"> je</span><span class="word" data-i="4"> tiens</span><span class="word em" data-i="5"> avec</span><span class="word em" data-i="6"> un</span><span class="word em" data-i="7"> fil.</span><span class="quote-mark" id="qClose"> »</span>
+  </div>
+
+  <div class="un-fil" id="unFil">Un fil<span class="point">.</span></div>
+
+  <div class="filet" id="filet"></div>
+</div>
+
+<script>
+  const FPS = 60;
+  const DURATION = 5.0;
+  const TOTAL_FRAMES = Math.round(FPS * DURATION); // 300
+
+  // Timeline (s)
+  // 0.00–0.40 : voile fade-in (gradient bottom)
+  // 0.30–1.00 : voile-line grow + filSvg start drawing
+  // 0.40–2.20 : 8 words appear (incl quote marks)
+  // 0.40–2.50 : fil descend (stroke draw)
+  // 2.50–5.00 : fil micro-vibration
+  // 3.10–3.80 : "Un fil." appears with rise + scale
+  // 3.40–4.20 : filet bottom grows
+  // 4.20–5.00 : hold
+
+  const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+  const easeInOutQuad = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+
+  function renderFrame(frame) {
+    const t = frame / FPS;
+
+    // Voile (bandeau bas)
+    const voileT = clamp01((t - 0.0) / 0.40);
+    document.getElementById('voile').style.opacity = easeOutCubic(voileT);
+
+    // Voile-line haut
+    const vlT = clamp01((t - 0.30) / 0.70);
+    document.getElementById('voileLine').style.width = (easeOutCubic(vlT) * 600) + 'px';
+
+    // Quote marks
+    const qOpenT = clamp01((t - 0.30) / 0.30);
+    const qCloseT = clamp01((t - 1.95) / 0.30);
+    document.getElementById('qOpen').style.opacity = easeOutCubic(qOpenT);
+    document.getElementById('qClose').style.opacity = easeOutCubic(qCloseT);
+
+    // Words (8 mots, start 0.40s, espacement 0.20s, durée 0.40s chacun)
+    const words = document.querySelectorAll('.citation .word');
+    words.forEach((w, i) => {
+      const start = 0.40 + i * 0.20;
+      const dur = 0.45;
+      const wt = clamp01((t - start) / dur);
+      const eased = easeOutCubic(wt);
+      w.style.opacity = eased;
+      w.style.transform = `translateY(${(1 - eased) * 12}px)`;
+    });
+
+    // Fil descend (height grow)
+    const filDrawT = clamp01((t - 0.40) / 2.10);
+    const drawn = easeInOutQuad(filDrawT);
+    const filEl = document.getElementById('fil');
+    filEl.style.height = (drawn * 600) + 'px';
+    filEl.style.opacity = clamp01((t - 0.40) / 0.40);
+
+    // Vibration latérale
+    let dx = 0;
+    if (t > 2.50) {
+      const vibT = t - 2.50;
+      const decay = Math.max(0.4, 1 - vibT * 0.15);
+      dx = (Math.sin(vibT * 18) * 2.2 + Math.sin(vibT * 7.3) * 1.0) * decay;
+    }
+    filEl.style.transform = `translateX(${dx}px)`;
+
+    // "Un fil."
+    const unFilT = clamp01((t - 3.10) / 0.70);
+    const unFilEased = easeOutCubic(unFilT);
+    const unFilEl = document.getElementById('unFil');
+    unFilEl.style.opacity = unFilEased;
+    unFilEl.style.transform = `translateY(${(1 - unFilEased) * 28}px)`;
+
+    // Filet bas
+    const filetT = clamp01((t - 3.40) / 0.80);
+    document.getElementById('filet').style.width = (easeOutCubic(filetT) * 460) + 'px';
+  }
+
+  window.renderFrame = renderFrame;
+  window.TOTAL_FRAMES = TOTAL_FRAMES;
+  window.FPS = FPS;
+  renderFrame(0);
+</script>
+</body>
+</html>
