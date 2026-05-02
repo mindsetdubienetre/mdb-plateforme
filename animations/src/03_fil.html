@@ -2,19 +2,17 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>03 — Le fil (v2 aubergine)</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Be+Vietnam+Pro:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<title>03 — Le fil (v3 minimaliste)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <style>
   :root {
     --ivoire: #F5F0E8;
     --ivoire-profond: #EDE5D7;
     --aubergine: #3A1F2A;
-    --aubergine-deep: #2A1620;
-    --ambre: #C86030;
-    --or: #C9A84C;
+    --mauve: #9A8090;
+    --mauve-deep: #5A4555;
     --chartreuse: #B8C048;
     --chartreuse-light: #C8D058;
-    --brun-noir: #1A1410;
   }
   html, body {
     margin: 0;
@@ -30,44 +28,20 @@
     inset: 0;
   }
 
-  /* Bandeau aubergine bas — slide up */
-  .wall {
+  /* Gradient mauve très doux, du bas vers le milieu — uniquement pour
+     darken la zone texte et garder lisibilité. Le visage reste totalement libre. */
+  .vignette {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 1080px;
     height: 1100px;
-    background: linear-gradient(180deg, var(--aubergine) 0%, var(--aubergine-deep) 100%);
-    transform: translateY(100%);
-  }
-
-  /* Ligne chartreuse en haut du bandeau */
-  .top-line {
-    position: absolute;
-    bottom: 1100px;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background: var(--chartreuse);
-    box-shadow: 0 0 12px rgba(184, 192, 72, 0.5);
-  }
-
-  /* Petit cartouche numéroté en haut à gauche du bandeau */
-  .marker {
-    position: absolute;
-    bottom: 1030px;
-    left: 80px;
-    color: var(--chartreuse);
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-weight: 500;
-    font-size: 22px;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
+    background: linear-gradient(180deg,
+      rgba(58, 31, 42, 0) 0%,
+      rgba(58, 31, 42, 0.18) 25%,
+      rgba(90, 69, 85, 0.55) 60%,
+      rgba(58, 31, 42, 0.78) 100%);
     opacity: 0;
-  }
-  .marker .dot {
-    color: var(--ivoire);
-    margin: 0 14px;
   }
 
   /* Citation */
@@ -83,6 +57,7 @@
     font-size: 86px;
     line-height: 1.12;
     letter-spacing: -1px;
+    text-shadow: 0 2px 24px rgba(26, 20, 16, 0.6);
   }
   .citation .quote-mark {
     color: var(--chartreuse);
@@ -106,7 +81,7 @@
     font-weight: 500;
   }
 
-  /* "Un fil." dominant — off-center, asymétrique */
+  /* "Un fil." dominant */
   .un-fil {
     position: absolute;
     bottom: 200px;
@@ -120,28 +95,13 @@
     letter-spacing: -6px;
     opacity: 0;
     transform: translateX(-24px);
+    text-shadow: 0 4px 30px rgba(26, 20, 16, 0.7);
   }
   .un-fil .point {
     color: var(--chartreuse);
-    font-size: 220px;
   }
 
-  /* Petit indicateur bottom-right */
-  .footer-mark {
-    position: absolute;
-    bottom: 80px;
-    right: 80px;
-    color: var(--ivoire);
-    opacity: 0.55;
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    opacity: 0;
-  }
-
-  /* Le fil chartreuse — sur la gauche, vertical */
+  /* Le fil chartreuse vertical à gauche */
   .fil {
     position: absolute;
     bottom: 200px;
@@ -159,7 +119,7 @@
     transform-origin: bottom center;
   }
 
-  /* Goutte qui pend du fil */
+  /* Goutte au bout du fil */
   .fil-drop {
     position: absolute;
     bottom: 180px;
@@ -175,9 +135,7 @@
 </head>
 <body>
 <div class="stage">
-  <div class="wall" id="wall"></div>
-  <div class="top-line" id="topLine"></div>
-  <div class="marker" id="marker"><span>FIL</span><span class="dot">·</span><span>01</span></div>
+  <div class="vignette" id="vignette"></div>
 
   <div class="fil" id="fil"></div>
   <div class="fil-drop" id="filDrop"></div>
@@ -185,27 +143,12 @@
   <div class="citation" id="citation"><span class="quote-mark" id="qOpen">«</span><span class="word" data-i="0">J'ai</span><span class="word" data-i="1"> l'impression</span><span class="word" data-i="2"> que</span><span class="word" data-i="3"> je</span><span class="word" data-i="4"> tiens</span><br><span class="word em" data-i="5">avec</span><span class="word em" data-i="6"> un</span><span class="word em" data-i="7"> fil.</span><span class="quote-mark" id="qClose"> »</span></div>
 
   <div class="un-fil" id="unFil">Un fil<span class="point">.</span></div>
-
-  <div class="footer-mark" id="footerMark">Mindset · du bien-être</div>
 </div>
 
 <script>
   const FPS = 60;
   const DURATION = 5.0;
   const TOTAL_FRAMES = Math.round(FPS * DURATION);
-
-  // Timeline
-  // 0.00–0.50 : wall slides up
-  // 0.45–0.80 : top-line shoots left → right
-  // 0.50–0.80 : marker "FIL · 01" appears
-  // 0.70–2.30 : citation words appear
-  // 0.70–0.95 : quote ouvrant
-  // 1.90–2.20 : quote fermant
-  // 1.30–2.50 : fil chartreuse descend (height grow from top)
-  // 2.50–2.90 : fil-drop apparaît
-  // 2.50–3.30 : "Un fil." en grand, slide from left
-  // 3.50–4.00 : footer mark
-  // 4.00–5.00 : hold + très subtle micro-vibration fil
 
   const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
   const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
@@ -216,65 +159,49 @@
   function renderFrame(frame) {
     const t = frame / FPS;
 
-    // Wall slide up
-    const wallT = clamp01((t - 0.0) / 0.50);
-    const wallY = (1 - easeOutQuart(wallT)) * 100;
-    document.getElementById('wall').style.transform = `translateY(${wallY}%)`;
+    // Vignette fade
+    document.getElementById('vignette').style.opacity = easeOutCubic(clamp01((t - 0.0) / 0.55));
 
-    // Top line
-    const tlT = clamp01((t - 0.45) / 0.35);
-    document.getElementById('topLine').style.width = (easeOutCubic(tlT) * 1080) + 'px';
-
-    // Marker
-    const mkT = clamp01((t - 0.50) / 0.30);
-    document.getElementById('marker').style.opacity = easeOutCubic(mkT);
-
-    // Quote marks
-    document.getElementById('qOpen').style.opacity = easeOutCubic(clamp01((t - 0.70) / 0.25));
-    document.getElementById('qClose').style.opacity = easeOutCubic(clamp01((t - 1.90) / 0.30));
+    // Quotes
+    document.getElementById('qOpen').style.opacity = easeOutCubic(clamp01((t - 0.55) / 0.25));
+    document.getElementById('qClose').style.opacity = easeOutCubic(clamp01((t - 1.85) / 0.30));
 
     // Words
-    const words = document.querySelectorAll('.citation .word');
-    words.forEach((w, i) => {
-      const start = 0.78 + i * 0.16;
-      const dur = 0.40;
-      const wt = clamp01((t - start) / dur);
+    document.querySelectorAll('.citation .word').forEach((w, i) => {
+      const start = 0.65 + i * 0.16;
+      const wt = clamp01((t - start) / 0.40);
       const eased = easeOutCubic(wt);
       w.style.opacity = eased;
       w.style.transform = `translateY(${(1 - eased) * 18}px)`;
     });
 
-    // Fil descend (height grow from top)
-    const filT = clamp01((t - 1.30) / 1.20);
+    // Fil descend
+    const filT = clamp01((t - 1.20) / 1.20);
     const filHeight = easeInOutQuad(filT) * 380;
     const filEl = document.getElementById('fil');
     filEl.style.height = filHeight + 'px';
-    filEl.style.bottom = (200 + 380 - filHeight) + 'px'; // grows downward visually
+    filEl.style.bottom = (200 + 380 - filHeight) + 'px';
 
-    // Micro-vibration
+    // Vibration
     let dx = 0;
-    if (t > 2.50) {
-      const vibT = t - 2.50;
+    if (t > 2.40) {
+      const vibT = t - 2.40;
       const decay = Math.max(0.3, 1 - vibT * 0.20);
       dx = (Math.sin(vibT * 16) * 1.6 + Math.sin(vibT * 6.8) * 0.9) * decay;
     }
     filEl.style.transform = `translateX(${dx}px)`;
 
-    // Fil drop
-    const dropT = clamp01((t - 2.50) / 0.40);
-    const dropEased = easeOutBack(dropT);
+    // Drop
+    const dropT = clamp01((t - 2.40) / 0.40);
     document.getElementById('filDrop').style.opacity = clamp01(dropT);
-    document.getElementById('filDrop').style.transform = `translateX(${dx}px) scale(${dropEased})`;
+    document.getElementById('filDrop').style.transform = `translateX(${dx}px) scale(${easeOutBack(dropT)})`;
 
     // Un fil
-    const ufT = clamp01((t - 2.50) / 0.80);
+    const ufT = clamp01((t - 2.40) / 0.80);
     const ufEased = easeOutBack(ufT);
     const ufEl = document.getElementById('unFil');
-    ufEl.style.opacity = clamp01((t - 2.50) / 0.40);
+    ufEl.style.opacity = clamp01((t - 2.40) / 0.40);
     ufEl.style.transform = `translateX(${(1 - ufEased) * -24}px)`;
-
-    // Footer mark
-    document.getElementById('footerMark').style.opacity = clamp01((t - 3.50) / 0.50) * 0.55;
   }
 
   window.renderFrame = renderFrame;
