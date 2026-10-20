@@ -1,5 +1,9 @@
 # Rendez-vous : consultations et « Bilan de ton système nerveux »
 
+> Déployé le 20/10/2026 : fonction `rdv` v31 (identique à ce dossier), table `bilans`, cron `rdv-bilans-rappels`.
+> Reste à faire : appliquer la nouvelle DA aux pages `site/`, les mettre en ligne sur rdv.vanille-naime.com,
+> brancher `espace/planning-bilans.js` dans le planning de l'espace.
+
 Tout le moteur de réservation vit dans le projet Supabase **mdb-base** (`adasvbvfhvxnykosjzxo`),
 fonction Edge `rdv` : `https://adasvbvfhvxnykosjzxo.supabase.co/functions/v1/rdv/<action>`.
 
