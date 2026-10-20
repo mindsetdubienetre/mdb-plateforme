@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilan de ton système nerveux · Vanille Naime</title>
+<meta name="description" content="20 minutes avec moi, offertes, en visio ou sur WhatsApp, d'où tu es.">
+<meta name="theme-color" content="#6B2B26">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="bilan.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="kicker">Vanille Naime · Offert</p>
+
+  <div id="intro">
+    <h1>Bilan de ton système nerveux</h1>
+    <p class="lead">20 minutes avec moi, offertes, en visio ou sur WhatsApp, d'où tu es.</p>
+
+    <section class="card">
+      <h2>Ce qu'on fait ensemble</h2>
+      <p>On regarde où en est ton système nerveux en ce moment : ce qui te fatigue, ce qui tourne dans ta tête, ce qui t'empêche d'avancer.</p>
+      <p>Tu repars avec une lecture claire de ta situation et un premier geste à faire dès ce soir.</p>
+    </section>
+
+    <section class="card">
+      <h2>En toute transparence</h2>
+      <p>Si MDB, mon programme de 12 semaines pour réguler ton système nerveux, est la bonne étape pour toi, je te le dirai et je te l'expliquerai.</p>
+      <p>Si ce n'est pas le cas, je te le dirai aussi, et je t'orienterai vers ce qui te correspond.</p>
+    </section>
+
+    <section class="card">
+      <h2>Pour qui</h2>
+      <p>Pour toi si tu es fatiguée même après t'être reposée, si ta tête ne s'arrête jamais, ou si tu sais quoi faire mais n'arrives pas à le faire.</p>
+    </section>
+
+    <section class="card">
+      <h2>Infos pratiques</h2>
+      <ul class="infos">
+        <li><b>Durée</b><span>20 minutes</span></li>
+        <li><b>Où</b><span>Au choix, en visio (Google Meet) ou en appel WhatsApp</span></li>
+        <li><b>Tarif</b><span>Offert</span></li>
+      </ul>
+      <p class="note" style="margin-top:12px">Les horaires s'affichent dans ton fuseau horaire (Guadeloupe, Martinique, Paris, Abidjan…).</p>
+    </section>
+
+    <section class="card" id="creneaux" aria-labelledby="t-creneaux">
+      <h2 id="t-creneaux">Choisis ton créneau</h2>
+      <div class="tz">
+        <label for="tz">Horaires affichés à l'heure de</label>
+        <select id="tz"></select>
+      </div>
+      <div id="slots-loading" class="empty">Je regarde mes disponibilités…</div>
+      <div id="slots" hidden>
+        <div class="days" id="days" role="group" aria-label="Jour"></div>
+        <div class="times" id="times" role="group" aria-label="Heure"></div>
+      </div>
+    </section>
+
+    <section class="card" id="formulaire" aria-labelledby="t-form">
+      <h2 id="t-form">Avant de réserver</h2>
+      <div class="chosen" id="chosen">Choisis d'abord un créneau, juste au-dessus.</div>
+      <form id="form" novalidate>
+        <div class="field">
+          <label class="q" for="prenom">Prénom</label>
+          <input id="prenom" name="prenom" autocomplete="given-name" required maxlength="60">
+        </div>
+        <div class="field">
+          <label class="q" for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200">
+        </div>
+        <fieldset class="field">
+          <legend class="q">Comment veux-tu qu'on se parle ?</legend>
+          <label class="choice"><input type="radio" name="mode" value="meet" required> En visio (Google Meet)</label>
+          <label class="choice"><input type="radio" name="mode" value="whatsapp"> En appel WhatsApp</label>
+        </fieldset>
+        <div class="field">
+          <label class="q" for="whatsapp">Numéro WhatsApp, avec l'indicatif du pays</label>
+          <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" placeholder="+590 690 12 34 56" required maxlength="40">
+          <p class="hint">Si tu choisis WhatsApp, c'est moi qui t'appelle sur ce numéro à l'heure du rendez-vous.</p>
+        </div>
+        <div class="field">
+          <label class="q" for="quiz">Ton résultat au quiz</label>
+          <select id="quiz" name="quiz">
+            <option value="">Choisis</option>
+            <option>La tête qui continue</option>
+            <option>Le pilote automatique</option>
+            <option>Le moteur qui ne coupe pas</option>
+            <option>La réserve à sec</option>
+            <option>Je ne l'ai pas encore fait</option>
+          </select>
+          <p class="hint">Pas encore fait ? Il prend 2 minutes : <a href="https://liens.vanille-naime.com/quiz/" target="_blank" rel="noopener">https://liens.vanille-naime.com/quiz/</a></p>
+        </div>
+        <fieldset class="field">
+          <legend class="q">Ce qui déborde le plus en ce moment <span class="opt">(plusieurs choix possibles)</span></legend>
+          <label class="choice"><input type="checkbox" name="deborde" value="Je suis fatiguée même quand je me repose"> Je suis fatiguée même quand je me repose</label>
+          <label class="choice"><input type="checkbox" name="deborde" value="Ma tête tourne en boucle, j'imagine souvent le pire"> Ma tête tourne en boucle, j'imagine souvent le pire</label>
+          <label class="choice"><input type="checkbox" name="deborde" value="Je repousse ce que je dois faire, mes objectifs n'avancent pas"> Je repousse ce que je dois faire, mes objectifs n'avancent pas</label>
+          <label class="choice"><input type="checkbox" name="deborde" value="Je dors mal"> Je dors mal</label>
+          <label class="choice"><input type="checkbox" name="deborde" value="Je réagis trop vite (couple, enfants, travail)"> Je réagis trop vite (couple, enfants, travail)</label>
+        </fieldset>
+        <div class="field">
+          <label class="q" for="message">Quelque chose que tu veux que je sache avant notre bilan ? <span class="opt">(facultatif)</span></label>
+          <textarea id="message" name="message" maxlength="2000"></textarea>
+        </div>
+        <div class="hp" aria-hidden="true"><label>Ne pas remplir <input name="site" tabindex="-1" autocomplete="off"></label></div>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn" id="submit" type="submit">Je réserve mon bilan</button>
+      </form>
+    </section>
+  </div>
+
+  <section class="card" id="merci" hidden tabindex="-1">
+    <p class="big" id="merci-titre"></p>
+    <div id="merci-texte"></div>
+    <p class="note" style="margin-top:14px">Tu ne vois pas l'email ? Regarde dans tes spams ou tes promotions. Tu peux déplacer ou annuler ton bilan jusqu'à 12 heures avant, avec le lien de l'email.</p>
+  </section>
+
+  <p class="foot">Ce bilan ne remplace pas un suivi médical ou psychologique. Si tu traverses un moment où tu penses à mettre fin à tes jours, appelle le 3114 (gratuit, 24h/24) ou le 15.</p>
+</main>
+
+<script>
+const API = "https://adasvbvfhvxnykosjzxo.supabase.co/functions/v1/rdv";
+const ZONES = [
+  ["America/Guadeloupe", "Guadeloupe"], ["America/Martinique", "Martinique"], ["America/Cayenne", "Guyane"],
+  ["Indian/Reunion", "La Réunion"], ["Europe/Paris", "Paris"], ["America/Toronto", "Montréal"],
+  ["Africa/Abidjan", "Abidjan"], ["Africa/Dakar", "Dakar"], ["Africa/Douala", "Douala"],
+];
+const $ = (id) => document.getElementById(id);
+let slots = [], chosen = null, day = null;
+
+// ---------- Fuseau horaire ----------
+let tz = "America/Guadeloupe";
+try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
+if (!ZONES.some(([z]) => z === tz)) ZONES.unshift([tz, tz.split("/").pop().replace(/_/g, " ")]);
+$("tz").innerHTML = ZONES.map(([z, n]) => `<option value="${z}"${z === tz ? " selected" : ""}>${n}</option>`).join("");
+$("tz").addEventListener("change", (e) => { tz = e.target.value; render(); showChosen(); });
+
+const fmt = (iso, o) => new Intl.DateTimeFormat("fr-FR", { timeZone: tz, ...o }).format(new Date(iso));
+const hour = (iso) => { const [h, m] = fmt(iso, { hour: "2-digit", minute: "2-digit", hour12: false }).split(":").map(Number); return `${h % 24}h${m ? String(m).padStart(2, "0") : ""}`; };
+const dayKey = (iso) => fmt(iso, { year: "numeric", month: "2-digit", day: "2-digit" });
+const longDay = (iso) => fmt(iso, { weekday: "long", day: "numeric", month: "long" });
+
+// ---------- Créneaux ----------
+async function loadSlots() {
+  $("slots-loading").hidden = false; $("slots-loading").textContent = "Je regarde mes disponibilités…"; $("slots").hidden = true;
+  try {
+    const r = await fetch(`${API}/bilan-availability`);
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error);
+    slots = j.slots || [];
+  } catch (e) {
+    $("slots-loading").textContent = "Je n'arrive pas à afficher mes disponibilités. Recharge la page dans un instant.";
+    return;
+  }
+  if (chosen && !slots.includes(chosen)) chosen = null;
+  render(); showChosen();
+}
+
+function render() {
+  if (!slots.length) {
+    $("slots-loading").hidden = false; $("slots").hidden = true;
+    $("slots-loading").textContent = "Tous mes créneaux des 3 prochaines semaines sont pris. Reviens dans quelques jours, de nouveaux s'ouvrent chaque semaine.";
+    return;
+  }
+  $("slots-loading").hidden = true; $("slots").hidden = false;
+  const days = [...new Set(slots.map(dayKey))];
+  if (!days.includes(day)) day = chosen ? dayKey(chosen) : days[0];
+  $("days").innerHTML = days.map((k) => {
+    const first = slots.find((s) => dayKey(s) === k);
+    const wd = fmt(first, { weekday: "short" }).replace(".", "");
+    return `<button type="button" class="day" data-day="${k}" aria-pressed="${k === day}">${wd}<small>${fmt(first, { day: "numeric", month: "short" }).replace(".", "")}</small></button>`;
+  }).join("");
+  $("times").innerHTML = slots.filter((s) => dayKey(s) === day)
+    .map((s) => `<button type="button" class="time" data-slot="${s}" aria-pressed="${s === chosen}" aria-label="${longDay(s)} à ${hour(s)}">${hour(s)}</button>`).join("");
+}
+$("days").addEventListener("click", (e) => { const b = e.target.closest(".day"); if (!b) return; day = b.dataset.day; render(); });
+$("times").addEventListener("click", (e) => {
+  const b = e.target.closest(".time"); if (!b) return;
+  chosen = b.dataset.slot; render(); showChosen();
+  $("formulaire").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+function showChosen() {
+  $("chosen").innerHTML = chosen
+    ? `Ton créneau : <strong>${longDay(chosen)} à ${hour(chosen)}</strong> <a href="#creneaux">changer</a>`
+    : "Choisis d'abord un créneau, juste au-dessus.";
+}
+
+// ---------- Réservation ----------
+const phoneOk = (v) => /^\+[1-9]\d{6,14}$/.test(v.replace(/[\s.\-()]/g, "").replace(/^00/, "+"));
+$("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const f = e.target, err = $("err");
+  err.textContent = "";
+  const data = {
+    prenom: f.prenom.value.trim(), email: f.email.value.trim(), mode: f.mode.value, whatsapp: f.whatsapp.value.trim(),
+    quiz: f.quiz.value, deborde: [...f.querySelectorAll('input[name="deborde"]:checked')].map((i) => i.value),
+    message: f.message.value.trim(), start: chosen, tz, hp: f.site.value,
+  };
+  const miss = !chosen ? ["creneaux", "Choisis un créneau."]
+    : !data.prenom ? ["prenom", "Écris ton prénom."]
+    : !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email) ? ["email", "Vérifie ton email."]
+    : !data.mode ? ["formulaire", "Dis-moi comment tu veux qu'on se parle : visio ou WhatsApp."]
+    : !phoneOk(data.whatsapp) ? ["whatsapp", "Écris ton numéro WhatsApp avec l'indicatif du pays, par exemple +590 690 12 34 56."]
+    : null;
+  if (miss) { err.textContent = miss[1]; const el = $(miss[0]); el.focus?.(); if (miss[0] === "creneaux" || miss[0] === "formulaire") el.scrollIntoView({ behavior: "smooth" }); return; }
+
+  const btn = $("submit"); btn.disabled = true; btn.textContent = "Un instant…";
+  try {
+    const r = await fetch(`${API}/bilan-book`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok) return done(j.bilan);
+    if (j.error === "taken") { err.textContent = "Ce créneau vient d'être pris. Choisis-en un autre, juste au-dessus."; chosen = null; await loadSlots(); $("creneaux").scrollIntoView({ behavior: "smooth" }); }
+    else if (j.error === "deja") err.textContent = "Tu as déjà un bilan prévu avec moi. Pour changer d'horaire, utilise le lien « Déplacer ou annuler » de ton email de confirmation.";
+    else if (j.error === "champs") err.textContent = "Il manque une information. Vérifie ton prénom, ton email, ton choix visio ou WhatsApp et ton numéro.";
+    else err.textContent = "Ça n'a pas marché de mon côté. Réessaie dans un instant.";
+  } catch (e2) {
+    err.textContent = "La connexion a coupé. Vérifie ton réseau et réessaie.";
+  } finally { btn.disabled = false; btn.textContent = "Je réserve mon bilan"; }
+});
+
+function done(b) {
+  // Même message que l'email ; sur la page, « cet email » devient « l'email que je viens de t'envoyer »
+  $("merci-titre").textContent = "C'est noté 🤍";
+  const lines = b ? b.lines.map((l) => l.replace(/^C'est noté 🤍 /, "").replace("dans cet email", "dans l'email que je viens de t'envoyer")) : [];
+  $("merci-texte").innerHTML = lines.map((l) => `<p>${l.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]))}</p>`).join("");
+  $("intro").hidden = true; $("merci").hidden = false; $("merci").focus(); window.scrollTo({ top: 0 });
+}
+
+loadSlots();
+</script>
+</body>
+</html>

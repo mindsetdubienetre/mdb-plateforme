@@ -8,6 +8,7 @@ import { handler as manageBooking } from "./handlers/manage-booking.ts";
 import { handler as reminders } from "./handlers/reminders.ts";
 import { handler as admin } from "./handlers/admin.ts";
 import { handler as member } from "./handlers/member.ts";
+import * as bilan from "./handlers/bilan.ts";
 
 const routes: Record<string, (req: Request) => Promise<Response>> = {
   "availability": availability,
@@ -18,6 +19,10 @@ const routes: Record<string, (req: Request) => Promise<Response>> = {
   "reminders": reminders,
   "admin": admin,
   "member": member,
+  "bilan-availability": bilan.availability,
+  "bilan-book": bilan.book,
+  "bilan-manage": bilan.manage,
+  "bilan-reminders": bilan.reminders,
 };
 
 Deno.serve((req) => {

@@ -1,0 +1,82 @@
+/* Bilan de ton système nerveux : même direction artistique que rdv.vanille-naime.com */
+:root {
+  --ox: #6B2B26;
+  --ox-soft: rgba(107, 43, 38, .08);
+  --ox-line: rgba(107, 43, 38, .16);
+  --creme: #FAF6EC;
+  --jaune: #FEF18E;
+  --nuit: #3E140F;
+  --brique: #8a3d33;
+  --titre: Advercase, Georgia, "Times New Roman", serif;
+  --texte: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; color: var(--creme); font: 16px/1.6 var(--texte);
+  background: var(--nuit) linear-gradient(160deg, var(--brique), var(--ox) 45%, var(--nuit)) fixed;
+}
+a { color: inherit; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 28px 16px 64px; }
+.kicker { font-size: 13px; letter-spacing: .02em; opacity: .8; margin: 0 0 26px; }
+h1 { font: 400 clamp(36px, 9vw, 54px)/1.04 var(--titre); margin: 0 0 14px; }
+.lead { font-size: 18px; margin: 0 0 30px; opacity: .92; }
+.card {
+  background: var(--creme); color: var(--ox); border-radius: 24px; padding: 26px 22px; margin: 0 0 16px;
+}
+.card h2 { font: 400 26px/1.15 var(--titre); margin: 0 0 12px; }
+.card p { margin: 0 0 10px; }
+.card p:last-child { margin-bottom: 0; }
+.infos { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ox-line); }
+.infos li { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--ox-line); }
+.infos b { flex: 0 0 74px; font-weight: 500; font-size: 13px; opacity: .75; padding-top: 2px; }
+.note { font-size: 14px; opacity: .8; }
+
+/* Créneaux */
+.tz { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 16px; font-size: 14px; }
+select, input, textarea {
+  font: inherit; color: var(--ox); background: #fff; border: 1px solid var(--ox-line); border-radius: 14px;
+  padding: 12px 14px; width: 100%;
+}
+.tz select { width: auto; padding: 8px 12px; border-radius: 999px; }
+select:focus, input:focus, textarea:focus { outline: 2px solid var(--ox); outline-offset: 1px; }
+.days { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 10px; margin: 0 -2px 6px; scrollbar-width: thin; }
+.day, .time {
+  font: inherit; cursor: pointer; border: 1px solid var(--ox-line); background: #fff; color: var(--ox);
+  border-radius: 16px; transition: background .15s, color .15s;
+}
+.day { flex: 0 0 auto; padding: 10px 14px; text-align: center; line-height: 1.25; min-width: 78px; }
+.day small { display: block; font-size: 12px; opacity: .7; }
+.day[aria-pressed="true"], .time[aria-pressed="true"] { background: var(--ox); color: var(--creme); border-color: var(--ox); }
+.times { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.time { padding: 12px 8px; font-weight: 500; }
+.day:focus-visible, .time:focus-visible, .btn:focus-visible { outline: 2px solid var(--ox); outline-offset: 2px; }
+.empty { padding: 14px 16px; border-radius: 14px; background: var(--ox-soft); }
+
+/* Formulaire */
+form .field { margin: 0 0 18px; }
+label.q, legend.q { display: block; font-weight: 600; margin: 0 0 8px; padding: 0; }
+.opt { font-weight: 400; opacity: .7; font-size: 14px; }
+.hint { font-size: 14px; opacity: .8; margin: 6px 0 0; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.choice {
+  display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; margin: 0 0 8px; cursor: pointer;
+  border: 1px solid var(--ox-line); border-radius: 14px; background: #fff;
+}
+.choice input { width: 18px; height: 18px; margin: 3px 0 0; flex: 0 0 auto; accent-color: var(--ox); }
+.choice:has(input:checked) { border-color: var(--ox); background: var(--ox-soft); }
+textarea { min-height: 110px; resize: vertical; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.chosen { padding: 14px 16px; border-radius: 14px; background: var(--ox-soft); margin: 0 0 18px; }
+.btn {
+  display: inline-block; width: 100%; border: 0; cursor: pointer; text-align: center; text-decoration: none;
+  font: 600 17px/1.2 var(--texte); padding: 17px 24px; border-radius: 999px; background: var(--jaune); color: var(--ox);
+}
+.btn[disabled] { opacity: .55; cursor: wait; }
+.btn.ghost { background: transparent; border: 1px solid var(--ox); }
+.btn + .btn { margin-top: 10px; }
+.err { color: #9b1c1c; background: #fdecea; border-radius: 12px; padding: 10px 14px; margin: 0 0 14px; }
+.err:empty { display: none; }
+.foot { font-size: 12px; line-height: 1.5; opacity: .75; margin: 26px 4px 0; }
+.big { font: 400 30px/1.15 var(--titre); margin: 0 0 14px; }
+[hidden] { display: none !important; }

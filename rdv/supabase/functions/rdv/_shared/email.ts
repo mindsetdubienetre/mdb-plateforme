@@ -6,7 +6,7 @@ import { ADDRESS, env, fmtDate, fmtHour, GP_TZ, SITE_URL, sameOffset } from "./c
 import { accessToken } from "./google.ts";
 
 const OX = "#6B2B26", CREME = "#FAF6EC", JAUNE = "#FEF18E", NUIT = "#3E140F";
-const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+export const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 
 type Attachment = { name: string; content: string }; // base64
 
@@ -57,23 +57,24 @@ export const b64 = (bytes: Uint8Array) => {
 };
 
 // ---------- Mise en page commune aux couleurs MDB ----------
-const layout = (title: string, body: string, cta?: { href: string; label: string }) => `<!doctype html>
+export const layout = (title: string, body: string, cta?: { href: string; label: string },
+  kicker = "Consultation individuelle", what = "Ces consultations ne sont pas") => `<!doctype html>
 <html lang="fr"><body style="margin:0;background:${NUIT};font-family:Inter,Helvetica,Arial,sans-serif;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(160deg,#8a3d33,${OX} 45%,${NUIT});padding:32px 12px;">
 <tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;">
-<tr><td style="color:${CREME};font-size:13px;padding:0 8px 18px;opacity:.8">Vanille Naime · Consultation individuelle</td></tr>
+<tr><td style="color:${CREME};font-size:13px;padding:0 8px 18px;opacity:.8">Vanille Naime · ${kicker}</td></tr>
 <tr><td style="background:${CREME};color:${OX};border-radius:24px;padding:32px 28px;">
 <h1 style="font-family:Advercase,Georgia,serif;font-weight:400;font-size:30px;line-height:1.1;margin:0 0 18px;color:${OX}">${title}</h1>
 <div style="font-size:15px;line-height:1.6;color:${OX}">${body}</div>
 ${cta ? `<p style="margin:26px 0 0"><a href="${cta.href}" style="display:inline-block;background:${JAUNE};color:${OX};text-decoration:none;font-weight:600;padding:14px 24px;border-radius:999px">${cta.label}</a></p>` : ""}
 </td></tr>
 <tr><td style="color:${CREME};font-size:12px;line-height:1.5;padding:18px 8px 0;opacity:.75">
-Ces consultations ne sont pas un service d'urgence. Si tu traverses un moment où tu penses à mettre fin à tes jours, appelle le 3114 (gratuit, 24h/24) ou le 15.
+${what} un service d'urgence. Si tu traverses un moment où tu penses à mettre fin à tes jours, appelle le 3114 (gratuit, 24h/24) ou le 15.
 </td></tr>
 </table></td></tr></table></body></html>`;
 
-const rows = (pairs: [string, string][]) =>
+export const rows = (pairs: [string, string][]) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0;border-top:1px solid rgba(107,43,38,.15)">${
     pairs.map(([k, v]) => `<tr><td style="padding:10px 0;border-bottom:1px solid rgba(107,43,38,.15);font-size:13px;opacity:.75;width:90px;vertical-align:top">${k}</td><td style="padding:10px 0;border-bottom:1px solid rgba(107,43,38,.15);font-size:15px">${v}</td></tr>`).join("")
   }</table>`;

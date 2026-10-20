@@ -1,9 +1,11 @@
 // Actions de l'espace privé de Vanille. Exige sa session Supabase (jeton dans Authorization).
 // POST { action: "cancel", id }  → annule et rembourse, à tout moment.
+// POST { action: "bilan-cancel", id } → annule un bilan de vente (la cliente reçoit un email).
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { db, env } from "../_shared/core.ts";
 import { issueCreditNote } from "../_shared/invoice.ts";
 import { cancelBooking } from "../_shared/cancel.ts";
+import { cancelBilan } from "./bilan.ts";
 import { memberStatus } from "../_shared/members.ts";
 import { PACKS, type PackType, unitValue } from "../_shared/pricing.ts";
 import { stripe } from "../_shared/stripe.ts";
@@ -37,6 +39,9 @@ export const handler = async (req: Request): Promise<Response> => {
   try {
     if (p.action === "cancel" && typeof p.id === "string") {
       return reply({ ok: true, status: await cancelBooking(p.id, "vanille") });
+    }
+    if (p.action === "bilan-cancel" && typeof p.id === "string") {
+      return reply({ ok: true, status: await cancelBilan(p.id, "vanille") });
     }
     if (p.action === "member-status" && typeof p.email === "string") {
       return reply({ ok: true, ...(await memberStatus(p.email.trim().toLowerCase())) });

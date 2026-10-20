@@ -79,6 +79,23 @@ export async function createEvent(o: {
   return { id: ev.id as string, meetLink: meet as string | null };
 }
 
+/** Bilan de vente : événement avec toutes les infos dans la description (demandé par Vanille), Meet si visio. */
+export async function createBilanEvent(o: { bilanId: string; meet: boolean; start: string; end: string; summary: string; description: string }) {
+  const body: Record<string, unknown> = {
+    summary: o.summary, description: o.description,
+    start: { dateTime: o.start, timeZone: "America/Guadeloupe" },
+    end: { dateTime: o.end, timeZone: "America/Guadeloupe" },
+    transparency: "opaque",
+    reminders: { useDefault: true },
+    extendedProperties: { private: { mdbBilanId: o.bilanId } },
+  };
+  if (o.meet) body.conferenceData = { createRequest: { requestId: o.bilanId, conferenceSolutionKey: { type: "hangoutsMeet" } } };
+  const ev = await gfetch(`/calendars/${CAL()}/events?conferenceDataVersion=1`, { method: "POST", body: JSON.stringify(body) });
+  const meet = ev.hangoutLink ??
+    ev.conferenceData?.entryPoints?.find((e: { entryPointType: string }) => e.entryPointType === "video")?.uri ?? null;
+  return { id: ev.id as string, meetLink: meet as string | null, htmlLink: (ev.htmlLink ?? null) as string | null };
+}
+
 export const moveEvent = (id: string, start: string, end: string) =>
   gfetch(`/calendars/${CAL()}/events/${encodeURIComponent(id)}`, {
     method: "PATCH",

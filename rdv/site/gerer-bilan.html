@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ton bilan · Vanille Naime</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#6B2B26">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="bilan.css">
+</head>
+<body>
+<main class="wrap">
+  <p class="kicker">Vanille Naime · Bilan de ton système nerveux</p>
+  <h1>Ton bilan</h1>
+
+  <section class="card" id="etat"><p>Un instant…</p></section>
+
+  <section class="card" id="actions" hidden>
+    <button class="btn" type="button" id="b-move">Choisir un autre créneau</button>
+    <button class="btn ghost" type="button" id="b-cancel">Annuler mon bilan</button>
+  </section>
+
+  <section class="card" id="move" hidden aria-labelledby="t-move">
+    <h2 id="t-move">Choisis ton nouveau créneau</h2>
+    <p class="note" id="tz-note"></p>
+    <div id="slots-loading" class="empty">Je regarde mes disponibilités…</div>
+    <div id="slots" hidden>
+      <div class="days" id="days" role="group" aria-label="Jour"></div>
+      <div class="times" id="times" role="group" aria-label="Heure"></div>
+    </div>
+    <p class="err" id="err-move" role="alert" style="margin-top:14px"></p>
+    <button class="btn" type="button" id="b-confirm-move" hidden style="margin-top:14px"></button>
+  </section>
+
+  <section class="card" id="cancel" hidden>
+    <h2>Tu es sûre ?</h2>
+    <p>Ton bilan sera annulé et le créneau libéré. Tu pourras en reprendre un quand tu veux.</p>
+    <p class="err" id="err-cancel" role="alert"></p>
+    <button class="btn" type="button" id="b-confirm-cancel">Oui, annuler mon bilan</button>
+    <button class="btn ghost" type="button" id="b-keep">Non, je le garde</button>
+  </section>
+
+  <p class="foot">Si tu traverses un moment où tu penses à mettre fin à tes jours, appelle le 3114 (gratuit, 24h/24) ou le 15.</p>
+</main>
+
+<script>
+const API = "https://adasvbvfhvxnykosjzxo.supabase.co/functions/v1/rdv";
+const BOOK = "bilan.html";
+const $ = (id) => document.getElementById(id);
+const q = new URLSearchParams(location.search);
+const ids = { b: q.get("b") || "", t: q.get("t") || "" };
+let info = null, slots = [], chosen = null, day = null, tz = "America/Guadeloupe";
+
+const fmt = (iso, o) => new Intl.DateTimeFormat("fr-FR", { timeZone: tz, ...o }).format(new Date(iso));
+const hour = (iso) => { const [h, m] = fmt(iso, { hour: "2-digit", minute: "2-digit", hour12: false }).split(":").map(Number); return `${h % 24}h${m ? String(m).padStart(2, "0") : ""}`; };
+const dayKey = (iso) => fmt(iso, { year: "numeric", month: "2-digit", day: "2-digit" });
+const longDay = (iso) => fmt(iso, { weekday: "long", day: "numeric", month: "long" });
+const esc = (s) => String(s).replace(/[<>&"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]));
+const post = async (body) => {
+  const r = await fetch(`${API}/bilan-manage`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...ids, ...body }) });
+  return { ok: r.ok, j: await r.json().catch(() => ({})) };
+};
+
+function show(html) { $("etat").innerHTML = html; }
+function summary() {
+  const how = info.mode === "meet" ? "en visio (Google Meet). Le lien est dans ton email de confirmation." : `en appel WhatsApp : je t'appelle au ${esc(info.whatsapp)}.`;
+  return `<p>Coucou ${esc(info.prenom)},</p><p>Ton bilan est prévu le <strong>${longDay(info.start)} à ${hour(info.start)}</strong>, ${how}</p>`;
+}
+
+async function load() {
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
+  const r = await fetch(`${API}/bilan-manage?b=${encodeURIComponent(ids.b)}&t=${encodeURIComponent(ids.t)}`).catch(() => null);
+  const j = r ? await r.json().catch(() => ({})) : {};
+  if (!r || !r.ok) return show(`<p>Ce lien ne fonctionne pas. Vérifie que tu as bien ouvert le lien complet de ton email.</p><p><a href="${BOOK}">Réserver un bilan</a></p>`);
+  info = j; tz = j.tz || tz;
+  if (j.status === "cancelled") return show(`<p>Ce bilan est annulé.</p><p style="margin-top:14px"><a class="btn" href="${BOOK}">Reprendre un créneau</a></p>`);
+  if (Date.parse(j.start) < Date.now()) return show(`<p>Ce bilan est passé. Merci pour ce moment ensemble 🤍</p>`);
+  show(summary() + (j.canChange ? "" : `<p class="note">Il reste moins de 12 heures avant notre bilan : il n'est plus possible de le déplacer ou de l'annuler ici. Réponds simplement à ton email de confirmation si tu as un empêchement.</p>`));
+  $("actions").hidden = !j.canChange;
+}
+
+// ---------- Déplacer ----------
+$("b-move").addEventListener("click", async () => {
+  $("cancel").hidden = true; $("move").hidden = false; $("move").scrollIntoView({ behavior: "smooth" });
+  $("tz-note").textContent = `Horaires affichés dans ton fuseau horaire (${tz.split("/").pop().replace(/_/g, " ")}).`;
+  const { ok, j } = await post({ action: "slots" }).catch(() => ({ ok: false, j: {} }));
+  if (!ok) { $("slots-loading").textContent = "Je n'arrive pas à afficher mes disponibilités. Réessaie dans un instant."; return; }
+  slots = (j.slots || []).filter((s) => s !== info.start);
+  render();
+});
+function render() {
+  if (!slots.length) { $("slots-loading").hidden = false; $("slots").hidden = true; $("slots-loading").textContent = "Pas d'autre créneau libre pour le moment."; return; }
+  $("slots-loading").hidden = true; $("slots").hidden = false;
+  const days = [...new Set(slots.map(dayKey))];
+  if (!days.includes(day)) day = days[0];
+  $("days").innerHTML = days.map((k) => {
+    const s = slots.find((x) => dayKey(x) === k);
+    return `<button type="button" class="day" data-day="${k}" aria-pressed="${k === day}">${fmt(s, { weekday: "short" }).replace(".", "")}<small>${fmt(s, { day: "numeric", month: "short" }).replace(".", "")}</small></button>`;
+  }).join("");
+  $("times").innerHTML = slots.filter((s) => dayKey(s) === day)
+    .map((s) => `<button type="button" class="time" data-slot="${s}" aria-pressed="${s === chosen}" aria-label="${longDay(s)} à ${hour(s)}">${hour(s)}</button>`).join("");
+  const c = $("b-confirm-move");
+  c.hidden = !chosen; if (chosen) c.textContent = `Déplacer au ${longDay(chosen)} à ${hour(chosen)}`;
+}
+$("days").addEventListener("click", (e) => { const b = e.target.closest(".day"); if (b) { day = b.dataset.day; render(); } });
+$("times").addEventListener("click", (e) => { const b = e.target.closest(".time"); if (b) { chosen = b.dataset.slot; render(); } });
+$("b-confirm-move").addEventListener("click", async (e) => {
+  const btn = e.currentTarget; btn.disabled = true; $("err-move").textContent = "";
+  const { ok, j } = await post({ action: "move", start: chosen }).catch(() => ({ ok: false, j: {} }));
+  btn.disabled = false;
+  if (ok) { info = { ...info, start: j.bilan.start }; chosen = null; $("move").hidden = true; show(`<p class="big">C'est fait 🤍</p>` + summary() + `<p class="note">Tu reçois un email avec le nouvel horaire.</p>`); return; }
+  $("err-move").textContent = j.error === "taken" ? "Ce créneau vient d'être pris. Choisis-en un autre." : j.error === "trop-tard" ? "Il reste moins de 12 heures avant ton bilan, il ne peut plus être déplacé ici." : "Ça n'a pas marché. Réessaie dans un instant.";
+  if (j.error === "taken") $("b-move").click();
+});
+
+// ---------- Annuler ----------
+$("b-cancel").addEventListener("click", () => { $("move").hidden = true; $("cancel").hidden = false; $("cancel").scrollIntoView({ behavior: "smooth" }); });
+$("b-keep").addEventListener("click", () => { $("cancel").hidden = true; });
+$("b-confirm-cancel").addEventListener("click", async (e) => {
+  const btn = e.currentTarget; btn.disabled = true; $("err-cancel").textContent = "";
+  const { ok, j } = await post({ action: "cancel" }).catch(() => ({ ok: false, j: {} }));
+  btn.disabled = false;
+  if (ok) { $("cancel").hidden = true; $("actions").hidden = true; show(`<p>Ton bilan est bien annulé. Quand tu en auras envie, je serai là.</p><p style="margin-top:14px"><a class="btn" href="${BOOK}">Reprendre un créneau</a></p>`); return; }
+  $("err-cancel").textContent = j.error === "trop-tard" ? "Il reste moins de 12 heures avant ton bilan, il ne peut plus être annulé ici. Réponds à ton email de confirmation." : "Ça n'a pas marché. Réessaie dans un instant.";
+});
+
+load();
+</script>
+</body>
+</html>
